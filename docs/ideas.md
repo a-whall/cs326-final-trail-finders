@@ -10,7 +10,7 @@ TBD
 
 - Andrew Hall: a-whall
 
-- 
+- David Thibodeau: d-tib
 
 - 
 
