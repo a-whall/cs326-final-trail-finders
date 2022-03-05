@@ -19,7 +19,7 @@ TBD
 
 
 # Innovative Idea
-
+The site is focused on providing information about the various trails within Amherst and the surrounding communities. The intended audience will be students attending the 5 colleges who did not grow up in the area. The site will be similar to a wiki where each page will offer a section with trail info and a section similar to the google review or yelp system. Each trail reviewed will be provided an overall rating. A forum is also provided, where people can discuss and ask questions about various trails (similar to a Facebook post and users replying to the post).
 
 
 # Important Components
