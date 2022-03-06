@@ -1,9 +1,9 @@
 # Team Name
-not_yet_decided
+Trail Finders
 
 
 # Application Name
-TBD
+Valley Trail Finder
 
 
 # Team Overview
@@ -12,9 +12,9 @@ TBD
 
 - David Thibodeau: d-tib
 
-- 
+- Sonny Mei: sonny-bit
 
-- 
+- Seth Franklin: SethFranklin
 
 
 
