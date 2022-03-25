@@ -1,4 +1,6 @@
 /**
+ * This file contains code to dynamically add reviews to the DOM
+ *
  * TODO:
  * - find a better way to add icons as a review header
  */
