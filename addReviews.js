@@ -32,8 +32,7 @@ function icon(...iconClassList) {
 }
 
 
-// Dynamically add reviews
-function addReview(grid_element, review) {
+function addReview(element, review) {
 
   // A row within reviewContainer. This div encapsulates a single review.
   const row = document.createElement('div');
@@ -70,7 +69,7 @@ function addReview(grid_element, review) {
   row.append(rowHeader, rowBody, rowFooter);
 
   // append the complete review row structure to the reviewContainer DOM element
-  grid_element.appendChild(row);
+  element.appendChild(row);
 }
 
 const reviewGrid = document.getElementById('reviewContainer');
