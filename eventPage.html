@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>eventPage</title>
+    <link rel="stylesheet" href="eventPage.css" />
+    <script type="module" src="eventPage.js"></script>
+    <script src="https://kit.fontawesome.com/7253a030db.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="searchBar">
+      <input type="text" placeholder="Search">
+    </div>
+    
+    <div class="eventPage">
+      <img class="logo" src="Images/Valley_Trail_Finder.jpg" alt="logo">
+      <div class="upcomingEvents">Upcoming Events</div>
+      <div class="addNewEvent">
+        <i class="fa fa-plus"></i>
+        <a href="url">Add New Event</a>
+      </div>
+      <br>
+      <div class="leftPanel">
+        <div class="navigationLinks">
+          <i class="fa fa-home"></i>
+          <a href="url">Home</a>
+          <br><br>
+
+          <i class="fa fa-user"></i>
+          <a href="url">Profile</a>
+          <br><br>
+
+          <i class="fa fa-hiking"></i>
+          <a href="url">Trails</a>
+          <br><br>
+
+          <i class="fa fa-calendar"></i>
+          <a href="url">Events</a>
+          <br><br>
+        </div>
+        <div class="filter">Sort By:
+          <br><br>
+          <input type="radio" id="contact1" name="contact">
+          <label for="contact1">Most Recent Date</label>
+          <br>
+
+          <input type="radio" id="contact2" name="contact">
+          <label for="contact2"> High - Low Attendees</label>
+          <br>
+
+          <input type="radio" id="contact3" name="contact">
+          <label for="contact3">A - Z Trail Names</label>
+          <br>
+        </div>
+      </div>
+        
+      <div class="eventList">
+        
+        <div class="eventBoxes" id="event1">
+          <img class ="images" src="Images/Norwottuck_bridge.jpg" alt="Norwottuck Bridge">
+
+          <ul>
+            <li>
+              <b class="eventTitles">Norwottuck Rail Trail</b>
+              <br>
+            </li>
+
+            <li>
+              <i class="fa fa-calendar"></i>
+              Wednesday, April 6th, 2022
+              <br>
+            </li>
+
+            <li>
+              <i class="fa fa-clock-o"></i>
+              4pm to 7pm, EST
+              <br>
+            </li>
+            
+            <li>
+              <i class="fa fa-map-marker"></i>
+              Meet-up: Amherst Town
+              <br>
+            </li>
+            
+            <li>
+              <i class="fa fa-user-circle"></i>
+              Host: Amanda Jones
+              <br>
+            </li>
+
+            <li>
+              <i class="fa fa-users"></i>
+              8 Attendees
+            </li>
+          </ul>
+          <button class="attend" type="button">Attend</button>
+        </div>
+
+        <div class="eventBoxes" id="event2">
+          <img class ="images" src="Images/The_Notch.jpg" alt="Notch">
+          
+          <ul>
+            <li>
+              <b class="eventTitles">The Notch</b>
+              <br>
+            </li>
+
+            <li>
+              <i class="fa fa-calendar"></i>
+              Thursday, April 7th, 2022
+              <br>
+            </li>
+            
+            <li>
+              <i class="fa fa-clock-o"></i>
+              4pm to 7pm, EST
+              <br>
+            </li>
+
+            
+            <li>
+              <i class="fa fa-map-marker"></i>
+              Meet-up: Northhampton
+              <br>
+            </li>
+            
+            <li>
+              <i class="fa fa-user-circle"></i>
+              Host: Joe Cirus
+              <br>
+            </li>
+            
+            <li>
+              <i class="fa fa-users"></i>
+              3 Attendees
+            </li>
+          </ul>
+          <button class="attend" type="button">Attend</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
