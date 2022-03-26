@@ -27,3 +27,8 @@ Another button which will link to the profile creation page
 ---
 <img width="271" alt="Screen Shot 2022-03-26 at 5 19 10 PM" src="https://user-images.githubusercontent.com/98613897/160257559-403972cb-8466-4a25-a1c5-20d72575d605.png">
 A button which will link to the section of the trail page associated with creation of new trails, which are not presently listed
+
+---
+# Initial wireframe: 
+![ValleyTrailFinder_Homepage@2x](https://user-images.githubusercontent.com/98613897/160258089-b66e9dcf-8e4a-427b-b6a1-8b1911d4b46e.png)
+
