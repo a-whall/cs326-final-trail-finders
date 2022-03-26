@@ -36,9 +36,9 @@ document.getElementById('reviewContainer').append(
 
 // Helper function to create and init class list intended for star icons
 function icon(...iconClassList) {
-  const star = document.createElement('label'); // maybe label is not the right element type
-  star.classList.add(...iconClassList);
-  return star;
+  const iconLabel = document.createElement('label'); // maybe label is not the right element type
+  iconLabel.classList.add(...iconClassList);
+  return iconLabel;
 }
 
 /**
