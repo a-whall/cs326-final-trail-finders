@@ -28,6 +28,8 @@ Here is the wireframe:
 
 ![missing-screenshot.PNG](../assets/project-screenshots/trailpage/wireframe.PNG?raw=true)
 
+Here is the HTML page:
+
 ![missing-screenshot.PNG](../assets/project-screenshots/trailpage/full.PNG?raw=true)
 
 ## Features and User Interaction:
