@@ -1,0 +1,78 @@
+body{
+    font-family: 'RichEatinAllCaps'; 
+    font-weight: normal; 
+    font-style: normal;
+    background-image: url('malik-skydsgaard-ylGcmefqE_I-unsplash.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    background-size: 100% 100%;
+    display: flex;
+    justify-content: center
+}
+
+nav{
+    background-color: green;
+    height: 50px;
+    text-align: center;
+}
+
+.navbar-nav{
+    padding-top: 15px;
+}
+
+.btn{
+    color: green;
+    background-color: lightgrey;
+    border-color: grey;
+}
+.btn + .btn{
+    margin-left: 100px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-rows: 170px 50px 170px 100px 170px;
+    grid-template-columns: 500px 50px 50px 80px 270px;
+    grid-gap: 1px;
+    width: 950px;
+    height: 660px;
+    padding: 20px;
+}
+
+.grid-item{
+    color:green;
+    background-color: lightgray;
+    font-size: larger;
+    padding-top: 15px;
+    text-align: center;
+}
+
+#intro-text{
+    color: white;
+    grid-column-start: 1;
+    grid-column-end: 6;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+#logo{
+    background-image: url('Valley_Trail_Finder-02-1.jpg');
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-end: 6;
+}
+
+#signup-box{
+    grid-column-start: 5;
+    grid-column-end: 6;
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+
+#suggest-new-box{
+    grid-column-start: 5;
+    grid-column-end: 6;
+    grid-row-start: 5;
+    grid-row-end: 6;
+}
