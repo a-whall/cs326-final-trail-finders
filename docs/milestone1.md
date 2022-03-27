@@ -81,9 +81,9 @@ Here is the HTML page:
 
 # Trail Page Creation Page
 
-  ![missing-screenshot.PNG](../assets/project-screenshots/trailpage/create.PNG?raw=true)
-
 This is an early prototype for the trail wiki page creation feature. The forms below "Features:" and "Activities:" will likely change. For example a checkbox list may work better than a text area if we can get an icon system for common features and activities.
+
+  ![missing-screenshot.PNG](../assets/project-screenshots/trailpage/create.PNG?raw=true)
 
 ---
 
