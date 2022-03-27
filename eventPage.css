@@ -31,7 +31,7 @@ html, body {
     width: 100%;
     height: 100%;
     position: absolute; /* fix later to make eventPage cover entire width */
-    background-image: url('Images/wood_background.jpg');
+    background-image: url('https://i.pinimg.com/originals/11/a5/30/11a530c971d279d6429e0a982b074b97.png');
 }
 
 /* logo */
