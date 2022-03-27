@@ -1,3 +1,26 @@
+# Valley Trail Finder
+
+The app is like a wiki for trails near amherst featuring profiles, event postings, and trail reviews.
+
+---
+
+### Here's how we agreed to split the work for this milestone during a group meeting
+
+- Home page (David)
+- Profile page (Seth)
+  - Name, picture, top 3 favorite spots
+- Page for each trail (Andrew)
+- Add a new trail page (Andrew)
+  - Requires location, name, picture, initial review
+- Event/Meet up page (Sonny)
+  - Timeline setup
+  - Required info: Name, Image, Time, Date, Location, Trail, Host
+
+Webpage aesthetics
+- Have webpages be earthy, brown, green, etc.
+
+---
+
 # Trail Page
 
 ![trailpage-screenshot.PNG](../assets/project-screenshots/trailpage/full.PNG?raw=true)
