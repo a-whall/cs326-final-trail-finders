@@ -127,3 +127,14 @@ A button which will link to the section of the trail page associated with creati
 # Initial wireframe: 
 ![ValleyTrailFinder_Homepage@2x](https://user-images.githubusercontent.com/98613897/160258089-b66e9dcf-8e4a-427b-b6a1-8b1911d4b46e.png)
 
+# Profile page
+
+The point of this page is to display a user's profile, including their name, profile picture, and reviews.
+
+## Wireframe for profile page
+
+![profilepage-wireframe.PNG](../assets/project-screenshots/profilePage/profile_page_wireframe.png?raw=true)
+
+## HTML for profile page
+
+![profilepage-html.PNG](../assets/project-screenshots/profilePage/profile_page_html.png?raw=true)
