@@ -22,10 +22,13 @@ Webpage aesthetics
 ---
 
 # Trail Page
+The primary reason to visit this page will be to see images of specific trails and a scrollable list of reviews. It will feature links to other parts of the website such as the homepage, event pages and user profiles.
 
-![trailpage-screenshot.PNG](../assets/project-screenshots/trailpage/full.PNG?raw=true)
+Here is the wireframe:
 
-The primary reason to visit this page will be able to see images of trails and a scrollable list reviews.
+![missing-screenshot.PNG](../assets/project-screenshots/trailpage/wireframe.PNG?raw=true)
+
+![missing-screenshot.PNG](../assets/project-screenshots/trailpage/full.PNG?raw=true)
 
 ## Features and User Interaction:
 
@@ -43,8 +46,8 @@ The primary reason to visit this page will be able to see images of trails and a
 
 ---
 
-- "Add/Find Event": Find or create events associated with the page trail.
-- "Directions": Get a link to google maps or some sort of gps sevice. Alternatively a link to a trail map.
+- "Add/Find Event": Find or create events associated with the trail.
+- "Directions": Get link to a downloadable trail map if possible.
 - "Share": Get a link to this website page.
 
   ![missing-screenshot.PNG](../assets/project-screenshots/trailpage/buttons.PNG?raw=true)
@@ -59,7 +62,7 @@ The primary reason to visit this page will be able to see images of trails and a
 
 ---
 
-- Add a review! This form extends out when said button is clicked.
+- Add a review! This form extends down when this button is clicked.
 
   ![missing-screenshot.PNG](../assets/project-screenshots/trailpage/addreview.PNG?raw=true)
 
@@ -67,7 +70,7 @@ The primary reason to visit this page will be able to see images of trails and a
 
 ---
 
-- Like reviews.
+- Like reviews when logged in.
 
   ![missing-screenshot.PNG](../assets/project-screenshots/trailpage/like1.PNG?raw=true)
   ![missing-screenshot.PNG](../assets/project-screenshots/trailpage/like2.PNG?raw=true)
@@ -78,7 +81,7 @@ The primary reason to visit this page will be able to see images of trails and a
 
   ![missing-screenshot.PNG](../assets/project-screenshots/trailpage/create.PNG?raw=true)
 
-The forms for features and activities may change to suit the needs of the website. For example radio buttons may work better than a text area.
+This is an early prototype for the trail wiki page creation feature. The forms below "Features:" and "Activities:" will likely change. For example a checkbox list may work better than a text area if we can get an icon system for common features and activities.
 
 ---
 
