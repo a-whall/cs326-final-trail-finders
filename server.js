@@ -2,7 +2,7 @@
 import express from 'express';
 import logger from 'morgan';
 import { readFile, writeFile } from 'fs/promises';
-import "./database.js";
+import * as db from "./database.js";
 
 const app = express();
 const port = 3000;
