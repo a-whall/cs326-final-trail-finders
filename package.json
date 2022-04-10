@@ -1,0 +1,28 @@
+{
+  "name": "cs326-final-trail-finders",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "server.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/a-whall/cs326-final-trail-finders.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/a-whall/cs326-final-trail-finders/issues"
+  },
+  "homepage": "https://github.com/a-whall/cs326-final-trail-finders#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "morgan": "^1.10.0"
+  }
+}
