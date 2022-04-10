@@ -15,16 +15,10 @@ app.use('/', express.static('client'));
 
 /*
 
-Here is an example API call:
+Here is an example of linking a route to an API call:
 
-app.post("/users/create", async function(request, response) {
-	const query = parse(request.query, "name", "username", "password", "any other fields");
-	if ("error" in query) {
-		res.status(400).json({error: "Query doesn't have all required paremeters"});
-	} else {
-		// Call associated operation in database.js
-	}
-});
+app.post('/user', async(request,response) => db.createUser(request, response));
+
 */
 
 

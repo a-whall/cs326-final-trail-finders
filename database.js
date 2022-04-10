@@ -15,3 +15,13 @@ function parse(request, ...properties) {
 }
 
 // All CRUD operations go below
+
+// example crud operation
+export async function createUser(request, response) {
+  const args = parse(request.query, "name", "username", "password", "any other fields");
+  if ("error" in args) {
+    response.status(400).json({ error: args.error });
+  } else {
+    // handle valid response
+  }
+}
