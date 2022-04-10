@@ -6,4 +6,12 @@ let dummyDB = {
  events: { 1:{ }}
 };
 
+// crud helper
+function parse(request, ...properties) {
+  for (const property of properties)
+   if ( !(property in request) )
+    return { error: `missing argument: ${property}` };
+  return request;
+}
+
 // All CRUD operations go below

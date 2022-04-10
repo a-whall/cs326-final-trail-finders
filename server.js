@@ -11,13 +11,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/', express.static('client'));
 
-function parse(query, ...properties) {
- for (const property of properties)
-  if ( !(property in query) )
-   return { error: `missing argument: ${property}` };
- return query;
-}
-
 // All API calls should go below
 
 /*
