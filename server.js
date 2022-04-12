@@ -21,6 +21,15 @@ app.post('/user', async(request,response) => db.createUser(request, response));
 
 */
 
+// API calls for Event Page
+app.post('/event/create', async(request,response) => db.createEvent(request, response));
+app.get('/event/read', async(request,response) => db.readEvent(request, response));
+app.put('/event/update', async(request,response) => db.updateEvent(request, response));
+app.delete('/event/delete', async(request,response) => db.deleteEvent(request, response));
+
+// API calls for Attendance within Event Page
+app.post('/attendance/create', async(request,response) => db.createAttendance(request, response));
+app.delete('/attendance/delete', async(request,response) => db.deleteAttendance(request, response));
 
 // All API calls should go above
 
