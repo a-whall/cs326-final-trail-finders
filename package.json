@@ -1,28 +1,36 @@
 {
   "name": "cs326-final-trail-finders",
   "version": "1.0.0",
-  "description": "",
-  "type": "module",
+  "description": "Final project stuff",
   "main": "server.js",
+  "type": "module",
+  "engines": {
+    "node": "16.11.0"
+  },
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "deploy": "copyfiles client/* server.js database.js .env package*.json deploy",
+    "start": "node server.js",
+    "debug": "node --inspect-brk index.js"
   },
+  "author": "Trail-Finders-Team",
+  "license": "ISC",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/a-whall/cs326-final-trail-finders.git"
   },
-  "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/a-whall/cs326-final-trail-finders/issues"
   },
-  "homepage": "https://github.com/a-whall/cs326-final-trail-finders#readme",
   "dependencies": {
+    "dotenv": "^16.0.0",
     "express": "^4.17.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.1"
   }
 }

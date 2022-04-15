@@ -127,8 +127,18 @@
           </button>
         </div>
       </div>
+      <div id="collapseReviewStarInput" class="row my-3 collapse">
+        <div class="form-group">
+          <label>Star Count:</label>
+          <input type="number" class="form-control">
+        </div>
+      </div>
       <div id="collapseReviewTextArea" class="row my-3 collapse">
         <div class="form-group">
+          <div class="d-inline-block">
+            <label for="star-count-input" class="d-inline-block"><b>Stars:</b></label>
+            <input id="star-count-input" type="number" class="form-control d-inline-block" placeholder="5" min="0" max="5">
+          </div>
           <textarea class="form-control" rows="3" placeholder="Share your experience!"></textarea>
         </div>
       <div>
