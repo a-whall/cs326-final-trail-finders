@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <!-- Local css -->
     <link rel="stylesheet" href="simple.css">
+    <script type="module" src="createTrailPage.js"></script>
     <title>Valley Trail Finder</title>
   </head>
   <body>
@@ -29,7 +30,7 @@
       <!-- trail name input -->
       <div id="titleRow" class="row my-3 justify-content-center">
         <div class="col-xl-5 col-lg-6 col-md-9 col-sm-10">
-          <input class="form-control form-control-lg" type="text" placeholder="Trail Name">
+          <input id="name-input" class="form-control form-control-lg" type="text" placeholder="Trail Name">
         </div>
       </div>
       <!-- upload image button -->
@@ -39,24 +40,25 @@
           <label class="bi bi-upload">  Upload an initial image.</label>
         </div>
       </div>
-      <!-- features text area -->
-      <div id="featuresRow" class="row my-3 justify-content-center">
+      <!-- town name input form -->
+      <div id="townRow" class="row my-3 justify-content-center">
         <div class="col-xl-7 col-lg-8 col-md-9 col-sm-10">
-          <label><b>Features:</b></label>
-          <textarea class="form-control" placeholder="Landmarks, geography, etc."></textarea>
+          <label><b>Town:</b>
+            <input id="town-input" class="form-control" placeholder="Amherst"></input>
+          </label>
         </div>
       </div>
-      <!-- activities text area -->
-      <div id="activitiesRow" class="row my-3 justify-content-center">
+      <!-- description text area -->
+      <div id="descriptionRow" class="row my-3 justify-content-center">
         <div class="col-xl-7 col-lg-8 col-md-9 col-sm-10">
-          <label><b>Activities:</b></label>
-          <textarea class="form-control" placeholder="Swimming, disc golf, any interesting activities."></textarea>
+          <label><b>Description:</b></label>
+          <textarea id="description-input" class="form-control" rows="5" placeholder="What's it like?"></textarea>
         </div>
       </div>
       <!-- finish button -->
       <div id="finishTrailPage" class="row justify-content-center text-center">
         <div class="col-sm-3 col-xs-3">
-          <button class="btn btn-secondary form-control">
+          <button id="done-button" class="btn btn-secondary form-control">
             Done!
           </button>
         </div>
