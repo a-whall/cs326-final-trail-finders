@@ -28,41 +28,21 @@ body {
     text-align: center;
 }
 
-#sortBox {
-    margin: 10px;
-    border: 2px solid black;
-    background-color: lightgrey;
-    text-align: center;
-}
-
 .container-fluid {
     padding: 0px;
 }
 
-#UpcomingEventTitle {
+#createAnEvent {
     font-size: 30px;
     font-weight: bold;
 }
 
-.images {
-    width: 100%;
-    height: auto;
-    border: 5px solid #FFFFFF;
-    margin: 10px;
-    float: left;
+.createEvent input[type=text] {
+    font-size: 17px;
+    width: 50%;
+    margin: 30px;
 }
 
-#eventBox {
-    margin: 10px;
-    border: 2px solid black;
-    background-color: lightgrey;
-}
-
-.eventTitle {
-    font-size: 25px;
-}
-
-.attend {
-    float: right;
-    font-size: 15px;
+.insertImage {
+    margin: 30px;
 }
