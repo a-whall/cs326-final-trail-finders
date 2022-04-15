@@ -1,29 +1,33 @@
-
 import express from 'express';
 import logger from 'morgan';
-import { readFile, writeFile } from 'fs/promises';
-import * as db from "./database.js";
+import { TrailFinderDatabase } from "./database.js";
 
-const app = express();
-const port = 3000;
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use('/', express.static('client'));
+class TrailFinderServer {
+  constructor(dburl) {
+    this.dburl = dburl;
+    this.app = express();
+    this.app.use(logger('dev'));
+    this.app.use('/', express.static('client'));
+    return this;
+  }
 
-// All API calls should go below
+  async initRoutes() {
+    this.app.post('/trail', this.db.createTrail);
+  }
 
-/*
+  async initDb() {
+    this.db = new TrailFinderDatabase(this.dburl);
+    await this.db.connect();
+  }
 
-Here is an example of linking a route to an API call:
+  async start() {
+    await this.initDb();
+    await this.initRoutes();
+    const port = process.env.PORT || 3000;
+    this.app.listen(port, () => {
+      console.log(`Server started on port ${port}!`);
+    });
+  }
+}
 
-app.post('/user', async(request,response) => db.createUser(request, response));
-
-*/
-
-
-// All API calls should go above
-
-app.listen(port, function() {
-  console.log(`Server started on port ${port}.`);
-});
+new TrailFinderServer(process.env.DATABASE_URL).start();
