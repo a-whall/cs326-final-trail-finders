@@ -13,11 +13,14 @@ class TrailFinderServer {
 
   async initRoutes() {
     this.app.post('/trail', this.db.createTrail);
+    this.app.get('/trail', this.db.readTrail);
+    this.app.put('/trail', this.db.updateTrail);
+    this.app.delete('/trail', this.db.deleteTrail);
   }
 
   async initDb() {
     this.db = new TrailFinderDatabase(this.dburl);
-    await this.db.connect();
+    // await this.db.connect();
   }
 
   async start() {
