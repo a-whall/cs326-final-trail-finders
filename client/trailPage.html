@@ -10,19 +10,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <!-- Local css -->
     <link rel="stylesheet" href="simple.css">
-    <!-- Small bit of code to populate the reviewContainer with reviews once the DOM is built -->
-    <script defer src="addReviews.js"></script>
+    <script type="module" defer src="trailPage.js"></script>
     <title>Valley Trail Finder</title> <!-- Should have a specific trail name appended perhaps? -->
   </head>
   <body>
     <!-- This is the main bootstrap dependency, popper (a dependency of bootstrap) is also included -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <!-- A search bar for the top of the page -->
-    <div class="my-3 container-fluid">
-      <div class="row">
-        <div class="col-xl-4 col-lg-6 col-md-9 col-sm-10">
-          <input type="search" class="form-control" id="trailPageSearchBar" placeholder="Search for trails">
-        </div>
+    <div class="row my-3 container-fluid">
+      <div class="col-xl-4 col-lg-6 col-md-9 col-sm-10">
+        <input id="trailPageSearchBar" type="search" class="form-control" placeholder="Search for trails">
       </div>
     </div>
     <!-- link to the Valley Trail Finder home page using a home icon -->
@@ -36,28 +33,14 @@
       - the bottom row will hold links to share or get directions from google maps -->
     <div id="gridContainer" class="container">
       <!-- contains the trail title -->
-      <div id="titleRow" class="row">
-        <div id="trailTitle" class="pl-3">
-            <h1>Amethyst Brook Conservation Area</h1> <!-- Should be dynamically loaded -->
-        </div>
-      </div>
+      <h1 id="trailTitle" class="row pl-3"></h1>
       <!-- contains trail pictures and info -->
       <div id="trailContentRow" class="row">
         <!-- Note: images for the carousel rely on being the same size to look smooth in my opinion
                    some formatting should be done to better support varying resolutions -->
         <div id="imageCarousel" class="col-md-9 col-sm-12">
           <div id="carouselControls" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="https://photos.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvMjc1NTQ1MTIvMmEyODczMmU3OGMzMmQ1MjA4ODVjMWJlZDEyMGNmODYuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGVnIiwicmVzaXplIjp7IndpZHRoIjo1MDAsImhlaWdodCI6NTAwLCJmaXQiOiJpbnNpZGUifSwicm90YXRlIjpudWxsLCJqcGVnIjp7InRyZWxsaXNRdWFudGlzYXRpb24iOnRydWUsIm92ZXJzaG9vdERlcmluZ2luZyI6dHJ1ZSwib3B0aW1pc2VTY2FucyI6dHJ1ZSwicXVhbnRpc2F0aW9uVGFibGUiOjN9fX0=" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item">
-                <img src="https://photos.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvNDE4NzIxMjUvYzgzYWI2ZjVlMWQxNmI5OWQ5MDcyMzk5MjQyZGQwY2IuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGVnIiwicmVzaXplIjp7IndpZHRoIjoyMDQ4LCJoZWlnaHQiOjIwNDgsImZpdCI6Imluc2lkZSJ9LCJyb3RhdGUiOm51bGwsImpwZWciOnsidHJlbGxpc1F1YW50aXNhdGlvbiI6dHJ1ZSwib3ZlcnNob290RGVyaW5naW5nIjp0cnVlLCJvcHRpbWlzZVNjYW5zIjp0cnVlLCJxdWFudGlzYXRpb25UYWJsZSI6M319fQ==" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item">
-                <img src="https://photos.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvMjEwMjY5NzMvNDJkZWE3NjM1NWE2OThlMWJlODYyZDUzYmUzNmQ5ZWEuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGVnIiwicmVzaXplIjp7IndpZHRoIjo1MDAsImhlaWdodCI6NTAwLCJmaXQiOiJpbnNpZGUifSwicm90YXRlIjpudWxsLCJqcGVnIjp7InRyZWxsaXNRdWFudGlzYXRpb24iOnRydWUsIm92ZXJzaG9vdERlcmluZ2luZyI6dHJ1ZSwib3B0aW1pc2VTY2FucyI6dHJ1ZSwicXVhbnRpc2F0aW9uVGFibGUiOjN9fX0=" class="d-block w-100" alt="...">
-              </div>
-            </div>
+            <div id="imageDepo" class="carousel-inner"></div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
@@ -69,20 +52,12 @@
           </div>
         </div>
         <!-- trail side info which takes up a column next to image carousel -->
-        <div id="trailInfo" class="col-md-3 col-sm-12 text-nowrap">
-          <div id="featureRow" class="row my-3">
-            <label><b>Features:</b></label>
-            <!-- maybe emojis can be replaced later with some little graphical icons or just plain bullets -->
-            <!-- should be dynamically loaded -->
-            <div class="row"><label>🏞️ Fort River</label></div>
-            <div class="row"><label>🌉 Wooden bridges</label></div>
+        <div id="trailInfo" class="col-md-3 col-sm-12">
+          <div id="townName" class="row my-3">
+            <b>Town:</b>
           </div>
-          <div id="activitiesRow" class="row my-3">
-            <label><b>What you can do there:</b></label>
-            <div class="row"><label>🏃 Jog</label></div>
-            <!-- should be dynamically loaded -->
-            <div class="row"><label>🐾 Bring your dog</label></div>
-            <div class="row"><label>🌊 Play in the stream</label></div>
+          <div id="description" class="row my-3">
+            <b>Description:</b>
           </div>
         </div>
       </div>
@@ -125,12 +100,6 @@
           <button id="addReviewButton" class="btn" data-bs-toggle="collapse" data-bs-target="#collapseReviewTextArea" aria-expanded="false" aria-controls="collapseReviewTextArea">
             <b>Add a Review!</b>
           </button>
-        </div>
-      </div>
-      <div id="collapseReviewStarInput" class="row my-3 collapse">
-        <div class="form-group">
-          <label>Star Count:</label>
-          <input type="number" class="form-control">
         </div>
       </div>
       <div id="collapseReviewTextArea" class="row my-3 collapse">
