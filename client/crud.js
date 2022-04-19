@@ -8,9 +8,8 @@ export async function createTrail(name, town, description) {
 }
 
 export async function readTrail(name) {
-  const response = await fetch('/trail', { method: 'GET',
-    query: { name: name }
-  });
+  const response = await fetch('/trail?name='+name);
+  return await response.json();
 }
 
 export async function updateTrail(name, town, description) {
