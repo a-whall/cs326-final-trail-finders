@@ -7,6 +7,8 @@ class TrailFinderServer {
     this.dburl = dburl;
     this.app = express();
     this.app.use(logger('dev'));
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: false }));
     this.app.use('/', express.static('client'));
     return this;
   }
