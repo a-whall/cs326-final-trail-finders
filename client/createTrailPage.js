@@ -12,5 +12,5 @@ done_button.addEventListener('click', async(e) => {
     town_input.value,
     description_input.value
   );
-  // TODO: take user to the newly created page
+  window.location.href = "./trailPage.html?trail="+name_input.value;
 });
