@@ -16,8 +16,7 @@ class TrailFinderServer {
   async initRoutes() {
     this.app.post('/trail', this.db.createTrail);
     this.app.get('/trail', this.db.readTrail);
-    this.app.put('/trail', this.db.updateTrail);
-    this.app.delete('/trail', this.db.deleteTrail);
+    this.app.get('/trail/browse', this.db.readTrails);
   }
 
   async initDb() {
