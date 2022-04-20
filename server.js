@@ -15,6 +15,10 @@ class TrailFinderServer {
 
   async initRoutes() {
     this.app.post('/trail', this.db.createTrail);
+    this.app.get('/trail', this.db.readTrail);
+    this.app.get('/trail/browse', this.db.readTrails);
+    this.app.post('/review', this.db.createReview);
+
     this.app.post('/event', this.db.createEvent);
     this.app.get('/event', this.db.readEvent);
     this.app.put('/event', this.db.updateEvent);
