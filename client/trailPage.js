@@ -7,6 +7,8 @@ const description_area = document.getElementById('description');
 const townName_div = document.getElementById('townName');
 const image_carousel = document.getElementById('imageDepo');
 const reviews_container = document.getElementById('reviewContainer');
+const add_event_button = document.getElementById('addEvent');
+const find_event_button = document.getElementById('findEvent');
 
 
 const trailName = new URLSearchParams(window.location.search).get('trail');
@@ -25,6 +27,14 @@ add_trail_info(server_data.town, server_data.description);
 add_trail_pictures(server_data.imageURLs);
 
 add_reviews(); // TODO: hook this up with review api
+
+add_event_button.addEventListener('click', e => {
+  window.location.href = "./createEventPage.html";
+});
+
+find_event_button.addEventListener('click', e => {
+  window.location.href = "./eventPage.html"
+});
 
 // get a handle to the description text label
 const editable_description = document.getElementById('description_label');
