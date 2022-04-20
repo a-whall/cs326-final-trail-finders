@@ -97,10 +97,59 @@ export class TrailFinderDatabase {
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      const queryText =
-        'INSERT INTO reviews (user, trail, reviewBody) VALUES ($1, $2, $3) RETURNING *';
-      const res = await this.client.query(queryText, [args.user, args.trail, args.reviewBody]);
-      return res.rows;
+      // const queryText = 'DELETE FROM trails WHERE name = $1';
+      // const res = await this.client.query(queryText, [args.name]);
+    }
+  }
+  async createEvent(request, response) {
+    console.log(JSON.stringify(request.body))
+    const args = parse(request.body, "eid", "name", "time", "meetup", "uid", "description");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      // const queryText =
+        // 'INSERT INTO events (eid, name, time, meetup, uid, description) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+      // const res = await this.client.query(queryText, [args.eid, args.name, args.time, args.meetup, args.uid, args.description]);
+      // return res.rows;
+      response.status(200).json({ eid: args.eid, name: args.name, time: args.time, meetup: args.meetup, uid: args.uid, description: args.description });
+    }
+  }
+  async readEvent(request, response) {
+    const args = parse(request.query, "eid");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      // const queryText =
+        // 'SELECT * FROM events WHERE eid = $1';
+      // const res = await this.client.query(queryText, [args.eid]);
+      response.status(200).json({ eid: args.eid});
+    }
+  }
+  async updateEvent(request, response) {  // uid might not be needed up updateevent, as event should correspond to same host/uid
+    const args = parse(request.body, "eid", "name", "time", "meetup", "uid", "description");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      // const queryText =
+        // `UPDATE events
+        // SET name = $2, time = $3, meetup = $4, uid = $5, description = $6
+        // WHERE eid = $1`;
+      // const res = await this.client.query(queryText, [args.eid, args.name, args.time, args.meetup, args.uid, args.description]);
+      response.status(200).json({ eid: args.eid, name: args.name, time: args.time, meetup: args.meetup, uid: args.uid, description: args.description });
+    }
+  }
+  async deleteEvent(request, response) {
+    const args = parse(request.query, "eid");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      // const queryText = 'DELETE FROM events WHERE eid = $1';
+      // const res = await this.client.query(queryText, [args.eid]);
+      response.status(200).json({ eid: args.eid });
+      //const queryText =
+        //'INSERT INTO reviews (user, trail, reviewBody) VALUES ($1, $2, $3) RETURNING *';
+      //const res = await this.client.query(queryText, [args.user, args.trail, args.reviewBody]);
+      //return res.rows;
     }
   }
 }
