@@ -1,21 +1,17 @@
 
-const home = document.getElementById("home");
 const profile = document.getElementById("profile");
 const trails = document.getElementById("trails");
 const events = document.getElementById("events");
 const create_trail = document.getElementById("create-trail");
 const create_profile = document.getElementById("create-profile");
 
-home.addEventListener('click', async() => {
-    window.location.href="homepage.html";
-});
 
 profile.addEventListener('click', async() => {
     window.location.href="profile_page.html";
 });
 
 trails.addEventListener('click', async() => {
-    window.location.href="trailPage.html";
+    window.location.href="browseTrails.html";
 });
 
 events.addEventListener('click', async() => {
@@ -27,5 +23,5 @@ create_trail.addEventListener('click', async() => {
 });
 
 create_profile.addEventListener('click', async() => {
-    window.location.href="profile_page.html";
+    window.location.href="createProfile.html";
 });

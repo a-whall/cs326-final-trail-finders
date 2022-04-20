@@ -40,19 +40,17 @@ export async function readTrailsByTownName(town, page) {
   return await response.json();
 }
 
-export async function createReview(user, trail, reviewBody) {
+export async function createReview(user, trail, reviewBody, starCount) {
   const response = await fetch('/review', { method: 'POST',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ user:user, trail:trail, reviewBody:reviewBody })
+    body: JSON.stringify({ user:user, trail:trail, reviewBody:reviewBody, starCount: starCount })
   });
   const data = await response.json()
   return data;
 }
 
 export async function readReviewByTrail(trail) {
-  const response = await fetch('/review', { method: 'GET',
-    query: { trail: trail }
-  });
+  const response = await fetch(`/review?trail=${trail}`);
   const data = await response.json()
   return data;
 }

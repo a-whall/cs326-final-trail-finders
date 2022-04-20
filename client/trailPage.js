@@ -7,10 +7,11 @@ const description_area = document.getElementById('description');
 const townName_div = document.getElementById('townName');
 const image_carousel = document.getElementById('imageDepo');
 const reviews_container = document.getElementById('reviewContainer');
+const submit_reviews = document.getElementById("submitReviewButton");
+const reviewBody = document.getElementById("review-body");
+const starCount = document.getElementById("star-count-input")
 const add_event_button = document.getElementById('addEvent');
 const find_event_button = document.getElementById('findEvent');
-
-
 const trailName = new URLSearchParams(window.location.search).get('trail');
 
 if (trailName === null) console.assert(false, "trail query is required");
@@ -26,7 +27,7 @@ add_trail_info(server_data.town, server_data.description);
 
 add_trail_pictures(server_data.imageURLs);
 
-add_reviews(); // TODO: hook this up with review api
+read_reviews();
 
 add_event_button.addEventListener('click', e => {
   window.location.href = "./createEventPage.html";
@@ -76,36 +77,9 @@ function add_trail_pictures(urls) {
 }
 
 
-function add_reviews() {
-  // TODO: replace loremIpsum and dummyReviewObjects with crud to read review objects
-  const loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-  const dummyReviewObjects = [
-    {
-      stars: 4,
-      text: loremIpsum,
-      profileName: "Some User",
-      likeCount: 7 
-    },
-    {
-      stars: 5,
-      text: loremIpsum,
-      profileName: "Another User",
-      likeCount: 2
-    },
-    {
-      stars: 3,
-      text: loremIpsum,
-      profileName: "One Last User",
-      likeCount: 0
-    }
-  ];
-  // readReviewsByTrailName(trailName)
-  //      : returns all reviews that have that name
-  reviews_container.append(
-    review(dummyReviewObjects[0]),
-    review(dummyReviewObjects[1]),
-    review(dummyReviewObjects[2])
-  );
+async function read_reviews() {
+  const data = await crud.readReviewByTrail(trailName);
+  data.forEach(rev => reviews_container.append(review(rev)));
 }
 
 
@@ -123,7 +97,6 @@ function icon(...iconClassList) {
  * @returns a dom element to be appended to the reviewContainer.
  */
 function review(content) {
-
   // A row within reviewContainer. This div encapsulates a single review.
   const row = document.createElement('div');
   row.classList.add('row','mb-5');
@@ -132,13 +105,13 @@ function review(content) {
   const rowHeader = document.createElement('div');
   rowHeader.classList.add('row');
 
-  for (let i = 0; i < content.stars; ++i)
+  for (let i = 0; i < content.starCount; ++i)
     rowHeader.append( icon('col-1','bi','bi-star-fill') );
-  for (let i = 0; i < 5-content.stars; ++i)
+  for (let i = 0; i < 5-content.starCount; ++i)
     rowHeader.append( icon('col-1','bi','bi-star') );
 
   const nameDiv = document.createElement('div');
-  nameDiv.innerHTML = '<b>' + content.profileName + '</b>';
+  nameDiv.innerHTML = '<b>' + content.user + '</b>';
   nameDiv.classList.add('col-7', 'text-end');
   rowHeader.append(nameDiv);
 
@@ -146,7 +119,7 @@ function review(content) {
   const rowBody = document.createElement('div');
   rowBody.classList.add('row');
   const rowBodyText = document.createElement('label');
-  rowBodyText.innerHTML = content.text;
+  rowBodyText.innerHTML = content.reviewBody;
   rowBody.append(rowBodyText);
 
   // The footer holds the like count.
@@ -181,3 +154,9 @@ function eventListener(div, reviewObj) {
     div.textContent = ' ' + reviewObj.likeCount;
   }
 }
+
+submit_reviews.addEventListener('click', async() => {
+  const data = await crud.createReview("user", trailName, reviewBody.value, starCount.value);
+  console.log(data);
+  reviews_container.append(review(data));
+});

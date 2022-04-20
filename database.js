@@ -93,14 +93,61 @@ export class TrailFinderDatabase {
   }
 
   async createReview(request, response) {
-    const args = parse(request.body, "user", "trail", "reviewBody");
+    const args = parse(request.body, "user", "trail", "reviewBody", "starCount");
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
       // const queryText = 'DELETE FROM trails WHERE name = $1';
       // const res = await this.client.query(queryText, [args.name]);
+      response.status(200).json({user: args.user, trail: args.trail, reviewBody: args.reviewBody, starCount: args.starCount, likeCount: 0 })
     }
   }
+  async readReview(request, response) {
+    console.log(request.query)
+    const args = parse(request.query, "trail");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      const loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+  const dummyReviewObjects = [{starCount: 4, reviewBody: loremIpsum, user: "Some User", likeCount: 7 },{starCount: 5,reviewBody: loremIpsum,user: "Another User",likeCount: 2},{starCount: 3,reviewBody: loremIpsum,user: "One Last User",likeCount: 0}];
+      response.status(200).json(dummyReviewObjects);
+    }
+  }
+
+  async updateReview(request, response) {
+    const args = parse(request.body, "rid", "uid", "tid", "revbody", "like");
+    const rid = args.rid;
+    const idx = rid.indexOf('xx');
+    const resId = rid.substring(0,idx);
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } 
+    else {
+      if (resId !== args.uid){
+       dummyDB.reviews[rid].revbody = args.revbody;
+      }
+      dummyDB.reviews[rid].likes.push(args.uid);
+      response.json(dummyDB.reviews[rid]);
+    }
+  }
+  
+  async deleteReview(request, response) {
+    const args = parse(request.body, "rid", "uid");
+    const rid = args.rid;
+    const idx = rid.indexOf('xx');
+    const resId = rid.substring(0,idx);
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } 
+    else if (resId !== args.uid){
+     response.status(400).json({ error: "cannot delete other users' reviews" });
+    }
+    else {
+      delete dummyDB.reviews[rid];
+      response.json(dummyDB.reviews);
+    }
+  }
+
   async createEvent(request, response) {
     console.log(JSON.stringify(request.body))
     const args = parse(request.body, "eid", "name", "time", "meetup", "uid", "description");
@@ -154,12 +201,6 @@ export class TrailFinderDatabase {
   }
 }
 
-let dummyDB = {
- users: { 1:{ name:'', } },
- reviews: { 1:{ user:1, revbody:'', likes:[1,2,3] }, },
- trails: { 1:{ name:'', town:'', description:'', reviews:[1,2,3] } },
- events: { 1:{ }}
-};
 
 // crud helper
 function parse(request, ...properties) {
@@ -169,63 +210,5 @@ function parse(request, ...properties) {
   return request;
 }
 
-// All CRUD operations go below
-
-
-
- // CRUD operations for reviews
  
  
- export async function readReview(request, response) {
-   const args = parse(request.query, "rid");
-   if ("error" in args) {
-     response.status(400).json({ error: args.error });
-   } else {
-     response.json(dummyDB.reviews[args.rid]);
-   }
- }
- 
- export async function updateReview(request, response) {
-   const args = parse(request.body, "rid", "uid", "tid", "revbody", "like");
-   const rid = args.rid;
-   const idx = rid.indexOf('xx');
-   const resId = rid.substring(0,idx);
-   if ("error" in args) {
-     response.status(400).json({ error: args.error });
-   } 
-   else {
-     if (resId !== args.uid){
-      dummyDB.reviews[rid].revbody = args.revbody;
-     }
-     dummyDB.reviews[rid].likes.push(args.uid);
-     response.json(dummyDB.reviews[rid]);
-   }
- }
- 
- export async function deleteReview(request, response) {
-   const args = parse(request.body, "rid", "uid");
-   const rid = args.rid;
-   const idx = rid.indexOf('xx');
-   const resId = rid.substring(0,idx);
-   if ("error" in args) {
-     response.status(400).json({ error: args.error });
-   } 
-   else if (resId !== args.uid){
-    response.status(400).json({ error: "cannot delete other users' reviews" });
-   }
-   else {
-     delete dummyDB.reviews[rid];
-     response.json(dummyDB.reviews);
-   }
- }
- 
- 
-// example crud operation
-export async function createUser(request, response) {
-  const args = parse(request.query, "name", "username", "password", "any other fields");
-  if ("error" in args) {
-    response.status(400).json({ error: args.error });
-  } else {
-    // handle valid response
-  }
-}
