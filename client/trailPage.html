@@ -63,21 +63,26 @@
       </div>
       <!-- Icon links -->
       <div class="row text-center my-3 text-nowrap">
-        <!-- Add/Find Event -->
-        <div class="col-lg-1 col-md-2 col-sm-3 col-xs-1"> <!-- Note: bootstrap tooltip styling requires jquery to work. But data-toggle and stuff still provides a basic tooltip -->
-          <button class="btn btn-dark bi bi-calendar-plus icon" data-toggle="tooltip" data-placement="bottom" title="Add Event"></button>
-          <div class="row"><label>Add/Find Event</label></div>
+        <!-- Add Event -->
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-1"> <!-- Note: bootstrap tooltip styling requires jquery to work. But data-toggle and stuff still provides a basic tooltip -->
+          <button id="addEvent" class="btn btn-dark bi bi-calendar-plus icon" data-toggle="tooltip" data-placement="bottom" title="Add Event"></button>
+          <div class="row"><label>Add Event</label></div>
         </div>
-        <!-- Directions -->
-        <div class="col-lg-3 col-md-2 col-sm-2 col-xs-1"> <!-- Note: bootstrap tooltip styling requires jquery to work. But data-toggle and stuff still provides a basic tooltip -->
+        <!-- Find Event -->
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-1">
+          <button id="findEvent" class="btn btn-dark bi bi-calendar-event icon" data-toggle="tooltip" data-placement="bottom" title="Add Event"></button>
+          <div class="row"><label>Find Event</label></div>
+        </div>
+        <!-- Directions
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-1">
           <button class="btn btn-dark bi bi-signpost-split-fill icon" data-toggle="tooltip" data-placement="bottom" title="Get Directions"></button>
           <div class="row"><label>Directions</label></div>
         </div>
-        <!-- Share -->
-        <div class="col-lg-1 col-md-2 col-sm-2 col-xs-1">
+         Share 
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-1">
           <button class="btn btn-dark bi bi-share-fill icon" data-toggle="tooltip" data-placement="bottom" title="Share"></button>
           <div class="row"><label>Share</label></div>
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- Reviews -->

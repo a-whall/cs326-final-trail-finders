@@ -10,7 +10,8 @@ const reviews_container = document.getElementById('reviewContainer');
 const submit_reviews = document.getElementById("submitReviewButton");
 const reviewBody = document.getElementById("review-body");
 const starCount = document.getElementById("star-count-input")
-
+const add_event_button = document.getElementById('addEvent');
+const find_event_button = document.getElementById('findEvent');
 const trailName = new URLSearchParams(window.location.search).get('trail');
 
 if (trailName === null) console.assert(false, "trail query is required");
@@ -27,6 +28,14 @@ add_trail_info(server_data.town, server_data.description);
 add_trail_pictures(server_data.imageURLs);
 
 read_reviews();
+
+add_event_button.addEventListener('click', e => {
+  window.location.href = "./createEventPage.html";
+});
+
+find_event_button.addEventListener('click', e => {
+  window.location.href = "./eventPage.html"
+});
 
 // get a handle to the description text label
 const editable_description = document.getElementById('description_label');
