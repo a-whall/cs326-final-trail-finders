@@ -89,7 +89,20 @@ export async function createEvent(name, time, meetup, description) {
   const response = await fetch('/event', {
     method: 'POST',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ eid:1, name:name, time:time, meetup:meetup, uid:1, description:description })
+    body: JSON.stringify({ eid:0, name:name, time:time, meetup:meetup, uid:0, description:description })
+  });
+  return await response.json().status === "success";
+}
+
+export async function updateEvent(name, time, meetup, description) {
+  console.log(name);
+  console.log(time);
+  console.log(meetup);
+  console.log(description);
+  const response = await fetch('/event', {
+    method: 'PUT',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify({ eid:0, name:name, time:time, meetup:meetup, uid:0, description:description })
   });
   return await response.json().status === "success";
 }
