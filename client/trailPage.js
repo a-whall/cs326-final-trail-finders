@@ -6,7 +6,7 @@ const trail_title_header = document.getElementById('trailTitle');
 const description_area = document.getElementById('description');
 const townName_div = document.getElementById('townName');
 const image_carousel = document.getElementById('imageDepo');
-const reviews_grid = document.getElementById('');
+const reviews_container = document.getElementById('reviewContainer');
 
 
 const trailName = new URLSearchParams(window.location.search).get('trail');
@@ -24,8 +24,10 @@ add_trail_info(server_data.town, server_data.description);
 
 add_trail_pictures(server_data.imageURLs);
 
-// TODO: hook this up with review api
-add_reviews();
+add_reviews(); // TODO: hook this up with review api
+
+// get a handle to the description text label
+const editable_description = document.getElementById('description_label');
 
 
 function add_trail_info(townName, description) {
@@ -39,6 +41,7 @@ function add_trail_info(townName, description) {
   const description_div = document.createElement('div');
   description_div.classList.add('row');
   const description_label = document.createElement('label');
+  description_label.id = 'description-label';
   description_label.innerHTML = description;
   description_div.append(description_label);
   description_area.append(description_div);
@@ -71,25 +74,24 @@ function add_reviews() {
       stars: 4,
       text: loremIpsum,
       profileName: "Some User",
-      tags: [],
       likeCount: 7 
     },
     {
       stars: 5,
       text: loremIpsum,
       profileName: "Another User",
-      tags: [],
       likeCount: 2
     },
     {
       stars: 3,
       text: loremIpsum,
       profileName: "One Last User",
-      tags: [],
       likeCount: 0
     }
   ];
-  document.getElementById('reviewContainer').append(
+  // readReviewsByTrailName(trailName)
+  //      : returns all reviews that have that name
+  reviews_container.append(
     review(dummyReviewObjects[0]),
     review(dummyReviewObjects[1]),
     review(dummyReviewObjects[2])
