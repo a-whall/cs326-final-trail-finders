@@ -15,7 +15,7 @@ profile.addEventListener('click', async() => {
 });
 
 trails.addEventListener('click', async() => {
-    window.location.href="trailPage.html";
+    window.location.href="browseTrails.html";
 });
 
 events.addEventListener('click', async() => {
