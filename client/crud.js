@@ -23,6 +23,7 @@ export async function deleteTrail(name) {
   const response = await fetch('/trail', { method: 'DELETE',
     query: { name: name }
   })
+
 }
 
 export async function createReview(user, trail, reviewBody) {
@@ -64,4 +65,5 @@ export async function deleteReview(user, trail) {
   });
   const data = await response.json()
   return data;
+
 }

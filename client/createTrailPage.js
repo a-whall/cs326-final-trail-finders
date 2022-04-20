@@ -13,6 +13,4 @@ done_button.addEventListener('click', async(e) => {
     description_input.value
   );
   // TODO: take user to the newly created page
-  window.location.href="profile-page.html";
-
 });

@@ -103,6 +103,7 @@ export class TrailFinderDatabase {
       const res = await this.client.query(queryText, [args.name]);
     }
   }
+
   async createReview(request, response) {
     const args = parse(request.body, "user", "trail", "reviewBody");
     if ("error" in args) {
