@@ -111,6 +111,33 @@ export class TrailFinderDatabase {
       response.status(200).json(dummyReviewObjects);
     }
   }
+  async updateReview(request, response) {
+    const args = parse(request.body, "rid", "uid", "tid", "revbody", "like");
+    const rid = args.rid;
+    const idx = rid.indexOf('xx');
+    const resId = rid.substring(0,idx);
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } 
+    else {
+      response.status.json({ status: "success" });
+    }
+  }
+  async deleteReview(request, response) {
+    const args = parse(request.body, "rid", "uid");
+    const rid = args.rid;
+    const idx = rid.indexOf('xx');
+    const resId = rid.substring(0,idx);
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } 
+    else if (resId !== args.uid){
+     response.status(400).json({ error: "cannot delete other users' reviews" });
+    }
+    else {
+      response.status.json({ status: "success" });
+    }
+  }
   async createEvent(request, response) {
     const args = parse(request.body, "eid", "name", "time", "meetup", "uid", "description");
     if ("error" in args) {
