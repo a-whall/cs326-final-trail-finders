@@ -1,6 +1,8 @@
 #Steps to Building Valley Trail Finder app:
 ---
 
+To run the server locally:
+
 1. clone the repo
 
 2. npm install
