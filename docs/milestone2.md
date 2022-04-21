@@ -1,6 +1,10 @@
 # Milestone #2
 
 ## APIs:
+
+<img width="1140" alt="Screen Shot 2022-04-20 at 7 29 56 PM" src="https://user-images.githubusercontent.com/98613897/164342745-0352b8cd-cf39-4f56-9b9a-2d3c50c3785e.png">
+This is a basic outline of how our CRUD functions send requests to the server and the server in turn, queries the database for the information and/or stores information in the database. The database will then send data back according to calls. The endpoints we have implemeneted are marked with a '***' below. The rest we are working on implementing full functionality by the next milestone.
+
 ---
 
 ### trails
@@ -13,28 +17,82 @@
 
 ### reviews
 
-- GET /review?trail=___ : this endpoint returns all reviews whose trail attribute matches the given trail name in the query
+- POST /review: Used to create an initial review. ***
+- PUT /review: Used for editing the body of a review.
+- GET /review?trail=___ : This endpoint returns all reviews whose trail attribute matches the given trail name in the query. ***
+- GET /review?userID=__: This is used for reading all reviews associated with a user.
+- DELETE /review: This endpiont removes a specified review.
 
 ### events
 
+- POST /event: Endpoint for creating and posting an event. ***
+- GET /event: Used to query a list of events.
+- PUT /event: This edits a listed event. ***
+- DELETE /event: Removes an existing event.
+
+### users
+
+- POST /user: This allows for profile creation.
+- GET /user: Returns a particular user's profile.
+- PUT /user: Endpoint that will be used to make edits to a user profile.
+- DELETE /user: Allows a user to remove their profile.
+
+### likes
+
+- POST /reviewLike: Allows a user to like a review.
+- GET /reviewLike: Reads a list of users who have like a review.
+- DELETE /reviewLike: This endpoint will allow a user to retract their like of a review.
 
 ## Screenshots:
 ---
-//HERE
 
+<img width="1440" alt="Screen Shot 2022-04-20 at 9 07 43 PM" src="https://user-images.githubusercontent.com/98613897/164351579-9fe63bfa-ad6b-44a3-abb4-5bf4758f3dfd.png">
+This page contains a list of the trails, that we GET from our dummy DB. When one is clicked, it brings us to that trail's page, and the GET /reviews is invoked, to render the proper reviews associated with that trail.
+
+---
+<img width="1440" alt="Screen Shot 2022-04-20 at 9 01 31 PM" src="https://user-images.githubusercontent.com/98613897/164351272-2b04a556-696f-4ab9-bf6d-4dbb84260891.png">
+This is a look at one of the trail pages, with its reviews rendered from the dummy DB. When Add a Review! is clicked, it opens an text box for input. Given the input, when the submit button is clicked, POST /review is used to create the review, and it is rendered.
+
+---
+<img width="1440" alt="Screen Shot 2022-04-20 at 9 04 00 PM" src="https://user-images.githubusercontent.com/98613897/164351296-d29ceb29-eb44-4428-bea0-f918df2ad81e.png">
+Rendering of a newly created review at the bottom of the page - Including the review body, a star rating, and the user's name.
 
 ## Heroku App:
 ---
-//HERE
+
 
 
 ## Contribution Breakdown:
 ---
 ### Andrew:
-  - //HERE
+
+  - Created server endpoints for trail page
+  - CRUD operations for trail page
+  - Worked on the beginnings of a database
+  - Helped on flow-chart
+  - Worked on writing this .md file
+  - Wrote most of the basic server 
+  - Heroku deployment master
+  - Milestone #2 unanimous MVP
+  
 ### David:
-  - //HERE
+
+  - Created server endpoints for trail reviews
+  - CRUD operations for trail reviews
+  - Contributed to some database code
+  - Helped on flow-chart
+  - Worked on writing this .md file
+  - Edited some of the html/css
+  
 ### Seth:
+
   - //HERE
+  
 ### Sonny:
-  - //HERE
+
+  - Created server endpoints for events page
+  - CRUD operations for events page
+  - Helped on flow-chart
+  - Contributed to some database code
+  - Edited some of the html/css
+  - Worked on the .md file
