@@ -104,3 +104,13 @@ export async function updateEvent(name, time, meetup, description) {
   });
   return await response.json().status === "success";
 }
+
+export async function deleteEvent(eid) {
+  console.log(eid);
+  const response = await fetch(`/event?eid=${eid}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type':'application/json' },
+    query: JSON.stringify({ eid:eid })
+  });
+  return await response.json().status === "success";
+}

@@ -62,7 +62,7 @@ body {
     font-size: 25px;
 }
 
-.attend, .update {
+.attend, .update, .delete {
     float: right;
     font-size: 15px;
 }
