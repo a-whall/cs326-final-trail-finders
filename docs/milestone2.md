@@ -58,7 +58,7 @@ This is a look at one of the trail pages, with its reviews rendered from the dum
 Rendering of a newly created review at the bottom of the page - Including the review body, a star rating, and the user's name.
 
 ---
-<img width="1440" alt="Screen Shot 2022-04-20 at 9 04 00 PM" src="https://user-images.githubusercontent.com/98613897/164351296-d29ceb29-eb44-4428-bea0-f918df2ad81e.png">
+<img width="1440" alt="Screen Shot 2022-04-20 at 9 04 00 PM" src="![image](https://user-images.githubusercontent.com/73536712/164356432-3331fa19-f120-4aa0-a048-4237735bbe44.png)">
 The event page contains an option for users to both update and delete an event. By clicking the 'update' button, a PUT request is invoked to update the event page made from a user. Clicking the 'delete' button will remove the event from the event page.
 
 ## Heroku App:
