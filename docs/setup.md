@@ -13,3 +13,24 @@ To run the server locally:
 5. from there you can navigate around the site
 
 Note: we recommend running the app in chrome or firefox.
+
+# Steps to deploy to heroku
+
+1. have the repo cloned
+```bash
+2. npm run deploy
+```
+
+3. cd deploy
+
+4. choose heroku app to deploy to (heroku create to make a new one)
+
+5. heroku git:remote -a app_name
+
+6. git add .
+
+7. git commit -m "deploy"
+
+8. git push heroku master
+
+9. heroku open
