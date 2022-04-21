@@ -1,5 +1,4 @@
-#Steps to Building Valley Trail Finder app:
----
+# Steps to Building Valley Trail Finder app:
 
 To run the server locally:
 
@@ -9,7 +8,7 @@ To run the server locally:
 
 3. npm start
 
-4. enter URL into browser: https://localhost:3000/homepage.html
+4. enter URL into browser: http://localhost:3000/homepage.html
 
 5. from there you can navigate around the site
 
