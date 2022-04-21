@@ -91,7 +91,6 @@ export class TrailFinderDatabase {
       response.status(200).json(["The Notch", "Amethyst Brook Conservation Area", "Rattlesnake Gutter", "Mount Toby State Forest", "Norwottuch Rail Trail", "Mill River Conservation Area", "Skinner State Park"]);
     }
   }
-
   async createReview(request, response) {
     const args = parse(request.body, "user", "trail", "reviewBody", "starCount");
     if ("error" in args) {
@@ -103,53 +102,16 @@ export class TrailFinderDatabase {
     }
   }
   async readReview(request, response) {
-    console.log(request.query)
     const args = parse(request.query, "trail");
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
       const loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-  const dummyReviewObjects = [{starCount: 4, reviewBody: loremIpsum, user: "Some User", likeCount: 7 },{starCount: 5,reviewBody: loremIpsum,user: "Another User",likeCount: 2},{starCount: 3,reviewBody: loremIpsum,user: "One Last User",likeCount: 0}];
+      const dummyReviewObjects = [{starCount: 4, reviewBody: loremIpsum, user: "Some User", likeCount: 7 },{starCount: 5,reviewBody: loremIpsum,user: "Another User",likeCount: 2},{starCount: 3,reviewBody: loremIpsum,user: "One Last User",likeCount: 0}];
       response.status(200).json(dummyReviewObjects);
     }
   }
-
-  async updateReview(request, response) {
-    const args = parse(request.body, "rid", "uid", "tid", "revbody", "like");
-    const rid = args.rid;
-    const idx = rid.indexOf('xx');
-    const resId = rid.substring(0,idx);
-    if ("error" in args) {
-      response.status(400).json({ error: args.error });
-    } 
-    else {
-      if (resId !== args.uid){
-       dummyDB.reviews[rid].revbody = args.revbody;
-      }
-      dummyDB.reviews[rid].likes.push(args.uid);
-      response.json(dummyDB.reviews[rid]);
-    }
-  }
-  
-  async deleteReview(request, response) {
-    const args = parse(request.body, "rid", "uid");
-    const rid = args.rid;
-    const idx = rid.indexOf('xx');
-    const resId = rid.substring(0,idx);
-    if ("error" in args) {
-      response.status(400).json({ error: args.error });
-    } 
-    else if (resId !== args.uid){
-     response.status(400).json({ error: "cannot delete other users' reviews" });
-    }
-    else {
-      delete dummyDB.reviews[rid];
-      response.json(dummyDB.reviews);
-    }
-  }
-
   async createEvent(request, response) {
-    console.log(JSON.stringify(request.body))
     const args = parse(request.body, "eid", "name", "time", "meetup", "uid", "description");
     if ("error" in args) {
       response.status(400).json({ error: args.error });
@@ -202,13 +164,10 @@ export class TrailFinderDatabase {
 }
 
 
-// crud helper
+// API helper
 function parse(request, ...properties) {
   for (const property of properties)
    if ( !(property in request) )
     return { error: `missing argument: ${property}` };
   return request;
 }
-
- 
- 

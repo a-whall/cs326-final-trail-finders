@@ -10,3 +10,5 @@
 4. enter URL into browser: https://localhost:3000/homepage.html
 
 5. from there you can navigate around the site
+
+Note: we recommend running the app in chrome or firefox.
