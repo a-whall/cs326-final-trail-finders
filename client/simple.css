@@ -9,3 +9,12 @@ body {
 .icon-large {
   font-size:4rem;
 }
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.td-none {
+  text-decoration: none;
+}
