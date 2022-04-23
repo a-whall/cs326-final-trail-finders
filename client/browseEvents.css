@@ -61,8 +61,3 @@ body {
 .eventTitle {
     font-size: 25px;
 }
-
-.update, .delete {
-    float: right;
-    font-size: 15px;
-}
