@@ -56,7 +56,22 @@ export class TrailFinderDatabase {
       VALUES
         ('David', 'Robert Frost Trail', 'My favorite place to hike!'),
         ('Andrew', 'Rattlesnake Gutter', 'Challenging climbing.'),
-        ('Sonny', 'Mount Toby State Forest' 'Great place to bring the kids!')`;
+        ('Sonny', 'Mount Toby State Forest' 'Great place to bring the kids!')
+        
+        CREATE TABLE IF NOT EXISTS events (
+          eid int primary key,
+          name varchar(64),
+          time varchar(64),
+          meetup varchar(64),
+          user varchar(32) foreign key,
+          description varchar(1920)
+        );
+        
+        INSERT INTO
+          events(eid, name, time, meetup, user, description)
+        VALUES
+          (1, 'Norwottuck Rail Trail', '04/06/2022, 4pm to 7pm', 'Amherst Town', 'Amanda', 'Let's bike!'),
+          (2, 'The Notch', '04/07/2022, 4pm to 7pm', 'Northhampton', 'Joe', 'Walk trail')`;
     await this.client.query(queryText);
   }
   async createTrail(request, response) {
@@ -139,15 +154,16 @@ export class TrailFinderDatabase {
     }
   }
   async createEvent(request, response) {
-    const args = parse(request.body, "eid", "name", "time", "meetup", "uid", "description");
+    const args = parse(request.body, "name", "time", "meetup", "user", "description");
+    const eid = 0;
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      // const queryText =
-        // 'INSERT INTO events (eid, name, time, meetup, uid, description) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
-      // const res = await this.client.query(queryText, [args.eid, args.name, args.time, args.meetup, args.uid, args.description]);
-      // return res.rows;
-      response.status(200).json({ eid: args.eid, name: args.name, time: args.time, meetup: args.meetup, uid: args.uid, description: args.description });
+      const queryText =
+        'INSERT INTO events (eid, name, time, meetup, user, description) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+      const res = await this.client.query(queryText, [eid, args.name, args.time, args.meetup, args.user, args.description]);
+      return res.rows;
+      response.status(200).json({ eid: 0, name: args.name, time: args.time, meetup: args.meetup, user: args.user, description: args.description });
     }
   }
   async readEvent(request, response) {

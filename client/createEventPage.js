@@ -1,11 +1,13 @@
 import { createEvent } from "./crud.js";
 document.getElementById("createEventButton").addEventListener("click", saveEvent);
 
+// Include uploading image to database later
 async function saveEvent() {
-    const name = document.getElementById("name").value;
+    const title = document.getElementById("title").value;
     const time = document.getElementById("time").value;
     const meetup = document.getElementById("meetup").value;
+    const host = document.getElementById("host").value;
     const description = document.getElementById("description").value;
-    await createEvent(name, time, meetup, description);
-    window.location.href = "./eventPage.html";
+    await createEvent(title, time, meetup, host, description);
+    // window.location.href = "./browseEvents.html";
 }
