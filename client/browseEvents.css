@@ -1,0 +1,68 @@
+body {
+    background-color: rgb(231, 200, 159);
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.searchBar {
+    text-align: center;
+    background-color: green;
+    width: 100%;
+    height: 10%;
+}
+
+.searchBar input[type=text] {
+    font-size: 17px;
+    width: 50%;
+    margin: 30px;
+}
+
+.logo {
+    width: 50%;
+    margin: 10px;
+}
+
+#navigationBox {
+    margin: 10px;
+    border: 2px solid black;
+    background-color: lightgrey;
+    text-align: center;
+}
+
+#sortBox {
+    margin: 10px;
+    border: 2px solid black;
+    background-color: lightgrey;
+    text-align: center;
+}
+
+.container-fluid {
+    padding: 0px;
+}
+
+#UpcomingEventTitle {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.images {
+    width: 100%;
+    height: auto;
+    border: 5px solid #FFFFFF;
+    margin: 10px;
+    float: left;
+}
+
+#eventBox {
+    margin: 10px;
+    border: 2px solid black;
+    background-color: lightgrey;
+}
+
+.eventTitle {
+    font-size: 25px;
+}
+
+.update, .delete {
+    float: right;
+    font-size: 15px;
+}
