@@ -15,9 +15,10 @@ class TrailFinderServer {
 
   async initRoutes() {
     this.app.get('/', function(req,res) { res.redirect('/homepage.html'); });
-    this.app.post('/trail', this.db.createTrail);
-    this.app.get('/trail', this.db.readTrail);
-    this.app.get('/trail/browse', this.db.readTrails);
+    this.app.post('/trail', this.db.createTrail.bind(this.db));
+    this.app.get('/trail', this.db.readTrail.bind(this.db));
+    this.app.get('/trail/browse', this.db.readTrails.bind(this.db));
+    this.app.get('/trail/count', this.db.readTrailCount.bind(this.db));
     this.app.post('/review', this.db.createReview);
     this.app.get('/review', this.db.readReview);
     this.app.delete('/review', this.db.deleteReview);
@@ -30,7 +31,7 @@ class TrailFinderServer {
 
   async initDb() {
     this.db = new TrailFinderDatabase(this.dburl);
-    // await this.db.connect();
+    await this.db.connect();
   }
 
   async start() {

@@ -36,7 +36,12 @@ export async function readTrail(name) {
  * @returns an array of trail names that can be used as links on the browseTrails.html
  */
 export async function readTrailsByTownName(town, page) {
-  const response = await fetch(`/trail/browse?town=${town}&offset=${page}`);
+  const response = await fetch(`/trail/browse?town=${town}&offset=${page-1}`);
+  return await response.json();
+}
+
+export async function readTrailsCount() {
+  const response = await fetch('/trail/count');
   return await response.json();
 }
 
