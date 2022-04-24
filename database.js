@@ -59,19 +59,20 @@ export class TrailFinderDatabase {
         ('Sonny', 'Mount Toby State Forest' 'Great place to bring the kids!')
         
         CREATE TABLE IF NOT EXISTS events (
-          eid int primary key,
-          name varchar(64),
+          eid integer primary key,
+          title varchar(64),
           time varchar(64),
           meetup varchar(64),
-          user varchar(32) foreign key,
-          description varchar(1920)
+          user varchar(32),
+          description varchar(1920),
+          trail varchar(64)
         );
         
         INSERT INTO
-          events(eid, name, time, meetup, user, description)
+          events(eid, title, time, meetup, user, description, trail)
         VALUES
-          (1, 'Norwottuck Rail Trail', '04/06/2022, 4pm to 7pm', 'Amherst Town', 'Amanda', 'Let's bike!'),
-          (2, 'The Notch', '04/07/2022, 4pm to 7pm', 'Northhampton', 'Joe', 'Walk trail')`;
+          (1, 'Norwottuck Rail Trail Event!', '04/06/2022, 4pm to 7pm', 'Amherst Town', 'Amanda', 'Let's bike!', 'Norwottuck Rail Trail'),
+          (2, 'The Notch Event!', '04/07/2022, 4pm to 7pm', 'Northhampton', 'Joe', 'Walk trail', 'The Notch')`;
     await this.client.query(queryText);
   }
   async createTrail(request, response) {
@@ -154,16 +155,21 @@ export class TrailFinderDatabase {
     }
   }
   async createEvent(request, response) {
-    const args = parse(request.body, "name", "time", "meetup", "user", "description");
+    const args = parse(request.body, "title", "time", "meetup", "user", "description", "trail");
     const eid = 0;
+    console.log(args.title);
+    console.log(args.time);
+    console.log(args.meetup);
+    console.log(args.description);
+    console.log(args.trail);
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
       const queryText =
-        'INSERT INTO events (eid, name, time, meetup, user, description) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
-      const res = await this.client.query(queryText, [eid, args.name, args.time, args.meetup, args.user, args.description]);
-      return res.rows;
-      response.status(200).json({ eid: 0, name: args.name, time: args.time, meetup: args.meetup, user: args.user, description: args.description });
+        'INSERT INTO events (eid, title, time, meetup, user, description, trail) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
+      // const res = await this.client.query(queryText, [eid, args.title, args.time, args.meetup, args.user, args.description, args.trail]);
+      //return res.rows;
+      response.status(200).json({ eid: 0, title: args.title, time: args.time, meetup: args.meetup, user: args.user, description: args.description });
     }
   }
   async readEvent(request, response) {

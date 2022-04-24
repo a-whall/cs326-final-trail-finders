@@ -8,6 +8,7 @@ async function saveEvent() {
     const meetup = document.getElementById("meetup").value;
     const host = document.getElementById("host").value;
     const description = document.getElementById("description").value;
-    await createEvent(title, time, meetup, host, description);
+    const trail = document.getElementById("trail").value;
+    await createEvent(title, time, meetup, host, description, trail);
     // window.location.href = "./browseEvents.html";
 }

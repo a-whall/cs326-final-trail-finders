@@ -79,11 +79,16 @@ export async function deleteReview(user, trail) {
   return data;
 }
 
-export async function createEvent(title, time, meetup, host, description) {
+export async function createEvent(title, time, meetup, host, description, trail) {
+  console.log(title);
+  console.log(time);
+  console.log(meetup);
+  console.log(description);
+  console.log(trail);
   const response = await fetch('/event', {
     method: 'POST',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ name:title, time:time, meetup:meetup, user:host, description:description })
+    body: JSON.stringify({ title:title, time:time, meetup:meetup, user:host, description:description, trail:trail })
   });
   return await response.json().status === "success";
 }
