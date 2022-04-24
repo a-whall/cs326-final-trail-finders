@@ -11,14 +11,6 @@ done_button.addEventListener('click', async(e) => {
   for(const file of file_input.files) {
     form_data.append(file.name, file);
   }
-  
   await crud.uploadTrailImage('trailname',form_data);
   //window.location.href = "./trailPage.html?trail="+name_input.value;
 });
-
-// function base64_encode(file) {
-//   const img_str = fs.readFileSync(file, { encoding: 'base64' });
-//   console.log(img_str.length)
-// }
-
-// base64_encode('C:\cs326\cs326-final-trail-finders\client\assets\Valley_Trail_Finder_Logo.JPG')

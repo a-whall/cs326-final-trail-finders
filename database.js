@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import pg from 'pg';
+import readFileSync from 'fs/promises';
 
 const { Pool } = pg; // Get the Pool class from the pg module.
 
@@ -32,8 +33,18 @@ export class TrailFinderDatabase {
   }
 
   async createTrailImage(request,response) {
-    if (request.files) {
-      console.log(request.files)
+    const args = parse(request.query, "name");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else if (!request.files) {
+      response.status(400).json({ error: "must send files to upload" });
+    } else {
+      for (const [name,file] of Object.entries(request.files)) {
+        const base64_image = file.data.toString('base64');
+        const queryText = 'INSERT INTO trail_images (name, image) VALUES ($1, $2)';
+        const res = await this.client.query(queryText, [args.name, base64_image]);
+        response.status(200).json({ status: "success" });
+      }
     }
     response.status(200).end();
   }
@@ -215,4 +226,10 @@ function parse(request, ...properties) {
    if ( !(property in request) )
     return { error: `missing argument: ${property}` };
   return request;
+}
+
+
+function base64_encode(file) {
+  const img_str = readFileSync(file, { encoding: 'base64' });
+  console.log(img_str.length)
 }
