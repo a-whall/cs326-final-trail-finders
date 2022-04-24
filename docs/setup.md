@@ -17,9 +17,8 @@ Note: we recommend running the app in chrome or firefox.
 # Steps to deploy to heroku
 
 1. have the repo cloned
-```bash
+
 2. npm run deploy
-```
 
 3. cd deploy
 
