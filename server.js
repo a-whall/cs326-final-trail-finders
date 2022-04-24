@@ -26,6 +26,10 @@ class TrailFinderServer {
     this.app.get('/event', this.db.readEvent);
     this.app.put('/event', this.db.updateEvent);
     this.app.delete('/event', this.db.deleteEvent);
+    this.app.post('/user', this.db.createUser);
+    this.app.get('/user', this.db.readUser);
+    this.app.put('/user', this.db.updateUser);
+    this.app.delete('/user', this.db.deleteUser);
   }
 
   async initDb() {
