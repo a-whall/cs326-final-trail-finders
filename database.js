@@ -1,63 +1,23 @@
 import 'dotenv/config';
 import pg from 'pg';
 
-// Get the Pool class from the pg module.
-const { Pool } = pg;
+const { Pool } = pg; // Get the Pool class from the pg module.
 
 export class TrailFinderDatabase {
+
   constructor(db_url) {
     this.dburl = db_url;
   }
+
   async connect() {
-    // Create a new Pool. The Pool manages a set of connections to the database.
-    // It will keep track of unused connections, and reuse them when new queries
-    // are needed. The constructor requires a database URL to make the
-    // connection. You can find the URL of your database by looking in Heroku
-    // or you can run the following command in your terminal:
-    //
-    //  heroku pg:credentials:url -a APP_NAME
-    //
-    // Replace APP_NAME with the name of your app in Heroku.
     this.pool = new Pool({
       connectionString: this.dburl,
       ssl: { rejectUnauthorized: false }, // Required for Heroku connections
     });
-
-    // Create the pool.
     this.client = await this.pool.connect();
-    // Init the database.
     //await this.init();
   }
-  async init() {
-    const queryText = `
-      CREATE TABLE IF NOT EXISTS trails (
-        name varchar(64) primary key,
-        town varchar(64),
-        description varchar(1920)
-      );
-      
-      INSERT INTO
-        trails(name, town, description)
-      VALUES
-        ('Robert Frost Trail', 'Amherst', 'Cool place'),
-        ('Rattlesnake Gutter', 'Leverett', 'Rocks'),
-        ('Mount Toby State Forest', 'Leverett', 'Waterfall')
-        
-      
-      CREATE TABLE IF NOT EXISTS reviews (
-        user varchar(32) primary key,
-        trail varchar(64),
-        reviewBody varchar(500)
-      );
-        
-      INSERT INTO
-        reviews(user, trail, reviewBody)
-      VALUES
-        ('David', 'Robert Frost Trail', 'My favorite place to hike!'),
-        ('Andrew', 'Rattlesnake Gutter', 'Challenging climbing.'),
-        ('Sonny', 'Mount Toby State Forest' 'Great place to bring the kids!')`;
-    await this.client.query(queryText);
-  }
+
   async createTrail(request, response) {
     const args = parse(request.body, "name", "town", "description");
     if ("error" in args) {
@@ -70,6 +30,14 @@ export class TrailFinderDatabase {
       response.status(200).json({ status:"success" });
     }
   }
+
+  async createTrailImage(request,response) {
+    if (request.files) {
+      console.log(request.files)
+    }
+    response.status(200).end();
+  }
+
   async readTrail(request, response) {
     const args = parse(request.query, "name");
     if ("error" in args) {
@@ -80,11 +48,12 @@ export class TrailFinderDatabase {
       if (res.rows.length > 0) {
         response.status(200).json(res.rows[0] /*imageURLs: ["https://photos.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvMjc1NTQ1MTIvMmEyODczMmU3OGMzMmQ1MjA4ODVjMWJlZDEyMGNmODYuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGVnIiwicmVzaXplIjp7IndpZHRoIjo1MDAsImhlaWdodCI6NTAwLCJmaXQiOiJpbnNpZGUifSwicm90YXRlIjpudWxsLCJqcGVnIjp7InRyZWxsaXNRdWFudGlzYXRpb24iOnRydWUsIm92ZXJzaG9vdERlcmluZ2luZyI6dHJ1ZSwib3B0aW1pc2VTY2FucyI6dHJ1ZSwicXVhbnRpc2F0aW9uVGFibGUiOjN9fX0=","https://photos.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvNDE4NzIxMjUvYzgzYWI2ZjVlMWQxNmI5OWQ5MDcyMzk5MjQyZGQwY2IuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGVnIiwicmVzaXplIjp7IndpZHRoIjoyMDQ4LCJoZWlnaHQiOjIwNDgsImZpdCI6Imluc2lkZSJ9LCJyb3RhdGUiOm51bGwsImpwZWciOnsidHJlbGxpc1F1YW50aXNhdGlvbiI6dHJ1ZSwib3ZlcnNob290RGVyaW5naW5nIjp0cnVlLCJvcHRpbWlzZVNjYW5zIjp0cnVlLCJxdWFudGlzYXRpb25UYWJsZSI6M319fQ==","https://photos.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvMjEwMjY5NzMvNDJkZWE3NjM1NWE2OThlMWJlODYyZDUzYmUzNmQ5ZWEuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGVnIiwicmVzaXplIjp7IndpZHRoIjo1MDAsImhlaWdodCI6NTAwLCJmaXQiOiJpbnNpZGUifSwicm90YXRlIjpudWxsLCJqcGVnIjp7InRyZWxsaXNRdWFudGlzYXRpb24iOnRydWUsIm92ZXJzaG9vdERlcmluZ2luZyI6dHJ1ZSwib3B0aW1pc2VTY2FucyI6dHJ1ZSwicXVhbnRpc2F0aW9uVGFibGUiOjN9fX0="]*/)
       } else {
-        response.status(404)
+        response.status(404).json({ status: "trail does not exist" });
       }
       console.log(res.rows)
     }
   }
+
   async readTrails(request, response) {
     const args = parse(request.query, "town", "offset");
     if ("error" in args) {
@@ -95,10 +64,12 @@ export class TrailFinderDatabase {
       response.status(200).json(res.rows);
     }
   }
+
   async readTrailCount(request, response) {
     const res = await this.client.query('SELECT COUNT(name) AS num_trails FROM trails');
     response.status(200).json(parseInt(res.rows[0].num_trails));
   }
+
   async createReview(request, response) {
     const args = parse(request.body, "user", "trail", "reviewBody", "starCount");
     if ("error" in args) {
@@ -109,6 +80,7 @@ export class TrailFinderDatabase {
       response.status(200).json({user: args.user, trail: args.trail, reviewBody: args.reviewBody, starCount: args.starCount, likeCount: 0 })
     }
   }
+
   async readReview(request, response) {
     const args = parse(request.query, "trail");
     if ("error" in args) {
@@ -119,6 +91,7 @@ export class TrailFinderDatabase {
       response.status(200).json(dummyReviewObjects);
     }
   }
+
   async updateReview(request, response) {
     const args = parse(request.body, "rid", "uid", "tid", "revbody", "like");
     const rid = args.rid;
@@ -131,6 +104,7 @@ export class TrailFinderDatabase {
       response.status.json({ status: "success" });
     }
   }
+
   async deleteReview(request, response) {
     const args = parse(request.body, "rid", "uid");
     const rid = args.rid;
@@ -146,6 +120,7 @@ export class TrailFinderDatabase {
       response.status.json({ status: "success" });
     }
   }
+
   async createEvent(request, response) {
     const args = parse(request.body, "eid", "name", "time", "meetup", "uid", "description");
     if ("error" in args) {
@@ -158,6 +133,7 @@ export class TrailFinderDatabase {
       response.status(200).json({ eid: args.eid, name: args.name, time: args.time, meetup: args.meetup, uid: args.uid, description: args.description });
     }
   }
+
   async readEvent(request, response) {
     const args = parse(request.query, "eid");
     if ("error" in args) {
@@ -169,6 +145,7 @@ export class TrailFinderDatabase {
       response.status(200).json({ eid: args.eid});
     }
   }
+
   async updateEvent(request, response) {  // uid might not be needed up updateevent, as event should correspond to same host/uid
     const args = parse(request.body, "eid", "name", "time", "meetup", "uid", "description");
     if ("error" in args) {
@@ -182,6 +159,7 @@ export class TrailFinderDatabase {
       response.status(200).json({ eid: args.eid, name: args.name, time: args.time, meetup: args.meetup, uid: args.uid, description: args.description });
     }
   }
+
   async deleteEvent(request, response) {
     const args = parse(request.query, "eid");
     if ("error" in args) {
