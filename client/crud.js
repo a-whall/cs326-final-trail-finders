@@ -114,3 +114,39 @@ export async function deleteEvent(eid) {
   });
   return await response.json().status === "success";
 }
+
+export async function createUser(username, email, password, image) {
+  const response = await fetch('/user', { method: 'POST',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify({ username:username, email:email, password:password, image:image })
+  });
+  const data = await response.json()
+  return data;
+}
+
+export async function deleteUser(uid) {
+  const response = await fetch('/user', { method: 'DELETE',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify({ uid:uid })
+  });
+  const data = await response.status(200).json()
+  return data;
+}
+
+export async function updateUser(username, email, password, image) {
+  const response = await fetch('/user', { method: 'PUT',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify({ username:username, email:email, password:password, image:image })
+  });
+  const data = await response.json()
+  return data;
+}
+
+export async function readUser(uid) {
+  const response = await fetch('/user', { method: 'GET',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify({ uid:uid })
+  });
+  const data = await response.json()
+  return data;
+}

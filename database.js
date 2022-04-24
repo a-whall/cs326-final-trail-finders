@@ -188,6 +188,38 @@ export class TrailFinderDatabase {
       //return res.rows;
     }
   }
+  async createUser(request, response) {
+    const args = parse(request.query, "username", "email", "password", "image");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      response.status(200).json({ username: args.username });
+    }
+  }
+  async updateUser(request, response) {
+    const args = parse(request.query, "username", "email", "password", "image");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      response.status(200).json({ username: args.username, email: args.email, password: args.password, image: args.image });
+    }
+  }
+  async deleteUser(request, response) {
+    const args = parse(request.query, "username", "email", "password", "image");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      response.status(200).json({ status: "success" });
+    }
+  }
+  async readUser(request, response) {
+    const args = parse(request.query, "username", "email", "password", "image");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      response.status(200).json({ username: args.username, email: args.email, password: args.password, image: args.image });
+    }
+  }
 }
 
 
