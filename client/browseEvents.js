@@ -1,6 +1,8 @@
-import { updateEvent, deleteEvent } from "./crud.js";
+import { readAllEvents,deleteEvent } from "./crud.js";
 
 const listEventParent = document.getElementById("listEvents");
+
+// const data = await readAllEvents();
 
 // Dummy data
 const imageURL1 = "https://upload.wikimedia.org/wikipedia/commons/2/2b/IMG_3811-On-the-Norwottuck-bridge.jpg";
@@ -106,7 +108,7 @@ function add_event_info(imageURL, eventTitle, time, meetup, host, description) {
 
 }
 
-// Functions to save and remove event
+// DELETE LATER: Functions to save and remove event
 async function saveUpdatedEvent() {
     const name = document.getElementById("name");
     const time = document.getElementById("time");

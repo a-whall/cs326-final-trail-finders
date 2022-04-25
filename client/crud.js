@@ -103,6 +103,13 @@ export async function readEvent(eid) {
   return await response.json();
 }
 
+export async function readAllEvents() {
+  const response = await fetch('/event/browse', {
+    method: 'READ',
+  });
+  return await response.json();
+}
+
 export async function updateEvent(name, time, meetup, description) {
   console.log(name);
   console.log(time);

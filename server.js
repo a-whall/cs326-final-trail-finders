@@ -24,6 +24,7 @@ class TrailFinderServer {
     this.app.put('/review', this.db.updateReview);
     this.app.post('/event', this.db.createEvent);
     this.app.get('/event', this.db.readEvent);
+    this.app.get('/event/browse', this.db.readAllEvents);
     this.app.put('/event', this.db.updateEvent);
     this.app.delete('/event', this.db.deleteEvent);
   }

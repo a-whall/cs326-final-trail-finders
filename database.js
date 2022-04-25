@@ -183,6 +183,12 @@ export class TrailFinderDatabase {
       response.status(200).json(res.rows);
     }
   }
+  async readAllEvents(request, response) {
+    const queryText =
+      'SELECT * FROM events';
+    const res = await this.client.query(queryText);
+    response.status(200).json(res.rows);
+  }
   async updateEvent(request, response) {  // uid might not be needed up updateevent, as event should correspond to same host/uid
     const args = parse(request.body, "eid", "name", "time", "meetup", "uid", "description");
     if ("error" in args) {
