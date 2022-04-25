@@ -175,13 +175,24 @@ export class TrailFinderDatabase {
     }
   }
   async createUser(request, response) {
-    const args = parse(request.query, "username", "email", "password", "image");
+    const args = parse(request.body, "username", "email", "password");
+    console.log(args)
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      response.status(200).json({ username: args.username });
+      const queryText = 'INSERT INTO user_info (username, email, password, profileImage) VALUES ($1, $2, $3, $4)';
+      const res = await this.client.query(queryText, [args.username, args.email, args.password, null]);
+      response.status(200).json({});
     }
   }
+
+  async createUserImage(request,response) {
+    if (request.files) {
+      console.log(request.files)
+    }
+    response.status(200).end();
+  }
+
   async updateUser(request, response) {
     const args = parse(request.query, "username", "email", "password", "image");
     if ("error" in args) {
@@ -190,6 +201,7 @@ export class TrailFinderDatabase {
       response.status(200).json({ username: args.username, email: args.email, password: args.password, image: args.image });
     }
   }
+
   async deleteUser(request, response) {
     const args = parse(request.query, "username", "email", "password", "image");
     if ("error" in args) {
@@ -198,6 +210,7 @@ export class TrailFinderDatabase {
       response.status(200).json({ status: "success" });
     }
   }
+  
   async readUser(request, response) {
     const args = parse(request.query, "username", "email", "password", "image");
     if ("error" in args) {

@@ -23,6 +23,14 @@ export async function uploadTrailImage(trail, form_data) {
   });
 }
 
+export async function uploadUserImage(username, form_data) {
+  const response = await fetch(`/user/image?username=${username}`, {
+    method: 'POST',
+    body: form_data
+  });
+}
+
+
 /**
  * Sends a request to read a specific trail identified by the trails name
  * @param {string} name identifier
@@ -124,19 +132,19 @@ export async function deleteEvent(eid) {
   return await response.json().status === "success";
 }
 
-export async function createUser(username, email, password, image) {
+export async function createUser(username, email, password) {
   const response = await fetch('/user', { method: 'POST',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ username:username, email:email, password:password, image:image })
+    body: JSON.stringify({ username:username, email:email, password:password })
   });
   const data = await response.json()
   return data;
 }
 
-export async function deleteUser(uid) {
+export async function deleteUser(username) {
   const response = await fetch('/user', { method: 'DELETE',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ uid:uid })
+    body: JSON.stringify({ username:username })
   });
   const data = await response.status(200).json()
   return data;
