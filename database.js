@@ -69,9 +69,9 @@ export class TrailFinderDatabase {
         );
         
         INSERT INTO
-          events(eid, title, time, meetup, user, description, trail)
+          events(eid, title, time, meetup, username, description, trail)
         VALUES
-          (1, 'Norwottuck Rail Trail Event!', '04/06/2022, 4pm to 7pm', 'Amherst Town', 'Amanda', 'Let's bike!', 'Norwottuck Rail Trail'),
+          (1, 'Norwottuck Rail Trail Event!', '04/06/2022, 4pm to 7pm', 'Amherst Town', 'Amanda', 'Lets bike!', 'Norwottuck Rail Trail'),
           (2, 'The Notch Event!', '04/07/2022, 4pm to 7pm', 'Northhampton', 'Joe', 'Walk trail', 'The Notch')`;
     await this.client.query(queryText);
   }
@@ -166,10 +166,10 @@ export class TrailFinderDatabase {
       response.status(400).json({ error: args.error });
     } else {
       const queryText =
-        'INSERT INTO events (eid, title, time, meetup, user, description, trail) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
+        'INSERT INTO events (eid, title, time, meetup, username, description, trail) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
       // const res = await this.client.query(queryText, [eid, args.title, args.time, args.meetup, args.user, args.description, args.trail]);
       //return res.rows;
-      response.status(200).json({ eid: 0, title: args.title, time: args.time, meetup: args.meetup, user: args.user, description: args.description });
+      response.status(200).json({ eid: 0, title: args.title, time: args.time, meetup: args.meetup, username: args.username, description: args.description });
     }
   }
   async readEvent(request, response) {
@@ -177,10 +177,10 @@ export class TrailFinderDatabase {
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      // const queryText =
-        // 'SELECT * FROM events WHERE eid = $1';
-      // const res = await this.client.query(queryText, [args.eid]);
-      response.status(200).json({ eid: args.eid});
+      const queryText =
+        'SELECT * FROM events WHERE eid = $1';
+      const res = await this.client.query(queryText, [args.eid]);
+      response.status(200).json(res.rows);
     }
   }
   async updateEvent(request, response) {  // uid might not be needed up updateevent, as event should correspond to same host/uid
@@ -203,11 +203,7 @@ export class TrailFinderDatabase {
     } else {
       // const queryText = 'DELETE FROM events WHERE eid = $1';
       // const res = await this.client.query(queryText, [args.eid]);
-      response.status(200).json({ eid: args.eid });
-      //const queryText =
-        //'INSERT INTO reviews (user, trail, reviewBody) VALUES ($1, $2, $3) RETURNING *';
-      //const res = await this.client.query(queryText, [args.user, args.trail, args.reviewBody]);
-      //return res.rows;
+      response.status(200);
     }
   }
 }

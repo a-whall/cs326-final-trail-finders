@@ -88,9 +88,19 @@ export async function createEvent(title, time, meetup, host, description, trail)
   const response = await fetch('/event', {
     method: 'POST',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ title:title, time:time, meetup:meetup, user:host, description:description, trail:trail })
+    body: JSON.stringify({ title:title, time:time, meetup:meetup, username:host, description:description, trail:trail })
   });
   return await response.json().status === "success";
+}
+
+export async function readEvent(eid) {
+  console.log(eid);
+  const response = await fetch(`/event?eid=${eid}`, {
+    method: 'READ',
+    headers: { 'Content-Type':'application/json' },
+    query: JSON.stringify({ eid:eid })
+  });
+  return await response.json();
 }
 
 export async function updateEvent(name, time, meetup, description) {
