@@ -32,7 +32,7 @@ export class TrailFinderDatabase {
     }
   }
 
-  async createTrailImage(request,response) {
+  async createTrailImage(request, response) {
     const args = parse(request.query, "name");
     if ("error" in args) {
       response.status(400).json({ error: args.error });
@@ -40,13 +40,31 @@ export class TrailFinderDatabase {
       response.status(400).json({ error: "must send files to upload" });
     } else {
       for (const [name,file] of Object.entries(request.files)) {
-        const base64_image = file.data.toString('base64');
-        const queryText = 'INSERT INTO trail_images (name, image) VALUES ($1, $2)';
-        const res = await this.client.query(queryText, [args.name, base64_image]);
-        response.status(200).json({ status: "success" });
+        console.log(file.mimetype)
+        const queryText = 'INSERT INTO trail_images (name, filetype, image) VALUES ($1, $2, $3)';
+        try {
+          const res = await this.client.query(queryText, [args.name, file.mimetype, file.data.toString('base64')]);
+        } catch(err) {
+          console.log(err)
+        }
+      }
+      response.status(200).json({ status: "success" });
+    }
+  }
+
+  async readTrailImages(request, response) {
+    const args = parse(request.query, "name");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      const queryText = 'SELECT * FROM trail_images WHERE name = $1';
+      const res = await this.client.query(queryText, [args.name]);
+      if (res.rows.length > 0) {
+        response.status(200).json(res.rows);
+      } else {
+        response.status(404).json([]);
       }
     }
-    response.status(200).end();
   }
 
   async readTrail(request, response) {
@@ -61,7 +79,6 @@ export class TrailFinderDatabase {
       } else {
         response.status(404).json({ status: "trail does not exist" });
       }
-      console.log(res.rows)
     }
   }
 
