@@ -27,11 +27,9 @@ description_div.append( info(trail_data.description) );
 
 // read images
 const images = await crud.readTrailImages(trailName);
-console.log(images)
 let active = true;
 for (const image of images) {
-  console.log(image.type)
-  image_carousel.append( carousel_item(`data:${image.type};base64,${image.image}`, active) );
+  image_carousel.append( carousel_item(`data:${image.filetype};base64,${image.image}`, active) );
   active = false;
 }
 
