@@ -59,11 +59,11 @@ export class TrailFinderDatabase {
         ('Sonny', 'Mount Toby State Forest' 'Great place to bring the kids!')
         
         CREATE TABLE IF NOT EXISTS events (
-          eid SERIAL PRIMARY KEY;
+          eid SERIAL PRIMARY KEY,
           title varchar(64),
           time varchar(64),
           meetup varchar(64),
-          user varchar(32),
+          username varchar(32),
           description varchar(1920),
           trail varchar(64)
         );
