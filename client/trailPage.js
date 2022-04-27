@@ -97,11 +97,14 @@ function info(content) {
 function carousel_item(source, is_active) {
   const div = document.createElement('div');
   div.classList.add('carousel-item');
+  const flexdiv = document.createElement('div');
+  flexdiv.classList.add('d-flex','justify-content-center');
   if (is_active) div.classList.add('active');
   const img = document.createElement('img');
   img.src = source;
-  img.classList.add('d-block','w-100');
-  div.append(img);
+  img.classList.add('align-middle');
+  flexdiv.append(img);
+  div.append(flexdiv);
   return div;
 }
 
