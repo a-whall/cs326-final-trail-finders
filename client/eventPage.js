@@ -9,7 +9,7 @@ const eventImage_div = document.getElementById('eventImage');
 
 // Retrieve data
 const eid = 1;
-// const eventData = await readEvent(eid);
+const eventData = await readEvent(eid);
 // Code to retrieve username: const userData = await readUser();
 
 // Dummy data
