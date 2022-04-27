@@ -171,6 +171,7 @@ export class TrailFinderDatabase {
   }
   async readEvent(request, response) {
     const args = parse(request.query, "eid");
+    console.log(args);
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
