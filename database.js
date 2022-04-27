@@ -39,13 +39,12 @@ export class TrailFinderDatabase {
     } else if (!request.files) {
       response.status(400).json({ error: "must send files to upload" });
     } else {
+      const queryText = 'INSERT INTO trail_images (name, filetype, image) VALUES ($1, $2, $3)';
       for (const [name,file] of Object.entries(request.files)) {
-        console.log(file.mimetype)
-        const queryText = 'INSERT INTO trail_images (name, filetype, image) VALUES ($1, $2, $3)';
         try {
-          const res = await this.client.query(queryText, [args.name, file.mimetype, file.data.toString('base64')]);
+          await this.client.query(queryText, [args.name, file.mimetype, file.data.toString('base64')]);
         } catch(err) {
-          console.log(err)
+          console.log(err);
         }
       }
       response.status(200).json({ status: "success" });
