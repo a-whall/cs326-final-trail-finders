@@ -67,9 +67,9 @@ upload_button.addEventListener('click', async(e) => {
   const upload_success = await crud.uploadTrailImage(trailName, form_data);
   if (!upload_success) {
     alert('Upload failed.');
-    return;
+  } else {
+    alert('Upload succeeded! Refresh the page to find your new image.')
   }
-  window.location.reload();
 });
 
 //========== Dom element constructors ================================================
