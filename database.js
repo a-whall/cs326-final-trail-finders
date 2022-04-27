@@ -163,10 +163,13 @@ export class TrailFinderDatabase {
       response.status(400).json({ error: args.error });
     } else {
       const queryText =
-        'INSERT INTO events (title, time, meetup, username, description, trail) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
-      const res = await this.client.query(queryText, [args.title, args.time, args.meetup, args.username, args.description, args.trail]);
+        `INSERT INTO
+        events(title, time, meetup, username, description, trail)
+      VALUES
+        ('Norwottuck Rail Trail Event!', '04/06/2022, 4pm to 7pm', 'Amherst Town', 'Amanda', 'Lets bike!', 'Norwottuck Rail Trail'),`;
+      // const res = await this.client.query(queryText, [args.title, args.time, args.meetup, args.username, args.description, args.trail]);
       return res.rows;
-      // response.status(200).json({ eid: 0, title: args.title, time: args.time, meetup: args.meetup, username: args.username, description: args.description });
+      response.status(200).json({ eid: 0, title: args.title, time: args.time, meetup: args.meetup, username: args.username, description: args.description });
     }
   }
   async readEvent(request, response) {
