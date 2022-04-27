@@ -14,4 +14,4 @@ VALUES
 ('Sweet Alice Trail','Amherst','This town conservation land at the foot of the Mount Holyoke Range is perfect for walking, running, and cross-country skiing. Follow the trails in the Sweet Alice Conservation Area for a short, secluded walk or venture out into the Mount Holyoke Range State Park for a longer and more rigorous hike.')
 
 CREATE TABLE public.trail_images
-(name varchar(64), filetype varchar(16), image varchar(1000000))
+(name varchar(64), filetype varchar(16), image varchar(10000000))
