@@ -42,7 +42,7 @@ export class TrailFinderDatabase {
       VALUES
         ('Robert Frost Trail', 'Amherst', 'Cool place'),
         ('Rattlesnake Gutter', 'Leverett', 'Rocks'),
-        ('Mount Toby State Forest', 'Leverett', 'Waterfall')
+        ('Mount Toby State Forest', 'Leverett', 'Waterfall');
         
       
       CREATE TABLE IF NOT EXISTS reviews (
@@ -56,7 +56,7 @@ export class TrailFinderDatabase {
       VALUES
         ('David', 'Robert Frost Trail', 'My favorite place to hike!'),
         ('Andrew', 'Rattlesnake Gutter', 'Challenging climbing.'),
-        ('Sonny', 'Mount Toby State Forest' 'Great place to bring the kids!')
+        ('Sonny', 'Mount Toby State Forest' 'Great place to bring the kids!');
         
         CREATE TABLE IF NOT EXISTS events (
           eid SERIAL PRIMARY KEY,
@@ -69,10 +69,10 @@ export class TrailFinderDatabase {
         );
         
         INSERT INTO
-	        events (title, time, meetup, username, description, trail)
+	        events (eid, title, time, meetup, username, description, trail)
         VALUES
-          ('Norwottuck Rail Trail Event!', '04/06/2022, 4pm to 7pm', 'Amherst Town', 'Amanda', 'Lets bike!', 'Norwottuck Rail Trail'),
-          ('The Notch Event!', '04/07/2022, 4pm to 7pm', 'Northhampton', 'Joe', 'Walk trail', 'The Notch');`;
+          (DEFAULT, 'Norwottuck Rail Trail Event!', '04/06/2022, 4pm to 7pm', 'Amherst Town', 'Amanda', 'Lets bike!', 'Norwottuck Rail Trail'),
+          (DEFAULT, 'The Notch Event!', '04/07/2022, 4pm to 7pm', 'Northhampton', 'Joe', 'Walk trail', 'The Notch');`;
     await this.client.query(queryText);
   }
   async createTrail(request, response) {
@@ -158,7 +158,7 @@ export class TrailFinderDatabase {
     const args = parse(request.body, "title", "time", "meetup", "username", "description", "trail");
     console.log(args.title);
     console.log(args.time);
-    console.log('test4');
+    console.log('test6');
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
