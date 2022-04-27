@@ -155,14 +155,14 @@ export class TrailFinderDatabase {
     }
   }
   async createEvent(request, response) {
-    const args = parse(request.body, "title", "time", "meetup", "user", "description", "trail");
+    const args = parse(request.body, "title", "time", "meetup", "username", "description", "trail");
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
       const queryText =
         'INSERT INTO events (title, time, meetup, username, description, trail) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
-      // const res = await this.client.query(queryText, [eid, args.title, args.time, args.meetup, args.user, args.description, args.trail]);
-      //return res.rows;
+      const res = await this.client.query(queryText, [args.title, args.time, args.meetup, args.username, args.description, args.trail]);
+      return res.rows;
       response.status(200).json({ eid: 0, title: args.title, time: args.time, meetup: args.meetup, username: args.username, description: args.description });
     }
   }
