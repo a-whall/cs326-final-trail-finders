@@ -202,29 +202,43 @@ export class TrailFinderDatabase {
     }
   }
   async createUser(request, response) {
-    const args = parse(request.query, "username", "email", "password", "image");
+    const args = parse(request.body, "username", "password");
+    console.log(args)
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      response.status(200).json({ username: args.username });
+      const queryText = 'INSERT INTO user_info (username, password) VALUES ($1, $2)';
+      const res = await this.client.query(queryText, [args.username, args.password]);
+      response.status(200).json({});
     }
   }
+
   async updateUser(request, response) {
-    const args = parse(request.query, "username", "email", "password", "image");
+    const args = parse(request.body, "username", "oldPassword", "newPassword");
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      response.status(200).json({ username: args.username, email: args.email, password: args.password, image: args.image });
+      console.log(args.username)
+      console.log(args.oldPassword)
+      console.log(args.newPassword)
+      const queryText = 'UPDATE user_info SET password = $3 WHERE username = $1 AND password = $2'
+      const res = await this.client.query(queryText, [args.username, args.oldPassword, args.newPassword]);
+      response.status(200).json({ username: args.username, oldPassword: args.oldPassword, newPassword: args.newPassword });
     }
   }
+
   async deleteUser(request, response) {
-    const args = parse(request.query, "username", "email", "password", "image");
+    const args = parse(request.body, "username", "password");
+    console.log(args)
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
+      const queryText = 'DELETE FROM user_info WHERE username = $1 AND password = $2';
+      const res = await this.client.query(queryText, [args.username, args.password]);
       response.status(200).json({ status: "success" });
     }
   }
+  
   async readUser(request, response) {
     const args = parse(request.query, "username", "email", "password", "image");
     if ("error" in args) {

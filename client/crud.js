@@ -29,6 +29,7 @@ export async function readTrailImages(trail) {
   return await response.json();
 }
 
+
 /**
  * Sends a request to read a specific trail identified by the trails name
  * @param {string} name identifier
@@ -130,37 +131,41 @@ export async function deleteEvent(eid) {
   return await response.json().status === "success";
 }
 
-export async function createUser(username, email, password, image) {
+export async function createUser(username, password) {
   const response = await fetch('/user', { method: 'POST',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ username:username, email:email, password:password, image:image })
+    body: JSON.stringify({ username:username, password:password })
   });
-  const data = await response.json()
+  const data = await response.json();
   return data;
 }
 
-export async function deleteUser(uid) {
+export async function deleteUser(username, password) {
   const response = await fetch('/user', { method: 'DELETE',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ uid:uid })
+    body: JSON.stringify({ username:username, password:password })
   });
-  const data = await response.status(200).json()
+  const data = await response.json();
+  console.log(data)
   return data;
 }
 
-export async function updateUser(username, email, password, image) {
+export async function updateUser(username, oldPassword, newPassword) {
+  console.log(username)
+  console.log(oldPassword)
+  console.log(newPassword)
   const response = await fetch('/user', { method: 'PUT',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ username:username, email:email, password:password, image:image })
+    body: JSON.stringify({ username: username, oldPassword: oldPassword, newPassword: newPassword })
   });
   const data = await response.json()
   return data;
 }
 
-export async function readUser(uid) {
+export async function readUser(userid) {
   const response = await fetch('/user', { method: 'GET',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ uid:uid })
+    body: JSON.stringify({ userid:userid })
   });
   const data = await response.json()
   return data;
