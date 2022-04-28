@@ -156,8 +156,7 @@ export class TrailFinderDatabase {
   }
   async createEvent(request, response) {
     const args = parse(request.body, "title", "time", "meetup", "username", "description", "trail");
-    console.log(args.title);
-    console.log(args.time);
+    console.log(args);
     console.log('test4');
     if ("error" in args) {
       response.status(400).json({ error: args.error });
