@@ -20,6 +20,7 @@ const meetup = "Amherst";
 const host = "Joe";
 const description = "Come meet with us!";
 const trailName = "The Notch";
+//const imageData = ...
 
 // Allow users to view trail through this button
 document.getElementById("findTrail").addEventListener('click', () => {

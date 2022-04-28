@@ -94,6 +94,14 @@ export async function createEvent(title, time, meetup, host, description, trail)
   return await response.json().status === "success";
 }
 
+export async function uploadEventImage(eid, form_data) {
+  const response = await fetch(`/event/image`, {
+    method: 'POST',
+    body: form_data
+  });
+  return (await response.json()).status === "success";
+}
+
 export async function readEvent(eid) {
   console.log(eid);
   const response = await fetch(`/event?eid=${eid}`, {

@@ -13,11 +13,11 @@ async function saveEvent() {
     const description = document.getElementById("description").value;
     const trail = document.getElementById("trail").value;
 
-    await createEvent(title, time, meetup, host, description, trail);
+    const eid = await createEvent(title, time, meetup, host, description, trail);
 
     const form_data = new FormData();
     form_data.append(image.name, image);
-    // await uploadEventImage()
+    // await uploadEventImage(eid, form_data)
 
     // window.location.href = "./browseEvents.html";
 }

@@ -10,5 +10,7 @@ CREATE TABLE IF NOT EXISTS public.events
     meetup character varying(64) COLLATE pg_catalog."default",
     username character varying(64) COLLATE pg_catalog."default",
     description character varying(1920) COLLATE pg_catalog."default",
-    trail character varying(64) COLLATE pg_catalog."default"
+    trail character varying(64) COLLATE pg_catalog."default",
+    filetype character varying(16),
+    image character varying(10000000)
 );

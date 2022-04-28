@@ -65,7 +65,9 @@ export class TrailFinderDatabase {
           meetup varchar(64),
           username varchar(32),
           description varchar(1920),
-          trail varchar(64)
+          trail varchar(64),
+          filetype character varying(16),
+          image character varying(10000000)
         );
         
         INSERT INTO
@@ -166,6 +168,22 @@ export class TrailFinderDatabase {
       const res = await this.client.query(queryText, [args.title, args.time, args.meetup, args.username, args.description, args.trail]);
       // return res.rows;
       response.status(200).json({ title: args.title, time: args.time, meetup: args.meetup, username: args.username, description: args.description });
+    }
+  }
+  async createEventImage(request, response) {
+    const args = parse(request.query, "eid");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else if (!request.files) {
+      response.status(400).json({ error: "must send files to upload" });
+    } else {
+      const queryText = 'INSERT INTO event (filetype, image) VALUES ($1, $2) WHERE eid = $3';
+        try {
+          await this.client.query(queryText, [request.files.mimetype, request.files.data.toString('base64'), args.eid]);
+        } catch(err) {
+          console.log(err);
+        }
+      response.status(200).json({ status: "success" });
     }
   }
   async readEvent(request, response) {
