@@ -15,19 +15,19 @@ class TrailFinderServer {
 
   async initRoutes() {
     this.app.get('/', function(req,res) { res.redirect('/homepage.html'); });
-    this.app.post('/trail', this.db.createTrail);
-    this.app.get('/trail', this.db.readTrail);
-    this.app.get('/trail/browse', this.db.readTrails);
-    this.app.post('/review', this.db.createReview);
-    this.app.get('/review', this.db.readReview);
-    this.app.delete('/review', this.db.deleteReview);
-    this.app.put('/review', this.db.updateReview);
+    this.app.post('/trail', this.db.createTrail.bind(this.db));
+    this.app.get('/trail', this.db.readTrail.bind(this.db));
+    this.app.get('/trail/browse', this.db.readTrails.bind(this.db));
+    this.app.post('/review', this.db.createReview.bind(this.db));
+    this.app.get('/review', this.db.readReview.bind(this.db));
+    this.app.delete('/review', this.db.deleteReview.bind(this.db));
+    this.app.put('/review', this.db.updateReview.bind(this.db));
     this.app.post('/event', this.db.createEvent.bind(this.db));
     this.app.post('/event/image', this.db.createEventImage.bind(this.db));
-    this.app.get('/event', this.db.readEvent);
-    this.app.get('/event/browse', this.db.readAllEvents);
-    this.app.put('/event', this.db.updateEvent);
-    this.app.delete('/event', this.db.deleteEvent);
+    this.app.get('/event', this.db.readEvent.bind(this.db));
+    this.app.get('/event/browse', this.db.readAllEvents.bind(this.db));
+    this.app.put('/event', this.db.updateEvent.bind(this.db));
+    this.app.delete('/event', this.db.deleteEvent.bind(this.db));
   }
 
   async initDb() {
