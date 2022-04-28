@@ -85,7 +85,7 @@ export async function createEvent(title, time, meetup, host, description, trail)
   console.log(meetup);
   console.log(description);
   console.log(trail);
-  console.log('test3');
+  console.log('test4');
   const response = await fetch('/event', {
     method: 'POST',
     headers: { 'Content-Type':'application/json' },
