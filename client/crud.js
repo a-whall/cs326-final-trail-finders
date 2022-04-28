@@ -60,38 +60,33 @@ export async function createReview(user, trail, reviewBody, starCount) {
     headers: { 'Content-Type':'application/json' },
     body: JSON.stringify({ user:user, trail:trail, reviewBody:reviewBody, starCount: starCount })
   });
-  const data = await response.json()
-  return data;
+  return await response.json();
 }
 
 export async function readReviewByTrail(trail) {
   const response = await fetch(`/review?trail=${trail}`);
-  const data = await response.json()
-  return data;
+  return await response.json();
 }
 
 export async function readReviewByUser(user) {
-  const response = await fetch('/review', { method: 'GET',
-    query: { user: user }
-  });
-  const data = await response.json()
-  return data;
+  const response = await fetch(`/review?user=${user}`);
+  return await response.json();
 }
 
 export async function updateReview(user, trail ) {
-  const response = await fetch('/review', { method: 'PUT',
+  const response = await fetch('/review', {
+    method: 'PUT',
     body: { user: user, trail: trail }
   });
-  const data = await response.json()
-  return data;
+  return await response.json();
 }
 
 export async function deleteReview(user, trail) {
-  const response = await fetch('/review', { method: 'DELETE',
+  const response = await fetch('/review', {
+    method: 'DELETE',
     query: { user: user, trail: trail }
   });
-  const data = await response.json()
-  return data;
+  return await response.json();
 }
 
 export async function createEvent(name, time, meetup, description) {
