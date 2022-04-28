@@ -2,95 +2,111 @@ import * as crud from "./crud.js"
 
 // This module will run whenever someone views a trail page to send a read request for a specific trail.
 
-const trail_title_header = document.getElementById('trailTitle');
-const description_area = document.getElementById('description');
+const trailName_h1 = document.getElementById('trailTitle');
 const townName_div = document.getElementById('townName');
+const description_div = document.getElementById('description');
 const image_carousel = document.getElementById('imageDepo');
 const reviews_container = document.getElementById('reviewContainer');
-const submit_reviews = document.getElementById("submitReviewButton");
+const submit_review_button = document.getElementById("submitReviewButton");
 const reviewBody = document.getElementById("review-body");
 const starCount = document.getElementById("star-count-input")
 const add_event_button = document.getElementById('addEvent');
 const find_event_button = document.getElementById('findEvent');
+const upload_button = document.getElementById('upload');
+const files_input = document.getElementById('image-file');
 
+// get trail name from the page url
 const trailName = new URLSearchParams(window.location.search).get('trail');
+console.assert(trailName !== null, "trail query is required");
 
-if (trailName === null) console.assert(false, "trail query is required");
+// read trail info
+const trail_data = await crud.readTrail(trailName);
+trailName_h1.innerHTML = trail_data.name;
+townName_div.append( info(trail_data.town) );
+description_div.append( info(trail_data.description) );
 
-const server_data = await crud.readTrail(trailName);
-
-// TODO: check for bad data
-console.log(server_data);
-
-trail_title_header.innerHTML = server_data.name;
-
-add_trail_info(server_data.town, server_data.description);
-
-//add_trail_pictures(server_data.imageURLs);
-
-read_reviews();
-
-add_event_button.addEventListener('click', e => {
-  window.location.href = "./createEventPage.html";
-});
-
-find_event_button.addEventListener('click', e => {
-  window.location.href = "./eventPage.html"
-});
-
-// get a handle to the description text label
-const editable_description = document.getElementById('description_label');
-
-
-function add_trail_info(townName, description) {
-  const town_div = document.createElement('div');
-  town_div.classList.add('row');
-  const town_label = document.createElement('label');
-  town_label.innerHTML = townName;
-  town_div.append(town_label);
-  townName_div.append(town_div);
-
-  const description_div = document.createElement('div');
-  description_div.classList.add('row');
-  const description_label = document.createElement('label');
-  description_label.id = 'description-label';
-  description_label.innerHTML = description;
-  description_div.append(description_label);
-  description_area.append(description_div);
+// read images
+const images = await crud.readTrailImages(trailName);
+let active = true;
+for (const image of images) {
+  image_carousel.append( carousel_item(`data:${image.filetype};base64,${image.image}`, active) );
+  active = false;
 }
 
+// read reviews
+const data = await crud.readReviewByTrail(trailName);
+data.forEach(rev => reviews_container.append(review(rev)));
 
-function add_trail_pictures(urls) {
-  let first = true;
-  for (const url of urls) {
-    const carousel_item = document.createElement('div');
-    carousel_item.classList.add('carousel-item');
-    if (first) {
-      first = false;
-      carousel_item.classList.add('active');
-    }
-    const img = document.createElement('img');
-    img.src = url;
-    img.classList.add('d-block','w-100');
-    carousel_item.append(img);
-    image_carousel.append(carousel_item);
+
+//============= Event Listeners =================================================================
+
+submit_review_button.addEventListener('click', async(e) => {
+  const data = await crud.createReview("user", trailName, reviewBody.value, starCount.value);
+  console.log(data);
+  reviews_container.append(review(data));
+});
+
+// Add links to event pages
+add_event_button.addEventListener('click', e => window.location.href = "./createEventPage.html");
+find_event_button.addEventListener('click', e => window.location.href = "./eventPage.html");
+
+// Upload image logic
+upload_button.addEventListener('click', async(e) => {
+  if (files_input.files.length === 0) {
+    alert('No files have been selected.');
+    return;
   }
+  const form_data = new FormData();
+  for (const file of files_input.files) {
+    if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+      alert('File type must be JPG or PNG, upload cancelled.');
+      return;
+    }
+    form_data.append(file.name, file);
+  }
+  const upload_success = await crud.uploadTrailImage(trailName, form_data);
+  if (!upload_success) {
+    alert('Upload failed.');
+  } else {
+    alert('Upload succeeded! Refresh the page to find your new image.')
+  }
+});
+
+//========== Dom element constructors ================================================
+
+/**
+ * Construct and return a trail info dom element
+ * @param {string} content the info with which to fill in the div
+ * @returns a dom element to be appended to a trail info section div
+ */
+function info(content) {
+  const div = document.createElement('div');
+  div.classList.add('row');
+  const label = document.createElement('label');
+  label.innerHTML = content;
+  div.append(label);
+  return div;
 }
 
-
-async function read_reviews() {
-  const data = await crud.readReviewByTrail(trailName);
-  data.forEach(rev => reviews_container.append(review(rev)));
+/**
+ * Construct and return an image item for the bootstrap image carousel
+ * @param {string} source the image data as a string
+ * @param {boolean} is_active whether the image should be made visible
+ * @returns a dom element to be appended to the image carousel
+ */
+function carousel_item(source, is_active) {
+  const div = document.createElement('div');
+  div.classList.add('carousel-item');
+  const flexdiv = document.createElement('div');
+  flexdiv.classList.add('d-flex','justify-content-center');
+  if (is_active) div.classList.add('active');
+  const img = document.createElement('img');
+  img.src = source;
+  img.classList.add('align-middle');
+  flexdiv.append(img);
+  div.append(flexdiv);
+  return div;
 }
-
-
-// Helper function to create and init class list intended for star icons
-function icon(...iconClassList) {
-  const iconLabel = document.createElement('label'); // maybe label is not the right element type
-  iconLabel.classList.add(...iconClassList);
-  return iconLabel;
-}
-
 
 /**
  * Construct and return a review DOM element.
@@ -98,6 +114,13 @@ function icon(...iconClassList) {
  * @returns a dom element to be appended to the reviewContainer.
  */
 function review(content) {
+  // Helper function to create star icons
+  function icon(...iconClassList) {
+    const iconLabel = document.createElement('label');
+    iconLabel.classList.add(...iconClassList);
+    return iconLabel;
+  }
+  
   // A row within reviewContainer. This div encapsulates a single review.
   const row = document.createElement('div');
   row.classList.add('row','mb-5');
@@ -140,7 +163,7 @@ function review(content) {
   return row;
 }
 
-
+// returns an event listener to make like animate when clicked
 function eventListener(div, reviewObj) {
   return function (event) {
     if (div.classList.contains('bi-hand-thumbs-up')) {
@@ -155,9 +178,3 @@ function eventListener(div, reviewObj) {
     div.textContent = ' ' + reviewObj.likeCount;
   }
 }
-
-submit_reviews.addEventListener('click', async() => {
-  const data = await crud.createReview("user", trailName, reviewBody.value, starCount.value);
-  console.log(data);
-  reviews_container.append(review(data));
-});

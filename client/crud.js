@@ -11,9 +11,9 @@ export async function createTrail(name, town, description) {
   const response = await fetch('/trail', {
     method: 'POST',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ name:name, town:town, description:description, image:imageFormData })
+    body: JSON.stringify({ name:name, town:town, description:description })
   });
-  return await response.json().status === "success";
+  return (await response.json()).status === "success";
 }
 
 export async function uploadTrailImage(trail, form_data) {
@@ -21,6 +21,12 @@ export async function uploadTrailImage(trail, form_data) {
     method: 'POST',
     body: form_data
   });
+  return (await response.json()).status === "success";
+}
+
+export async function readTrailImages(trail) {
+  const response = await fetch(`/trail/image?name=${trail}`);
+  return await response.json();
 }
 
 

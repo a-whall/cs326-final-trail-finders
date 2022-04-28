@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <!-- Local css -->
     <link rel="stylesheet" href="simple.css">
-    <script type="module" defer src="trailPage.js"></script>
-    <title>Valley Trail Finder</title> <!-- Should have a specific trail name appended perhaps? -->
+    <script type="module" src="trailPage.js"></script>
+    <title>Valley Trail Finder</title>
   </head>
   <body>
     <!-- This is the main bootstrap dependency, popper (a dependency of bootstrap) is also included -->
@@ -39,8 +39,10 @@
         <!-- Note: images for the carousel rely on being the same size to look smooth in my opinion
                    some formatting should be done to better support varying resolutions -->
         <div id="imageCarousel" class="col-md-9 col-sm-12">
-          <div id="carouselControls" class="carousel slide" data-bs-ride="carousel">
-            <div id="imageDepo" class="carousel-inner"></div>
+          <div id="carouselControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+            <div id="imageDepo" class="carousel-inner">
+
+            </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
@@ -73,7 +75,7 @@
           <button id="findEvent" class="btn btn-dark bi bi-calendar-event icon" data-toggle="tooltip" data-placement="bottom" title="Add Event"></button>
           <div class="row"><label>Find Event</label></div>
         </div>
-        <!-- Directions
+        <!-- Add
         <div class="col-lg-2 col-md-2 col-sm-3 col-xs-1">
           <button class="btn btn-dark bi bi-signpost-split-fill icon" data-toggle="tooltip" data-placement="bottom" title="Get Directions"></button>
           <div class="row"><label>Directions</label></div>
@@ -83,6 +85,20 @@
           <button class="btn btn-dark bi bi-share-fill icon" data-toggle="tooltip" data-placement="bottom" title="Share"></button>
           <div class="row"><label>Share</label></div>
         </div> -->
+      </div>
+    </div>
+    <!-- upload image button -->
+    <div id="uploadImage" class="row my-5 justify-content-center text-center">
+      <div class="col-xl-6 col-lg-7 col-md-8 col-sm-9">
+        <button type="button" class="btn bi bi-upload" data-bs-toggle="collapse" data-bs-target="#upload-dropdown" aria-expanded="false" aria-controls="upload-dropdown">
+          Click here to upload images of this place
+        </button>
+        <div id="upload-dropdown" class="collapse">
+          <br><input id="image-file" class="form-control" type="file" multiple/>
+          <br><button id="upload" class="btn btn-secondary">
+            upload
+          </button>
+        </div>
       </div>
     </div>
     <!-- Reviews -->

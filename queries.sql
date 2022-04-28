@@ -13,5 +13,5 @@ VALUES
 ('Mount Holyoke Range State Park','South Hadley','Mount Holyoke Range State park features the eastern Holyoke Mountain Range, while nearby  J. A. Skinner State Park encompasses the western portion. There are a variety of forest types here, including birch-beech-hemlock and oak-hickory. You''ll also find streams, wetlands and thickets, making it even more diverse. Outdoor recreation is available year-round, with opportunities for hiking, walking, cross-country skiing, snowmobiling, and horseback riding.'),
 ('Sweet Alice Trail','Amherst','This town conservation land at the foot of the Mount Holyoke Range is perfect for walking, running, and cross-country skiing. Follow the trails in the Sweet Alice Conservation Area for a short, secluded walk or venture out into the Mount Holyoke Range State Park for a longer and more rigorous hike.')
 
-CREATE TABLE IF NOT EXISTS public.trail_images
-(name varchar(64) foreign key, image varchar())
+CREATE TABLE public.trail_images
+(name varchar(64), filetype varchar(16), image varchar(10000000))
