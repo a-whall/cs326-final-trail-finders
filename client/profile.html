@@ -34,11 +34,27 @@
       <h1>Update Profile</h1>
     </div>
     <div id="gridContainer" class="container">
+      <!-- username input -->
+      <div id="user" class="row my-3 justify-content-center">
+        <div class="col-xl-5 col-lg-6 col-md-9 col-sm-10">
+          <label><b>Username:</b>
+            <input id="username" class="form-control" placeholder="Username"></input>
+          </label>
+        </div>
+      </div>
+      <!-- old password input -->
+      <div id="password" class="row my-3 justify-content-center">
+        <div class="col-xl-5 col-lg-6 col-md-9 col-sm-10">
+          <label><b>Current Password:</b>
+            <input id="oldPassword-input" class="form-control" placeholder="Current Password"></input>
+          </label>
+        </div>
+      </div>
       <!-- update password input -->
       <div id="password" class="row my-3 justify-content-center">
         <div class="col-xl-5 col-lg-6 col-md-9 col-sm-10">
           <label><b>Update Password:</b>
-            <input id="password-input" class="form-control" placeholder="Password"></input>
+            <input id="password-input" class="form-control" placeholder="New Password"></input>
           </label>
         </div>
       </div>
@@ -46,7 +62,7 @@
       <div id="password" class="row my-3 justify-content-center">
         <div class="col-xl-5 col-lg-6 col-md-9 col-sm-10">
           <label><b>Verify Password Update:</b>
-            <input id="passwordVer-input" class="form-control" placeholder="Password"></input>
+            <input id="passwordVer-input" class="form-control" placeholder="New Password"></input>
           </label>
         </div>
       </div>
@@ -56,20 +72,6 @@
             <button id="update-password-submit" >Change Password</button>
           </label>
         </div>
-      </div>
-      <!-- upload new image button -->
-      <div id="uploadImage" class="row my-3 justify-content-center text-center">
-        <div class="col-xl-6 col-lg-7 col-md-8 col-sm-9">
-          <input id="image-file" class="form-control" type="file" multiple/>
-          <label class="bi bi-upload"> Upload a new profile picture!</label>
-        </div>
-      </div>
-      <!-- upload button -->
-      <div id="finishUserUpdate" class="row justify-content-center text-center">
-        <div class="col-sm-3 col-xs-3">
-          <button id="upload-button" class="btn btn-secondary form-control">
-            Update My Profile Picture!
-          </button>
           <br><br><br>
           <button id="delete">Delete My Profile</button>
         </div>
