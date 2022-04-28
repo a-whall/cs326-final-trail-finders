@@ -102,9 +102,13 @@ export class TrailFinderDatabase {
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      // const queryText = 'DELETE FROM trails WHERE name = $1';
-      // const res = await this.client.query(queryText, [args.name]);
-      response.status(200).json({user: args.user, trail: args.trail, reviewBody: args.reviewBody, starCount: args.starCount, likeCount: 0 })
+      const queryText = 'INSERT INTO reviews (username, trailname, body, starCount, likeCount) VALUES ($1, $2, $3, $4, $5)';
+      try {
+        await this.client.query(queryText, [args.user, args.trail, args.reviewBody, args.starCount, 0]);
+      } catch (err) {
+        console.log(err);
+      }
+      response.status(200).json({ status: "success" });
     }
   }
 
@@ -113,9 +117,15 @@ export class TrailFinderDatabase {
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      const loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-      const dummyReviewObjects = [{starCount: 4, reviewBody: loremIpsum, user: "Some User", likeCount: 7 },{starCount: 5,reviewBody: loremIpsum,user: "Another User",likeCount: 2},{starCount: 3,reviewBody: loremIpsum,user: "One Last User",likeCount: 0}];
-      response.status(200).json(dummyReviewObjects);
+      //const loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+      //const dummyReviewObjects = [{starCount: 4, reviewBody: loremIpsum, user: "Some User", likeCount: 7 },{starCount: 5,reviewBody: loremIpsum,user: "Another User",likeCount: 2},{starCount: 3,reviewBody: loremIpsum,user: "One Last User",likeCount: 0}];
+      const queryText = 'SELECT FROM reviews WHERE trailName = $1';
+      try {
+        const result = await this.client.query(queryText, [args.trail]);
+        response.status(200).json(result.rows);
+      } catch(err) {
+        console.log(err);
+      }
     }
   }
 
@@ -141,7 +151,7 @@ export class TrailFinderDatabase {
       response.status(400).json({ error: args.error });
     } 
     else if (resId !== args.uid){
-     response.status(400).json({ error: "cannot delete other users' reviews" });
+      response.status(400).json({ error: "cannot delete other users' reviews" });
     }
     else {
       response.status.json({ status: "success" });
