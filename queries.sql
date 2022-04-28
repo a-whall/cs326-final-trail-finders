@@ -15,3 +15,7 @@ VALUES
 
 CREATE TABLE public.trail_images
 (name varchar(64), filetype varchar(16), image varchar(10000000))
+
+
+CREATE TABLE public.reviews
+(userName varchar(64), trailName varchar(64), body varchar(4096), starCount integer, likeCount integer)
