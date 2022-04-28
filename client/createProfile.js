@@ -4,12 +4,9 @@ const home = document.getElementById("home");
 const trails = document.getElementById("trails");
 const events = document.getElementById("events");
 const username = document.getElementById("username-input");
-const email = document.getElementById("email-input");
 const password = document.getElementById("password-input");
 const passwordVer = document.getElementById("passwordVer-input");
-const uploadImage = document.getElementById("uploadImage");
 const done = document.getElementById("done-button");
-const file_input = document.getElementById('image-file');
 
 
 home.addEventListener('click', async() => {
@@ -26,12 +23,8 @@ events.addEventListener('click', async() => {
 
 done.addEventListener('click', async() => {
     if (password.value === passwordVer.value){
-        const form_data = new FormData();
-        for(const file of file_input.files) {
-            form_data.append(file.name, file);
-        }
-        await crud.uploadUserImage(username.value ,form_data);
-        await crud.createUser(username.value, email.value, password.value);
+        await crud.createUser(username.value, password.value);
+        alert("Success! Go to home page and sign in!");
     }
 });
 passwordVer.addEventListener("keyup", function (event) {

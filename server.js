@@ -2,6 +2,7 @@ import express from 'express';
 import upload from 'express-fileupload';
 import logger from 'morgan';
 
+
 import { TrailFinderDatabase } from "./database.js";
 
 class TrailFinderServer {
@@ -32,7 +33,6 @@ class TrailFinderServer {
     this.app.put('/event', this.db.updateEvent.bind(this.db));
     this.app.delete('/event', this.db.deleteEvent.bind(this.db));
     this.app.post('/user', this.db.createUser.bind(this.db));
-    this.app.post('/user/image', this.db.createUserImage.bind(this.db));
     this.app.get('/user', this.db.readUser.bind(this.db));
     this.app.put('/user', this.db.updateUser.bind(this.db));
     this.app.delete('/user', this.db.deleteUser.bind(this.db));
@@ -54,3 +54,4 @@ class TrailFinderServer {
 }
 
 new TrailFinderServer(process.env.DATABASE_URL).start();
+
