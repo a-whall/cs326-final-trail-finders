@@ -1,82 +1,23 @@
 import 'dotenv/config';
 import pg from 'pg';
+import readFileSync from 'fs/promises';
 
-// Get the Pool class from the pg module.
-const { Pool } = pg;
+const { Pool } = pg; // Get the Pool class from the pg module.
 
 export class TrailFinderDatabase {
+
   constructor(db_url) {
     this.dburl = db_url;
   }
+
   async connect() {
-    // Create a new Pool. The Pool manages a set of connections to the database.
-    // It will keep track of unused connections, and reuse them when new queries
-    // are needed. The constructor requires a database URL to make the
-    // connection. You can find the URL of your database by looking in Heroku
-    // or you can run the following command in your terminal:
-    //
-    //  heroku pg:credentials:url -a APP_NAME
-    //
-    // Replace APP_NAME with the name of your app in Heroku.
     this.pool = new Pool({
       connectionString: this.dburl,
       ssl: { rejectUnauthorized: false }, // Required for Heroku connections
     });
-
-    // Create the pool.
     this.client = await this.pool.connect();
+  }
 
-    // Init the database.
-    await this.init();
-  }
-  async init() {
-    const queryText = `
-      CREATE TABLE IF NOT EXISTS trails (
-        name varchar(64) primary key,
-        town varchar(64),
-        description varchar(1920)
-      );
-      
-      INSERT INTO
-        trails(name, town, description)
-      VALUES
-        ('Robert Frost Trail', 'Amherst', 'Cool place'),
-        ('Rattlesnake Gutter', 'Leverett', 'Rocks'),
-        ('Mount Toby State Forest', 'Leverett', 'Waterfall');
-        
-      
-      CREATE TABLE IF NOT EXISTS reviews (
-        user varchar(32) primary key,
-        trail varchar(64),
-        reviewBody varchar(500)
-      );
-        
-      INSERT INTO
-        reviews(user, trail, reviewBody)
-      VALUES
-        ('David', 'Robert Frost Trail', 'My favorite place to hike!'),
-        ('Andrew', 'Rattlesnake Gutter', 'Challenging climbing.'),
-        ('Sonny', 'Mount Toby State Forest' 'Great place to bring the kids!');
-        
-        CREATE TABLE IF NOT EXISTS events (
-          eid SERIAL PRIMARY KEY,
-          title varchar(64),
-          time varchar(64),
-          meetup varchar(64),
-          username varchar(32),
-          description varchar(1920),
-          trail varchar(64),
-          filetype character varying(16),
-          image character varying(10000000)
-        );
-        
-        INSERT INTO
-	        events (title, time, meetup, username, description, trail)
-        VALUES
-          ('Norwottuck Rail Trail Event!', '04/06/2022, 4pm to 7pm', 'Amherst Town', 'Amanda', 'Lets bike!', 'Norwottuck Rail Trail'),
-          ('The Notch Event!', '04/07/2022, 4pm to 7pm', 'Northhampton', 'Joe', 'Walk trail', 'The Notch');`;
-    await this.client.query(queryText);
-  }
   async createTrail(request, response) {
     const args = parse(request.body, "name", "town", "description");
     if ("error" in args) {
@@ -89,26 +30,72 @@ export class TrailFinderDatabase {
       response.status(200).json({ status:"success" });
     }
   }
+
+  async createTrailImage(request, response) {
+    const args = parse(request.query, "name");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else if (!request.files) {
+      response.status(400).json({ error: "must send files to upload" });
+    } else {
+      const queryText = 'INSERT INTO trail_images (name, filetype, image) VALUES ($1, $2, $3)';
+      for (const [name,file] of Object.entries(request.files)) {
+        try {
+          await this.client.query(queryText, [args.name, file.mimetype, file.data.toString('base64')]);
+        } catch(err) {
+          console.log(err);
+        }
+      }
+      response.status(200).json({ status: "success" });
+    }
+  }
+
+  async readTrailImages(request, response) {
+    const args = parse(request.query, "name");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      const queryText = 'SELECT * FROM trail_images WHERE name = $1';
+      const res = await this.client.query(queryText, [args.name]);
+      if (res.rows.length > 0) {
+        response.status(200).json(res.rows);
+      } else {
+        response.status(404).json([]);
+      }
+    }
+  }
+
   async readTrail(request, response) {
     const args = parse(request.query, "name");
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      // const queryText = 'SELECT * FROM trails WHERE name = $1';
-      // const res = await this.client.query(queryText, [args.name]);
-      response.status(200).json({ name: args.name, town: "Amherst", description: "This is a placeholder description of a trail until we get the database working.", imageURLs: ["https://photos.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvMjc1NTQ1MTIvMmEyODczMmU3OGMzMmQ1MjA4ODVjMWJlZDEyMGNmODYuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGVnIiwicmVzaXplIjp7IndpZHRoIjo1MDAsImhlaWdodCI6NTAwLCJmaXQiOiJpbnNpZGUifSwicm90YXRlIjpudWxsLCJqcGVnIjp7InRyZWxsaXNRdWFudGlzYXRpb24iOnRydWUsIm92ZXJzaG9vdERlcmluZ2luZyI6dHJ1ZSwib3B0aW1pc2VTY2FucyI6dHJ1ZSwicXVhbnRpc2F0aW9uVGFibGUiOjN9fX0=","https://photos.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvNDE4NzIxMjUvYzgzYWI2ZjVlMWQxNmI5OWQ5MDcyMzk5MjQyZGQwY2IuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGVnIiwicmVzaXplIjp7IndpZHRoIjoyMDQ4LCJoZWlnaHQiOjIwNDgsImZpdCI6Imluc2lkZSJ9LCJyb3RhdGUiOm51bGwsImpwZWciOnsidHJlbGxpc1F1YW50aXNhdGlvbiI6dHJ1ZSwib3ZlcnNob290RGVyaW5naW5nIjp0cnVlLCJvcHRpbWlzZVNjYW5zIjp0cnVlLCJxdWFudGlzYXRpb25UYWJsZSI6M319fQ==","https://photos.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvMjEwMjY5NzMvNDJkZWE3NjM1NWE2OThlMWJlODYyZDUzYmUzNmQ5ZWEuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGVnIiwicmVzaXplIjp7IndpZHRoIjo1MDAsImhlaWdodCI6NTAwLCJmaXQiOiJpbnNpZGUifSwicm90YXRlIjpudWxsLCJqcGVnIjp7InRyZWxsaXNRdWFudGlzYXRpb24iOnRydWUsIm92ZXJzaG9vdERlcmluZ2luZyI6dHJ1ZSwib3B0aW1pc2VTY2FucyI6dHJ1ZSwicXVhbnRpc2F0aW9uVGFibGUiOjN9fX0="]})
+      const queryText = 'SELECT * FROM trails WHERE name = $1';
+      const res = await this.client.query(queryText, [args.name]);
+      if (res.rows.length > 0) {
+        response.status(200).json(res.rows[0] /*imageURLs: ["https://photos.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvMjc1NTQ1MTIvMmEyODczMmU3OGMzMmQ1MjA4ODVjMWJlZDEyMGNmODYuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGVnIiwicmVzaXplIjp7IndpZHRoIjo1MDAsImhlaWdodCI6NTAwLCJmaXQiOiJpbnNpZGUifSwicm90YXRlIjpudWxsLCJqcGVnIjp7InRyZWxsaXNRdWFudGlzYXRpb24iOnRydWUsIm92ZXJzaG9vdERlcmluZ2luZyI6dHJ1ZSwib3B0aW1pc2VTY2FucyI6dHJ1ZSwicXVhbnRpc2F0aW9uVGFibGUiOjN9fX0=","https://photos.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvNDE4NzIxMjUvYzgzYWI2ZjVlMWQxNmI5OWQ5MDcyMzk5MjQyZGQwY2IuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGVnIiwicmVzaXplIjp7IndpZHRoIjoyMDQ4LCJoZWlnaHQiOjIwNDgsImZpdCI6Imluc2lkZSJ9LCJyb3RhdGUiOm51bGwsImpwZWciOnsidHJlbGxpc1F1YW50aXNhdGlvbiI6dHJ1ZSwib3ZlcnNob290RGVyaW5naW5nIjp0cnVlLCJvcHRpbWlzZVNjYW5zIjp0cnVlLCJxdWFudGlzYXRpb25UYWJsZSI6M319fQ==","https://photos.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvMjEwMjY5NzMvNDJkZWE3NjM1NWE2OThlMWJlODYyZDUzYmUzNmQ5ZWEuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGVnIiwicmVzaXplIjp7IndpZHRoIjo1MDAsImhlaWdodCI6NTAwLCJmaXQiOiJpbnNpZGUifSwicm90YXRlIjpudWxsLCJqcGVnIjp7InRyZWxsaXNRdWFudGlzYXRpb24iOnRydWUsIm92ZXJzaG9vdERlcmluZ2luZyI6dHJ1ZSwib3B0aW1pc2VTY2FucyI6dHJ1ZSwicXVhbnRpc2F0aW9uVGFibGUiOjN9fX0="]*/)
+      } else {
+        response.status(404).json({ status: "trail does not exist" });
+      }
     }
   }
+
   async readTrails(request, response) {
     const args = parse(request.query, "town", "offset");
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      // const queryText = `SELECT * FROM trails LIMIT 10 OFFSET $1`;
-      // const res = await this.client.query(queryText, [args.offset * 10]);
-      response.status(200).json(["The Notch", "Amethyst Brook Conservation Area", "Rattlesnake Gutter", "Mount Toby State Forest", "Norwottuch Rail Trail", "Mill River Conservation Area", "Skinner State Park"]);
+      const queryText = `SELECT * FROM trails LIMIT 10 OFFSET $1`;
+      const res = await this.client.query(queryText, [args.offset * 10]);
+      response.status(200).json(res.rows);
     }
   }
+
+  async readTrailCount(request, response) {
+    const res = await this.client.query('SELECT COUNT(name) AS num_trails FROM trails');
+    response.status(200).json(parseInt(res.rows[0].num_trails));
+  }
+
   async createReview(request, response) {
     const args = parse(request.body, "user", "trail", "reviewBody", "starCount");
     if ("error" in args) {
@@ -119,6 +106,7 @@ export class TrailFinderDatabase {
       response.status(200).json({user: args.user, trail: args.trail, reviewBody: args.reviewBody, starCount: args.starCount, likeCount: 0 })
     }
   }
+
   async readReview(request, response) {
     const args = parse(request.query, "trail");
     if ("error" in args) {
@@ -129,6 +117,7 @@ export class TrailFinderDatabase {
       response.status(200).json(dummyReviewObjects);
     }
   }
+
   async updateReview(request, response) {
     const args = parse(request.body, "rid", "uid", "tid", "revbody", "like");
     const rid = args.rid;
@@ -141,6 +130,7 @@ export class TrailFinderDatabase {
       response.status.json({ status: "success" });
     }
   }
+
   async deleteReview(request, response) {
     const args = parse(request.body, "rid", "uid");
     const rid = args.rid;
@@ -156,6 +146,7 @@ export class TrailFinderDatabase {
       response.status.json({ status: "success" });
     }
   }
+
   async createEvent(request, response) {
     const args = parse(request.body, "title", "time", "meetup", "username", "description", "trail");
     console.log(args);
@@ -186,6 +177,7 @@ export class TrailFinderDatabase {
       response.status(200).json({ status: "success" });
     }
   }
+
   async readEvent(request, response) {
     const args = parse(request.query, "eid");
     console.log(args);
@@ -198,12 +190,14 @@ export class TrailFinderDatabase {
       response.status(200).json(res.rows);
     }
   }
+
   async readAllEvents(request, response) {
     const queryText =
       'SELECT * FROM events';
     const res = await this.client.query(queryText);
     response.status(200).json(res.rows);
   }
+
   async updateEvent(request, response) {  // uid might not be needed up updateevent, as event should correspond to same host/uid
     const args = parse(request.body, "eid", "name", "time", "meetup", "uid", "description");
     if ("error" in args) {
@@ -217,6 +211,7 @@ export class TrailFinderDatabase {
       response.status(200).json({ eid: args.eid, name: args.name, time: args.time, meetup: args.meetup, uid: args.uid, description: args.description });
     }
   }
+
   async deleteEvent(request, response) {
     const args = parse(request.query, "eid");
     if ("error" in args) {
@@ -225,6 +220,52 @@ export class TrailFinderDatabase {
       // const queryText = 'DELETE FROM events WHERE eid = $1';
       // const res = await this.client.query(queryText, [args.eid]);
       response.status(200);
+    }
+  }
+  async createUser(request, response) {
+    const args = parse(request.body, "username", "password");
+    console.log(args)
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      const queryText = 'INSERT INTO user_info (username, password) VALUES ($1, $2)';
+      const res = await this.client.query(queryText, [args.username, args.password]);
+      response.status(200).json({});
+    }
+  }
+
+  async updateUser(request, response) {
+    const args = parse(request.body, "username", "oldPassword", "newPassword");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      console.log(args.username)
+      console.log(args.oldPassword)
+      console.log(args.newPassword)
+      const queryText = 'UPDATE user_info SET password = $3 WHERE username = $1 AND password = $2'
+      const res = await this.client.query(queryText, [args.username, args.oldPassword, args.newPassword]);
+      response.status(200).json({ username: args.username, oldPassword: args.oldPassword, newPassword: args.newPassword });
+    }
+  }
+
+  async deleteUser(request, response) {
+    const args = parse(request.body, "username", "password");
+    console.log(args)
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      const queryText = 'DELETE FROM user_info WHERE username = $1 AND password = $2';
+      const res = await this.client.query(queryText, [args.username, args.password]);
+      response.status(200).json({ status: "success" });
+    }
+  }
+  
+  async readUser(request, response) {
+    const args = parse(request.query, "username", "email", "password", "image");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      response.status(200).json({ username: args.username, email: args.email, password: args.password, image: args.image });
     }
   }
 }
@@ -236,4 +277,10 @@ function parse(request, ...properties) {
    if ( !(property in request) )
     return { error: `missing argument: ${property}` };
   return request;
+}
+
+
+function base64_encode(file) {
+  const img_str = readFileSync(file, { encoding: 'base64' });
+  console.log(img_str.length)
 }

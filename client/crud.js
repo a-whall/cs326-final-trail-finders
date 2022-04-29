@@ -8,16 +8,27 @@
  * @returns a 
  */
 export async function createTrail(name, town, description) {
-  console.log(name)
-  console.log(town)
-  console.log(description)
   const response = await fetch('/trail', {
     method: 'POST',
     headers: { 'Content-Type':'application/json' },
     body: JSON.stringify({ name:name, town:town, description:description })
   });
-  return await response.json().status === "success";
+  return (await response.json()).status === "success";
 }
+
+export async function uploadTrailImage(trail, form_data) {
+  const response = await fetch(`/trail/image?name=${trail}`, {
+    method: 'POST',
+    body: form_data
+  });
+  return (await response.json()).status === "success";
+}
+
+export async function readTrailImages(trail) {
+  const response = await fetch(`/trail/image?name=${trail}`);
+  return await response.json();
+}
+
 
 /**
  * Sends a request to read a specific trail identified by the trails name
@@ -36,7 +47,12 @@ export async function readTrail(name) {
  * @returns an array of trail names that can be used as links on the browseTrails.html
  */
 export async function readTrailsByTownName(town, page) {
-  const response = await fetch(`/trail/browse?town=${town}&offset=${page}`);
+  const response = await fetch(`/trail/browse?town=${town}&offset=${page-1}`);
+  return await response.json();
+}
+
+export async function readTrailsCount() {
+  const response = await fetch('/trail/count');
   return await response.json();
 }
 
@@ -140,4 +156,44 @@ export async function deleteEvent(eid) {
     query: JSON.stringify({ eid:eid })
   });
   return await response.json().status === "success";
+}
+
+export async function createUser(username, password) {
+  const response = await fetch('/user', { method: 'POST',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify({ username:username, password:password })
+  });
+  const data = await response.json();
+  return data;
+}
+
+export async function deleteUser(username, password) {
+  const response = await fetch('/user', { method: 'DELETE',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify({ username:username, password:password })
+  });
+  const data = await response.json();
+  console.log(data)
+  return data;
+}
+
+export async function updateUser(username, oldPassword, newPassword) {
+  console.log(username)
+  console.log(oldPassword)
+  console.log(newPassword)
+  const response = await fetch('/user', { method: 'PUT',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify({ username: username, oldPassword: oldPassword, newPassword: newPassword })
+  });
+  const data = await response.json()
+  return data;
+}
+
+export async function readUser(userid) {
+  const response = await fetch('/user', { method: 'GET',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify({ userid:userid })
+  });
+  const data = await response.json()
+  return data;
 }

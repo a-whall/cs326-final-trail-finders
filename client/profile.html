@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <!-- Local css -->
     <link rel="stylesheet" href="simple.css">
-    <link rel="stylesheet" href="createProfile.css" />
-    <script type="module" src="createProfile.js" defer></script>
+    <link rel="stylesheet" href="profile.css" />
+    <script type="module" src="profile.js" defer></script>
     <script src="https://kit.fontawesome.com/8ff2aa144e.js" crossorigin="anonymous"></script>
     <title>Valley Trail Finder</title>
   </head>
@@ -21,59 +21,61 @@
           <div class="col-5" id = "navigationBox">
             <!-- <i class="fa fa-home"></i> -->
             <button id="home" class="btn"><i class="fa-solid fa-home"></i> Home</button>
-            <br><br>
+            <br>
             <button id="trails" class="btn"><i class="fa-solid fa-person-hiking"></i> Trails</button>
-            <br><br>
+            <br>
             <button id="events" class="btn"><i class="fa-solid fa-calendar-day"></i> Events</button>
-            <br><br>
+            <br>
     </div>
     <!-- This is the main bootstrap dependency, popper (a dependency of bootstrap) is also included -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <!-- a title for the page -->
     <div class="my-3 container-fluid text-center">
-      <h1>Create a Profile!</h1>
+      <h1>Update Profile</h1>
     </div>
-    <!-- The main content of this page is a grid where each row is as follows:
-      - 1: trail name input field
-      - 2: an upoad file button
-      - 3: features description area (TODO: decide on a form to use for this field)
-      - 4: activities description area
-      - 5: a finish button -->
-    
     <div id="gridContainer" class="container">
       <!-- username input -->
-      <form action="/register" method="post"></form>
-      <div id="titleRow" class="row my-3 justify-content-center">
+      <div id="user" class="row my-3 justify-content-center">
         <div class="col-xl-5 col-lg-6 col-md-9 col-sm-10">
           <label><b>Username:</b>
-          <input id="username-input" class="form-control form-control-lg" type="text" placeholder="User Name">
-        </div>
-      </div>
-      <!-- password input -->
-      <div id="password" class="row my-3 justify-content-center">
-        <div class="col-xl-5 col-lg-6 col-md-9 col-sm-10">
-          <label><b>Password:</b>
-            <input id="password-input" class="form-control" placeholder="Password"></input>
+            <input id="username" class="form-control" placeholder="Username"></input>
           </label>
         </div>
       </div>
-      <!-- password verification input -->
+      <!-- old password input -->
       <div id="password" class="row my-3 justify-content-center">
         <div class="col-xl-5 col-lg-6 col-md-9 col-sm-10">
-          <label><b>Verify Password:</b>
-            <input id="passwordVer-input" class="form-control" placeholder="Password"></input>
+          <label><b>Current Password:</b>
+            <input id="oldPassword-input" class="form-control" placeholder="Current Password"></input>
           </label>
         </div>
       </div>
-      <!-- finish button -->
-      <div id="finishTrailPage" class="row justify-content-center text-center">
-        <div class="col-sm-3 col-xs-3">
-          <button id="done-button" class="btn btn-secondary form-control">
-            Create My Profile!
-          </button>
+      <!-- update password input -->
+      <div id="password" class="row my-3 justify-content-center">
+        <div class="col-xl-5 col-lg-6 col-md-9 col-sm-10">
+          <label><b>Update Password:</b>
+            <input id="password-input" class="form-control" placeholder="New Password"></input>
+          </label>
         </div>
       </div>
-      </form>
+      <!-- update password verification input -->
+      <div id="password" class="row my-3 justify-content-center">
+        <div class="col-xl-5 col-lg-6 col-md-9 col-sm-10">
+          <label><b>Verify Password Update:</b>
+            <input id="passwordVer-input" class="form-control" placeholder="New Password"></input>
+          </label>
+        </div>
+      </div>
+      <!-- submit updated password -->
+      <div id="password" class="row my-3 justify-content-center">
+        <div class="col-xl-5 col-lg-6 col-md-9 col-sm-10">
+            <button id="update-password-submit" >Change Password</button>
+          </label>
+        </div>
+          <br><br><br>
+          <button id="delete">Delete My Profile</button>
+        </div>
+      </div>
     </div>
   </body>
 </html>
