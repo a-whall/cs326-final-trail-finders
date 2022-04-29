@@ -18,4 +18,4 @@ CREATE TABLE public.trail_images
 
 
 CREATE TABLE public.reviews
-(userName varchar(64), trailName varchar(64), body varchar(4096), starCount integer, likeCount integer)
+(username varchar(64), trailname varchar(64), body varchar(4096), starcount integer, likecount integer)
