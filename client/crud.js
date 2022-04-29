@@ -1,4 +1,5 @@
 
+//======================= Trails ============================================================================================
 
 /**
  * Sends a POST request to create a new trail on the database
@@ -55,10 +56,12 @@ export async function readTrailsCount() {
   return await response.json();
 }
 
+//================= Reviews =================================================================================================
+
 export async function createReview(user, trail, reviewBody, starCount) {
   const response = await fetch('/review', { method: 'POST',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ user:user, trail:trail, reviewBody:reviewBody, starCount: starCount })
+    body: JSON.stringify({ user: user, trail: trail, body: reviewBody, starcount: starCount })
   });
   return await response.json();
 }
@@ -88,6 +91,8 @@ export async function deleteReview(user, trail) {
   });
   return await response.json();
 }
+
+//==================== Events ===============================================================================================
 
 export async function createEvent(name, time, meetup, description) {
   console.log(name);
@@ -124,6 +129,8 @@ export async function deleteEvent(eid) {
   });
   return await response.json().status === "success";
 }
+
+//======================== User =============================================================================================
 
 export async function createUser(username, email, password, image) {
   const response = await fetch('/user', { method: 'POST',
