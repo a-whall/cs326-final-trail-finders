@@ -34,8 +34,13 @@ for (const image of images) {
 }
 
 // read reviews
-const data = await crud.readReviewByTrail(trailName);
-data.forEach(rev => reviews_container.append(review(rev)));
+const review_data = await crud.readReviewByTrail(trailName);
+for (const review_content of review_data) {
+  reviews_container.append( review(review_content) );
+}
+if (review_data.length === 0) {
+  reviews_container.append(no_reviews_banner());
+}
 
 
 //============= Event Listeners =================================================================
@@ -44,6 +49,10 @@ submit_review_button.addEventListener('click', async(e) => {
   const data = await crud.createReview("user", trailName, reviewBody.value, starCount.value);
   console.log(data);
   reviews_container.append(review(data));
+  const no_reviews = document.getElementById('no-reviews');
+  if (no_reviews) {
+    reviews_container.removeChild(no_reviews);
+  }
 });
 
 // Add links to event pages
@@ -108,6 +117,14 @@ function carousel_item(source, is_active) {
   return div;
 }
 
+function no_reviews_banner() {
+  const h3 = document.createElement('h3');
+  h3.id = 'no-reviews';
+  h3.innerHTML = '<br>Be the first to leave a review!';
+  h3.classList.add('text-center')
+  return h3;
+}
+
 /**
  * Construct and return a review DOM element.
  * @param {Object} content a review object that contains all the data of a review.
@@ -120,7 +137,7 @@ function review(content) {
     iconLabel.classList.add(...iconClassList);
     return iconLabel;
   }
-  
+
   // A row within reviewContainer. This div encapsulates a single review.
   const row = document.createElement('div');
   row.classList.add('row','mb-5');
@@ -129,13 +146,13 @@ function review(content) {
   const rowHeader = document.createElement('div');
   rowHeader.classList.add('row');
 
-  for (let i = 0; i < content.starCount; ++i)
+  for (let i = 0; i < content.starcount; ++i)
     rowHeader.append( icon('col-1','bi','bi-star-fill') );
-  for (let i = 0; i < 5-content.starCount; ++i)
+  for (let i = 0; i < 5-content.starcount; ++i)
     rowHeader.append( icon('col-1','bi','bi-star') );
 
   const nameDiv = document.createElement('div');
-  nameDiv.innerHTML = '<b>' + content.user + '</b>';
+  nameDiv.innerHTML = '<b>' + content.username + '</b>';
   nameDiv.classList.add('col-7', 'text-end');
   rowHeader.append(nameDiv);
 
@@ -143,7 +160,7 @@ function review(content) {
   const rowBody = document.createElement('div');
   rowBody.classList.add('row');
   const rowBodyText = document.createElement('label');
-  rowBodyText.innerHTML = content.reviewBody;
+  rowBodyText.innerHTML = content.body;
   rowBody.append(rowBodyText);
 
   // The footer holds the like count.
@@ -152,7 +169,7 @@ function review(content) {
 
   const likesDiv = document.createElement('div');
   likesDiv.classList.add('col','text-end','bi','bi-hand-thumbs-up');
-  likesDiv.textContent = ' ' + content.likeCount;
+  likesDiv.textContent = ' ' + content.likecount;
   likesDiv.addEventListener('click', eventListener(likesDiv, content));
 
   rowFooter.append(likesDiv);
@@ -167,11 +184,11 @@ function review(content) {
 function eventListener(div, reviewObj) {
   return function (event) {
     if (div.classList.contains('bi-hand-thumbs-up')) {
-      reviewObj.likeCount += 1;
+      reviewObj.likecount += 1;
       div.classList.remove('bi-hand-thumbs-up');
       div.classList.add('bi-hand-thumbs-up-fill');
     } else {
-      reviewObj.likeCount -= 1;
+      reviewObj.likecount -= 1;
       div.classList.remove('bi-hand-thumbs-up-fill');
       div.classList.add('bi-hand-thumbs-up');
     }
