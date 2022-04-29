@@ -95,17 +95,44 @@ export async function deleteReview(user, trail) {
   return data;
 }
 
-export async function createEvent(name, time, meetup, description) {
-  console.log(name);
+export async function createEvent(title, time, meetup, host, description, trail) {
+  console.log(title);
   console.log(time);
   console.log(meetup);
   console.log(description);
+  console.log(trail);
+  console.log('test4');
   const response = await fetch('/event', {
     method: 'POST',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ eid:0, name:name, time:time, meetup:meetup, uid:0, description:description })
+    body: JSON.stringify({ title:title, time:time, meetup:meetup, username:host, description:description, trail:trail })
   });
   return await response.json().status === "success";
+}
+
+export async function uploadEventImage(eid, form_data) {
+  const response = await fetch(`/event/image`, {
+    method: 'POST',
+    body: form_data
+  });
+  return (await response.json()).status === "success";
+}
+
+export async function readEvent(eid) {
+  console.log(eid);
+  const response = await fetch(`/event?eid=${eid}`, {
+    method: 'READ',
+    headers: { 'Content-Type':'application/json' },
+    query: JSON.stringify({ eid:eid })
+  });
+  return await response.json();
+}
+
+export async function readAllEvents() {
+  const response = await fetch('/event/browse', {
+    method: 'READ',
+  });
+  return await response.json();
 }
 
 export async function updateEvent(name, time, meetup, description) {

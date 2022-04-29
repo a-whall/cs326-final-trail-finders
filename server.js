@@ -30,7 +30,9 @@ class TrailFinderServer {
     this.app.delete('/review', this.db.deleteReview.bind(this.db));
     this.app.put('/review', this.db.updateReview.bind(this.db));
     this.app.post('/event', this.db.createEvent.bind(this.db));
+    this.app.post('/event/image', this.db.createEventImage.bind(this.db));
     this.app.get('/event', this.db.readEvent.bind(this.db));
+    this.app.get('/event/browse', this.db.readAllEvents.bind(this.db));
     this.app.put('/event', this.db.updateEvent.bind(this.db));
     this.app.delete('/event', this.db.deleteEvent.bind(this.db));
     this.app.post('/user', this.db.createUser.bind(this.db));
