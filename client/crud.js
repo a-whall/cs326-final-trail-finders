@@ -30,6 +30,7 @@ export async function readTrailImages(trail) {
   return await response.json();
 }
 
+
 /**
  * Sends a request to read a specific trail identified by the trails name
  * @param {string} name identifier
@@ -92,19 +93,47 @@ export async function deleteReview(user, trail) {
   return await response.json();
 }
 
+
 //==================== Events ===============================================================================================
 
-export async function createEvent(name, time, meetup, description) {
-  console.log(name);
+export async function createEvent(title, time, meetup, host, description, trail) {
+  console.log(title);
   console.log(time);
   console.log(meetup);
   console.log(description);
+  console.log(trail);
+  console.log('test4');
   const response = await fetch('/event', {
     method: 'POST',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ eid:0, name:name, time:time, meetup:meetup, uid:0, description:description })
+    body: JSON.stringify({ title:title, time:time, meetup:meetup, username:host, description:description, trail:trail })
   });
   return await response.json().status === "success";
+}
+
+export async function uploadEventImage(eid, form_data) {
+  const response = await fetch(`/event/image`, {
+    method: 'POST',
+    body: form_data
+  });
+  return (await response.json()).status === "success";
+}
+
+export async function readEvent(eid) {
+  console.log(eid);
+  const response = await fetch(`/event?eid=${eid}`, {
+    method: 'READ',
+    headers: { 'Content-Type':'application/json' },
+    query: JSON.stringify({ eid:eid })
+  });
+  return await response.json();
+}
+
+export async function readAllEvents() {
+  const response = await fetch('/event/browse', {
+    method: 'READ',
+  });
+  return await response.json();
 }
 
 export async function updateEvent(name, time, meetup, description) {
@@ -130,40 +159,61 @@ export async function deleteEvent(eid) {
   return await response.json().status === "success";
 }
 
+
 //======================== User =============================================================================================
 
-export async function createUser(username, email, password, image) {
+export async function createUser(username, password) {
   const response = await fetch('/user', { method: 'POST',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ username:username, email:email, password:password, image:image })
+    body: JSON.stringify({ username:username, password:password })
   });
-  const data = await response.json()
+  const data = await response.json();
   return data;
 }
 
-export async function deleteUser(uid) {
+export async function deleteUser(username, password) {
   const response = await fetch('/user', { method: 'DELETE',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ uid:uid })
+    body: JSON.stringify({ username:username, password:password })
   });
-  const data = await response.status(200).json()
+  const data = await response.json();
+  console.log(data)
   return data;
 }
 
-export async function updateUser(username, email, password, image) {
+export async function updateUser(username, oldPassword, newPassword) {
+  console.log(username)
+  console.log(oldPassword)
+  console.log(newPassword)
   const response = await fetch('/user', { method: 'PUT',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ username:username, email:email, password:password, image:image })
+    body: JSON.stringify({ username: username, oldPassword: oldPassword, newPassword: newPassword })
   });
   const data = await response.json()
   return data;
 }
 
-export async function readUser(uid) {
+export async function readUser(username, password) {
   const response = await fetch('/user', { method: 'GET',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ uid:uid })
+    body: JSON.stringify({ username:username, password:password })
   });
+  const data = await response.json()
+  return data.status === 'SUCCESS';
+}
+
+export async function checkUser(username) {
+  const response = await fetch('/usercheck', { method: 'GET',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify({ username:username })
+  });
+  const data = await response.json()
+  return data.status === "SUCCESS";
+}
+
+export async function attemptLogin(form_data) {
+  const response = await fetch('/login', { method: 'POST', body: form_data });
   const data = await response.json()
   return data;
 }
+

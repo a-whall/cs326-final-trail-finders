@@ -12,12 +12,12 @@ body{
 
 nav{
     background-color: green;
-    height: 50px;
+    height: 75px;
     text-align: center;
 }
 
 .navbar-nav{
-    padding-top: 15px;
+    padding-top: 10px;
 }
 
 .btn{

@@ -10,3 +10,5 @@ node_modules
 deploy
 
 *.drawio
+
+package-lock.json
