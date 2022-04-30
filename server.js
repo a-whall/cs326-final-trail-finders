@@ -58,6 +58,7 @@ class TrailFinderServer {
     this.app.delete('/user', this.checkLoggedIn, this.db.deleteUser.bind(this.db));
     this.app.post('/login', this.authenticate);
     this.app.post('/logout', this.logout);
+    this.app.post('/register', this.db.registerUser.bind(this.db));
   }
 
   async initDb() {
