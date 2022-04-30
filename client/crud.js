@@ -201,3 +201,11 @@ export async function readUser(username, password) {
   const data = await response.json()
   return data.status === 'SUCCESS';
 }
+
+export async function createLogin(formData) {
+  const response = await fetch('/login', {
+    method: 'POST',
+    body: formData
+  });
+  return await response.json();
+}
