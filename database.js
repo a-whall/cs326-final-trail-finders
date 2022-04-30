@@ -276,6 +276,27 @@ export class TrailFinderDatabase {
     }
   }
 
+  async registerUser(request, response) {
+    const args = parse(request.body, 'username', 'password');
+    if ('error' in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      const userExists = await this.checkUser(args.username);
+      if (userExists) {
+        response.status(200).json({ status: 'Username already exists. Choose a new username.' });
+      } else {
+        try {
+          const queryText = 'INSERT INTO user_info (username, password) VALUES ($1, $2)';
+          await this.client.query(queryText, [args.username, args.password]);
+          response.status(200).json({ status: 'Success! You are now a registered user. You may now log in from the home page.' });
+        } catch (error) {
+          console.log(error);
+          response.status(200).json({ status: 'databse error occured' });
+        }
+      }
+    }
+  }
+
   async checkUser(username) {
     const queryText = 'SELECT * FROM user_info WHERE username = $1';
     const result = await this.client.query(queryText, [username]);
