@@ -9,7 +9,6 @@ const hostInfo_div = document.getElementById('hostInfo');
 // Retrieve data
 const eid = new URLSearchParams(window.location.search).get('eid');
 const eventData = await readEvent(eid);
-console.log(eventData);
 
 // Dummy data
 const title = eventData.title;
@@ -28,12 +27,9 @@ document.getElementById("findTrail").addEventListener('click', () => {
 
 // Enable delete event button if event was made from user
 document.getElementById("deleteEvent").addEventListener('click', async () => {
-  if (eventData.username === user_info.username) {
-    await deleteEvent(eid);
+  if (await deleteEvent(eid)) {
+    alert("Event has been deleted.");
     window.location.href = "./browseEvents.html";
-  }
-  else {
-    alert("Only the user that made this event can delete it.");
   }
 });
 

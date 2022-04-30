@@ -137,13 +137,10 @@ export async function updateEvent(name, time, meetup, description) {
 }
 
 export async function deleteEvent(eid) {
-  console.log(eid);
-  const response = await fetch(`/event?eid=${eid}`, {
+  const response = await fetch(`/event/delete?eid=${eid}`, {
     method: 'DELETE',
-    headers: { 'Content-Type':'application/json' },
-    query: JSON.stringify({ eid:eid })
   });
-  return await response.json().status === "success";
+  return (await response.json()).status === "success";
 }
 
 export async function createUser(username, password) {

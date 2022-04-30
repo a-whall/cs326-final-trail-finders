@@ -217,9 +217,9 @@ export class TrailFinderDatabase {
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      // const queryText = 'DELETE FROM events WHERE eid = $1';
-      // const res = await this.client.query(queryText, [args.eid]);
-      response.status(200);
+      const queryText = 'DELETE FROM events WHERE eid = $1 RETURNING *';
+      const res = await this.client.query(queryText, [args.eid]);
+      response.status(200).json({ status: "success" });
     }
   }
   async createUser(request, response) {

@@ -20,7 +20,10 @@ async function saveEvent() {
       for (const file of image.files) {
         form_data.append(file.name, file);
       }
-      await uploadEventImage(eid, form_data);
+      if (await uploadEventImage(eid, form_data)) {
+        alert("Event has been made.");
+        window.location.href = "./browseEvents.html";
+      }
   }
-  window.location.href = "./browseEvents.html";
+  
 }
