@@ -22,7 +22,7 @@ trails.addEventListener('click', async() => {
 });
 
 events.addEventListener('click', async() => {
-    window.location.href="eventPage.html";
+    window.location.href="browseEvents.html";
 });
 
 create_trail.addEventListener('click', async() => {
