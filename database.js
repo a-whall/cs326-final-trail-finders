@@ -265,13 +265,14 @@ export class TrailFinderDatabase {
   }
   
   async readUser(request, response) {
-    const args = parse(request.body, "username", "password");
+    console.log(request.query)
+    const args = parse(request.query, "username");
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      const queryText = 'SELECT * from user_info where username = $1 AND password = $2';
-      const res = await this.client.query(queryText, [args.username, args.password]);
-      response.status(200).json((res.rows.length > 0)? {status: 'SUCCESS'} : {status: 'USERNAME/PASSWORD PAIR DOES NOT EXIST'});
+      const queryText = 'SELECT * from user_info where username = $1';
+      const res = await this.client.query(queryText, [args.username]);
+      response.status(200).json((res.rows.length > 0)? {status: 'SUCCESS'} : {status: 'USERNAME DOES NOT EXIST'});
     }
   }
 

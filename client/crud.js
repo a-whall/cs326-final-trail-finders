@@ -188,11 +188,8 @@ export async function updateUser(oldPassword, newPassword) {
   return data;
 }
 
-export async function readUser(username, password) {
-  const response = await fetch('/user', { method: 'GET',
-    headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ username:username, password:password })
-  });
+export async function readUser(username) {
+  const response = await fetch(`/user?username=${username}`);
   const data = await response.json()
   return data.status === 'SUCCESS';
 }
