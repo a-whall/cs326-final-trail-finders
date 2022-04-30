@@ -59,10 +59,11 @@ export async function readTrailsCount() {
 
 //================= Reviews =================================================================================================
 
-export async function createReview(user, trail, reviewBody, starCount) {
-  const response = await fetch('/review', { method: 'POST',
+export async function createReview(trail, reviewBody, starCount) {
+  const response = await fetch('/review', {
+    method: 'POST',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ user: user, trail: trail, body: reviewBody, starcount: starCount })
+    body: JSON.stringify({ trail: trail, body: reviewBody, starcount: starCount })
   });
   return await response.json();
 }
