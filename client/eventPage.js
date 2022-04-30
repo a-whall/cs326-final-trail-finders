@@ -5,22 +5,21 @@ const description_area = document.getElementById('description');
 const timeInfo_div = document.getElementById('timeInfo');
 const meetupInfo_div = document.getElementById('meetupInfo');
 const hostInfo_div = document.getElementById('hostInfo');
-const eventImage_div = document.getElementById('eventImage');
 
 // Retrieve data
-const eid = 1;
+const eid = new URLSearchParams(window.location.search).get('eid');
 const eventData = await readEvent(eid);
-// Code to retrieve username: const userData = await readUser();
+console.log(eventData);
 
 // Dummy data
-const imageURL = "https://upload.wikimedia.org/wikipedia/commons/2/2b/IMG_3811-On-the-Norwottuck-bridge.jpg";
-const eventName = "The Notch Event!";
-const time = "1pm";
-const meetup = "Amherst";
-const host = "Joe";
-const description = "Come meet with us!";
-const trailName = "The Notch";
-//const imageData = ...
+const title = eventData.title;
+const time = eventData.time;
+const meetup = eventData.meetup;
+const host = eventData.username;
+const description = eventData.description;
+const trailName = eventData.trail;
+
+add_event_info(`data:${eventData.filetype};base64,${eventData.image}`, title, time, meetup, host, description);
 
 // Allow users to view trail through this button
 document.getElementById("findTrail").addEventListener('click', () => {
@@ -38,16 +37,13 @@ document.getElementById("deleteEvent").addEventListener('click', async () => {
   }
 });
 
-add_event_info(imageURL, eventName, time, meetup, host, description);
-
-function add_event_info(imageURL, eventName, timeName, meetup, host, description) {
+function add_event_info(imageData, eventName, timeName, meetup, host, description) {
   // Add event title
   event_title_header.innerHTML = eventName;
   
   // Add image
-  const image_img = document.createElement('img');
-  image_img.src = imageURL;
-  eventImage_div.append(image_img);
+  const image_img = document.getElementById('eventImage');
+  image_img.src = imageData;
 
   // Add time
   const time_div = document.createElement('div');

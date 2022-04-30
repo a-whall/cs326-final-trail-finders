@@ -187,7 +187,7 @@ export class TrailFinderDatabase {
       const queryText =
         'SELECT * FROM events WHERE eid = $1';
       const res = await this.client.query(queryText, [args.eid]);
-      response.status(200).json(res.rows);
+      response.status(200).json(res.rows[0]);
     }
   }
 

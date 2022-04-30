@@ -114,11 +114,7 @@ export async function uploadEventImage(eid, form_data) {
 
 export async function readEvent(eid) {
   console.log(eid);
-  const response = await fetch(`/event?eid=${eid}`, {
-    method: 'READ',
-    headers: { 'Content-Type':'application/json' },
-    query: JSON.stringify({ eid:eid })
-  });
+  const response = await fetch(`/event?eid=${eid}`);
   return await response.json();
 }
 

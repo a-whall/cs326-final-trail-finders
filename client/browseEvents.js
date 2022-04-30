@@ -5,11 +5,11 @@ const listEventParent = document.getElementById("listEvents");
 const data = await readAllEvents();
 
 data.forEach(element => {
-    add_event_info(`data:${element.filetype};base64,${element.image}`, element.title, element.time, element.meetup, element.username, element.description);
+    add_event_info(`data:${element.filetype};base64,${element.image}`, element.eid, element.title, element.time, element.meetup, element.username, element.description);
 });
 
 // Upload events to page
-function add_event_info(imageData, eventTitle, time, meetup, host, description) {
+function add_event_info(imageData, eid, eventTitle, time, meetup, host, description) {
     // Properly create 'eventBox'
     const row1 = document.createElement("div");
     row1.classList.add("row");
@@ -44,10 +44,11 @@ function add_event_info(imageData, eventTitle, time, meetup, host, description) 
     pEventTitle.classList.add("eventTitle");
     col2.appendChild(pEventTitle);
 
-    const span1 = document.createElement("span")
-    span1.id = "name";
-    span1.innerHTML = eventTitle;
-    pEventTitle.appendChild(span1);
+    const link = document.createElement("a")
+    link.id = "name";
+    link.innerHTML = eventTitle;
+    link.href = `./eventPage.html?eid=${eid}`;
+    pEventTitle.appendChild(link);
 
     // Input time
     const p2 = document.createElement("p");
