@@ -283,27 +283,16 @@ export class TrailFinderDatabase {
     }
   }
 
-  async checkUser(request, response) {
-    const args = parse(request.body, "username");
-    if ("error" in args) {
-      response.status(400).json({ error: args.error });
-    } else {
-      const queryText = 'SELECT * from user_info where username = $1';
-      const res = await this.client.query(queryText, [args.username]);
-      response.status(200).json((res.rows.length > 0)? { status: "SUCCESS" } : {status: "USER DOES NOT EXIST"});
-    }
+  async checkUser(username) {
+    const queryText = 'SELECT * FROM user_info WHERE username = $1';
+    const result = await this.client.query(queryText, [username]);
+    return result.rows.length > 0;
   }
 
-  async attemptLogin(request, response) {
-    const args = parse(request.body, "username", "password");
-    console.log(args);
-    if ("error" in args) {
-      response.status(400).json({ error: args.error });
-    } else {
-      const queryText = 'SELECT * from user_info where username = $1 ';
-      const res = await this.client.query(queryText, [args.username]);
-      response.status(200).json((res.rows.length > 0)? { status: "SUCCESS" } : {status: "USER DOES NOT EXIST"});
-    }
+  async attemptLogin(username, password) {
+    const queryText = 'SELECT * FROM user_info WHERE username = $1 AND password = $2';
+    const result = await this.client.query(queryText, [username, password]);
+    return result.rows.length > 0;
   }
 }
 
