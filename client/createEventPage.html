@@ -23,16 +23,12 @@
             <a href="homepage.html">Home</a>
             <br><br>
 
-            <i class="fa fa-user"></i>
-            <a href="profile_page.html">Profile</a>
-            <br><br>
-
             <i class="fa fa-hiking"></i>
             <a href="browseTrails.html">Trails</a>
             <br><br>
 
             <i class="fa fa-calendar"></i>
-            <a href="eventPage.html">Events</a>
+            <a href="browseEvents.html">Events</a>
             <br><br>
           </div>
         </div>
@@ -43,13 +39,21 @@
           <div class="createEvent">
             Upload an Image:
             <input id="imageFile" class="form-control" type="file">
+            <img id="imagePreview" />
             <br>
             <input type="text" id="title" placeholder="Insert Title">
             <input type="text" id="time" placeholder="Insert Date and Time">
             <input type="text" id="meetup" placeholder="Insert Meet-up">
             <input type="text" id="host" placeholder="Insert Host">
-            <input type="text" id="description" placeholder="Insert Description">
-            <input type="text" id="trail" placeholder="Which trail is this referring to?">
+            <textarea type="text" id="description" placeholder="Insert Description"></textarea>
+
+            <label for="trails" id="trailList">Which trail is this event referring to?</label>
+            <select name="trails" id="trailListValues">
+              <option>Select a trail</option>
+            </select>
+            <br>
+            <a href="createTrailPage.html">Can't find your trail? Add one here!</a>
+            <br>
             <br>
             <button class="createEvent" id="createEventButton" type="button">Create Event</button>
           </div>

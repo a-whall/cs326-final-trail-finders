@@ -2,19 +2,14 @@ import { readAllEvents,deleteEvent } from "./crud.js";
 
 const listEventParent = document.getElementById("listEvents");
 
-// const data = await readAllEvents();
+const data = await readAllEvents();
 
-// Dummy data
-const imageURL1 = "https://upload.wikimedia.org/wikipedia/commons/2/2b/IMG_3811-On-the-Norwottuck-bridge.jpg";
-const description1 = "Hello! I am a UMass student who is planning to bike at the Norwottuck Trail. For those who are interested, please meet at Amherst Town. The biking trail ends at Northhampton.";
-const imageURL2 = "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/b3/5f/ff/horse-caves.jpg?w=2000&h=-1&s=1";
-const description2 = "I am planning to walk The Notch Trail. Anyone is invited."
-
-add_event_info(imageURL1, "Norwottuck Rail Trail", "04/06/2022, 4pm to 7pm", "Amherst Town", "Amanda Jones", description1);
-add_event_info(imageURL2, "The Notch", "04/07/2022, 4pm to 7pm", "Northhampton", "Joe Cirus", description2);
+data.forEach(element => {
+    add_event_info(`data:${element.filetype};base64,${element.image}`, element.eid, element.title, element.time, element.meetup, element.username, element.description);
+});
 
 // Upload events to page
-function add_event_info(imageURL, eventTitle, time, meetup, host, description) {
+function add_event_info(imageData, eid, eventTitle, time, meetup, host, description) {
     // Properly create 'eventBox'
     const row1 = document.createElement("div");
     row1.classList.add("row");
@@ -36,7 +31,7 @@ function add_event_info(imageURL, eventTitle, time, meetup, host, description) {
     // Add image
     const img = document.createElement("img");
     img.classList.add("images");
-    img.src = imageURL;
+    img.src = imageData;
     col1.appendChild(img);
 
     // Start inputting event info
@@ -49,10 +44,11 @@ function add_event_info(imageURL, eventTitle, time, meetup, host, description) {
     pEventTitle.classList.add("eventTitle");
     col2.appendChild(pEventTitle);
 
-    const span1 = document.createElement("span")
-    span1.id = "name";
-    span1.innerHTML = eventTitle;
-    pEventTitle.appendChild(span1);
+    const link = document.createElement("a")
+    link.id = "name";
+    link.innerHTML = eventTitle;
+    link.href = `./eventPage.html?eid=${eid}`;
+    pEventTitle.appendChild(link);
 
     // Input time
     const p2 = document.createElement("p");

@@ -161,16 +161,14 @@ export class TrailFinderDatabase {
 
   async createEvent(request, response) {
     const args = parse(request.body, "title", "time", "meetup", "username", "description", "trail");
-    console.log(args);
-    console.log('test4');
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
       const queryText =
-      'INSERT INTO events (eid, title, time, meetup, username, description, trail) VALUES (DEFAULT, $1, $2, $3, $4, $5, $6)';
+      'INSERT INTO events (eid, title, time, meetup, username, description, trail) VALUES (DEFAULT, $1, $2, $3, $4, $5, $6) RETURNING eid';
       const res = await this.client.query(queryText, [args.title, args.time, args.meetup, args.username, args.description, args.trail]);
-      // return res.rows;
-      response.status(200).json({ title: args.title, time: args.time, meetup: args.meetup, username: args.username, description: args.description });
+      console.log(res.rows[0].eid);
+      return response.status(200).json(res.rows[0].eid);
     }
   }
   async createEventImage(request, response) {
@@ -180,14 +178,23 @@ export class TrailFinderDatabase {
     } else if (!request.files) {
       response.status(400).json({ error: "must send files to upload" });
     } else {
-      const queryText = 'INSERT INTO event (filetype, image) VALUES ($1, $2) WHERE eid = $3';
+      const queryText = 'UPDATE events SET filetype = $1, image = $2 WHERE eid = $3';
+      for (const [name, file] of Object.entries(request.files)) {
         try {
-          await this.client.query(queryText, [request.files.mimetype, request.files.data.toString('base64'), args.eid]);
+          await this.client.query(queryText, [file.mimetype, file.data.toString('base64'), args.eid]);
         } catch(err) {
           console.log(err);
         }
+      }
       response.status(200).json({ status: "success" });
     }
+  }
+
+  async readTrailNames(request, response) {
+    const queryText =
+      'SELECT name FROM trails';
+    const res = await this.client.query(queryText);
+    response.status(200).json(res.rows);
   }
 
   async readEvent(request, response) {
@@ -199,7 +206,7 @@ export class TrailFinderDatabase {
       const queryText =
         'SELECT * FROM events WHERE eid = $1';
       const res = await this.client.query(queryText, [args.eid]);
-      response.status(200).json(res.rows);
+      response.status(200).json(res.rows[0]);
     }
   }
 
@@ -229,9 +236,9 @@ export class TrailFinderDatabase {
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      // const queryText = 'DELETE FROM events WHERE eid = $1';
-      // const res = await this.client.query(queryText, [args.eid]);
-      response.status(200);
+      const queryText = 'DELETE FROM events WHERE eid = $1 RETURNING *';
+      const res = await this.client.query(queryText, [args.eid]);
+      response.status(200).json({ status: "success" });
     }
   }
   async createUser(request, response) {

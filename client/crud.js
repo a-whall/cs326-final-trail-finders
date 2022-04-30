@@ -98,42 +98,35 @@ export async function deleteReview(user, trail) {
 //==================== Events ===============================================================================================
 
 export async function createEvent(title, time, meetup, host, description, trail) {
-  console.log(title);
-  console.log(time);
-  console.log(meetup);
-  console.log(description);
-  console.log(trail);
-  console.log('test4');
   const response = await fetch('/event', {
     method: 'POST',
     headers: { 'Content-Type':'application/json' },
     body: JSON.stringify({ title:title, time:time, meetup:meetup, username:host, description:description, trail:trail })
   });
-  return await response.json().status === "success";
+  return await response.json();
 }
 
 export async function uploadEventImage(eid, form_data) {
-  const response = await fetch(`/event/image`, {
+  const response = await fetch(`/event/image?eid=${eid}`, {
     method: 'POST',
     body: form_data
   });
   return (await response.json()).status === "success";
 }
 
+export async function readTrailNames() {
+  const response = await fetch('/event/listTrails');
+  return await response.json();
+}
+
 export async function readEvent(eid) {
   console.log(eid);
-  const response = await fetch(`/event?eid=${eid}`, {
-    method: 'READ',
-    headers: { 'Content-Type':'application/json' },
-    query: JSON.stringify({ eid:eid })
-  });
+  const response = await fetch(`/event?eid=${eid}`);
   return await response.json();
 }
 
 export async function readAllEvents() {
-  const response = await fetch('/event/browse', {
-    method: 'READ',
-  });
+  const response = await fetch('/event/browse');
   return await response.json();
 }
 
@@ -151,13 +144,10 @@ export async function updateEvent(name, time, meetup, description) {
 }
 
 export async function deleteEvent(eid) {
-  console.log(eid);
-  const response = await fetch(`/event?eid=${eid}`, {
+  const response = await fetch(`/event/delete?eid=${eid}`, {
     method: 'DELETE',
-    headers: { 'Content-Type':'application/json' },
-    query: JSON.stringify({ eid:eid })
   });
-  return await response.json().status === "success";
+  return (await response.json()).status === "success";
 }
 
 

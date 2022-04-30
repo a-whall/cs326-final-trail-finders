@@ -18,7 +18,7 @@ trails.addEventListener('click', async() => {
 });
 
 events.addEventListener('click', async() => {
-    window.location.href="eventPage.html";
+    window.location.href="browseEvents.html";
 });
 
 done.addEventListener('click', async() => {

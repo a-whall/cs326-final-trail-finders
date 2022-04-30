@@ -37,12 +37,24 @@ body {
     font-weight: bold;
 }
 
-.createEvent input[type=text] {
+.createEvent input[type=text], textarea {
     font-size: 17px;
     width: 50%;
-    margin: 30px;
+    margin-top: 25px;
+    margin-bottom: 25px;
 }
 
-.insertImage, .createEvent {
-    margin: 30px;
+#imagePreview {
+    width: 25%;
+    height: auto;
+  }
+
+#description {
+    height: 100px;
+}
+
+#imageFile, #trailList, #trailListValues {
+    font-size: 17px;
+    width: 50%;
+    margin-bottom: 25px;
 }
