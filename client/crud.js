@@ -189,11 +189,27 @@ export async function updateUser(username, oldPassword, newPassword) {
   return data;
 }
 
-export async function readUser(userid) {
+export async function readUser(username, password) {
   const response = await fetch('/user', { method: 'GET',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ userid:userid })
+    body: JSON.stringify({ username:username, password:password })
   });
+  const data = await response.json()
+  return data.status === 'SUCCESS';
+}
+
+export async function checkUser(username) {
+  const response = await fetch('/usercheck', { method: 'GET',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify({ username:username })
+  });
+  const data = await response.json()
+  return data.status === "SUCCESS";
+}
+
+export async function attemptLogin(form_data) {
+  const response = await fetch('/login', { method: 'POST', body: form_data });
   const data = await response.json()
   return data;
 }
+

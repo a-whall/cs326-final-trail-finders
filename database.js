@@ -261,11 +261,36 @@ export class TrailFinderDatabase {
   }
   
   async readUser(request, response) {
-    const args = parse(request.query, "username", "email", "password", "image");
+    const args = parse(request.body, "username", "password");
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      response.status(200).json({ username: args.username, email: args.email, password: args.password, image: args.image });
+      const queryText = 'SELECT * from user_info where username = $1 AND password = $2';
+      const res = await this.client.query(queryText, [args.username, args.password]);
+      response.status(200).json((res.rows.length > 0)? {status: 'SUCCESS'} : {status: 'USERNAME/PASSWORD PAIR DOES NOT EXIST'});
+    }
+  }
+
+  async checkUser(request, response) {
+    const args = parse(request.body, "username");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      const queryText = 'SELECT * from user_info where username = $1';
+      const res = await this.client.query(queryText, [args.username]);
+      response.status(200).json((res.rows.length > 0)? { status: "SUCCESS" } : {status: "USER DOES NOT EXIST"});
+    }
+  }
+
+  async attemptLogin(request, response) {
+    const args = parse(request.body, "username", "password");
+    console.log(args);
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      const queryText = 'SELECT * from user_info where username = $1 ';
+      const res = await this.client.query(queryText, [args.username]);
+      response.status(200).json((res.rows.length > 0)? { status: "SUCCESS" } : {status: "USER DOES NOT EXIST"});
     }
   }
 }

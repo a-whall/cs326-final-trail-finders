@@ -1,16 +1,21 @@
+//import * as auth from '../authentication.js'
 
 const username = document.getElementById("username-input");
-const passowrd = document.getElementById("password-input");
+const password = document.getElementById("password-input");
 const signIn = document.getElementById("sign-in");
 const profile = document.getElementById("profile");
 const trails = document.getElementById("trails");
 const events = document.getElementById("events");
 const create_trail = document.getElementById("create-trail");
 const create_profile = document.getElementById("create-profile");
+const login = document.getElementById("login");
 
 
 signIn.addEventListener('click', async() => {
-    //GET verify userInfo from user table
+    let form_data = new FormData();
+    form_data.append('username', username.value);
+    form_data.append('password', password.value);
+
 });
 
 profile.addEventListener('click', async() => {
