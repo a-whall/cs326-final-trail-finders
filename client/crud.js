@@ -112,6 +112,11 @@ export async function uploadEventImage(eid, form_data) {
   return (await response.json()).status === "success";
 }
 
+export async function readTrailNames() {
+  const response = await fetch('/event/listTrails');
+  return await response.json();
+}
+
 export async function readEvent(eid) {
   console.log(eid);
   const response = await fetch(`/event?eid=${eid}`);

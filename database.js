@@ -178,6 +178,13 @@ export class TrailFinderDatabase {
     }
   }
 
+  async readTrailNames(request, response) {
+    const queryText =
+      'SELECT name FROM trails';
+    const res = await this.client.query(queryText);
+    response.status(200).json(res.rows);
+  }
+
   async readEvent(request, response) {
     const args = parse(request.query, "eid");
     console.log(args);
