@@ -1,11 +1,11 @@
-import { createEvent } from "./crud.js";
+import { createEvent, uploadEventImage } from "./crud.js";
 
 
 document.getElementById("createEventButton").addEventListener("click", saveEvent);
 
 // Include uploading image to database later
 async function saveEvent() {
-    const image = document.getElementById("imageFile").files;
+    const image = document.getElementById("imageFile");
     const title = document.getElementById("title").value;
     const time = document.getElementById("time").value;
     const meetup = document.getElementById("meetup").value;
@@ -14,10 +14,14 @@ async function saveEvent() {
     const trail = document.getElementById("trail").value;
 
     const eid = await createEvent(title, time, meetup, host, description, trail);
+    console.log(eid);
 
-    const form_data = new FormData();
-    form_data.append(image.name, image);
-    // await uploadEventImage(eid, form_data)
-
+    if (eid) {
+        const form_data = new FormData();
+        for (const file of image.files) {
+          form_data.append(file.name, file);
+        }
+        await uploadEventImage(eid, form_data);
+    }
     // window.location.href = "./browseEvents.html";
 }
