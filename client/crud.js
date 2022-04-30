@@ -173,22 +173,16 @@ export async function createUser(username, password) {
 }
 
 export async function deleteUser(username, password) {
-  const response = await fetch('/user', { method: 'DELETE',
-    headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ username:username, password:password })
-  });
+  const response = await fetch('/user', { method: 'DELETE'});
   const data = await response.json();
   console.log(data)
   return data;
 }
 
-export async function updateUser(username, oldPassword, newPassword) {
-  console.log(username)
-  console.log(oldPassword)
-  console.log(newPassword)
+export async function updateUser(oldPassword, newPassword) {
   const response = await fetch('/user', { method: 'PUT',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ username: username, oldPassword: oldPassword, newPassword: newPassword })
+    body: JSON.stringify({ oldPassword: oldPassword, newPassword: newPassword })
   });
   const data = await response.json()
   return data;
@@ -207,6 +201,13 @@ export async function createLogin(formData) {
   const response = await fetch('/login', {
     method: 'POST',
     body: formData
+  });
+  return await response.json();
+}
+
+export async function logout() {
+  const response = await fetch('/logout', {
+    method: 'POST'
   });
   return await response.json();
 }

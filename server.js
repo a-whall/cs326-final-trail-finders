@@ -54,8 +54,8 @@ class TrailFinderServer {
     this.app.post('/user', this.db.createUser.bind(this.db));
     this.app.get('/user', this.db.readUser.bind(this.db));
     this.app.get('/usercheck', this.db.readUser.bind(this.db));
-    this.app.put('/user', this.db.updateUser.bind(this.db));
-    this.app.delete('/user', this.db.deleteUser.bind(this.db));
+    this.app.put('/user', this.checkLoggedIn, this.db.updateUser.bind(this.db));
+    this.app.delete('/user', this.checkLoggedIn, this.db.deleteUser.bind(this.db));
     this.app.post('/login', this.authenticate);
   }
 

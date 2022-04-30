@@ -3,7 +3,6 @@ import * as crud from "./crud.js"
 const home = document.getElementById("home");
 const trails = document.getElementById("trails");
 const events = document.getElementById("events");
-const username = document.getElementById("username");
 const oldPassword = document.getElementById("oldPassword-input");
 const password = document.getElementById("password-input");
 const passwordVer = document.getElementById("passwordVer-input");
@@ -36,9 +35,11 @@ passwordVer.addEventListener("keyup", function (event) {
 });
 
 submit.addEventListener("click", async() =>{
-    crud.updateUser(username.value, oldPassword.value, password.value);
+    const data = await crud.updateUser(oldPassword.value, password.value);
+    (data.status === 'success')? alert('Your password has been changed.'): alert(`error: ${data.status}`);
 });
 
 delete_profile.addEventListener("click", async() => {
-    crud.deleteUser(username.value, oldPassword.value);
+    const data = await crud.deleteUser();
+    (data.status === 'success')? alert('Your profile has been deleted.'): alert(`error: ${data.status}`);
 })
