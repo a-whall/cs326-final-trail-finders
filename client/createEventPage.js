@@ -14,14 +14,19 @@ async function saveEvent() {
     const trail = document.getElementById("trail").value;
 
     const eid = await createEvent(title, time, meetup, host, description, trail);
-    console.log(eid);
 
     if (eid) {
         const form_data = new FormData();
         for (const file of image.files) {
           form_data.append(file.name, file);
+          console.log("image")
+          console.log(image);
+          console.log("fileType");
+          console.log(file.name);
+          console.log("FileData");
+          console.log(file);
         }
         await uploadEventImage(eid, form_data);
     }
-    // window.location.href = "./browseEvents.html";
+    window.location.href = "./browseEvents.html";
 }

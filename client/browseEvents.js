@@ -3,18 +3,13 @@ import { readAllEvents,deleteEvent } from "./crud.js";
 const listEventParent = document.getElementById("listEvents");
 
 const data = await readAllEvents();
-console.log(data);
 
-// Dummy data
-const imageURL1 = "https://upload.wikimedia.org/wikipedia/commons/2/2b/IMG_3811-On-the-Norwottuck-bridge.jpg";
-const description1 = "Hello! I am a UMass student who is planning to bike at the Norwottuck Trail. For those who are interested, please meet at Amherst Town. The biking trail ends at Northhampton.";
-const imageURL2 = "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/b3/5f/ff/horse-caves.jpg?w=2000&h=-1&s=1";
-const description2 = "I am planning to walk The Notch Trail. Anyone is invited."
-
-
+data.forEach(element => {
+    add_event_info(`data:${element.filetype};base64,${element.image}`, element.title, element.time, element.meetup, element.username, element.description);
+});
 
 // Upload events to page
-function add_event_info(imageURL, eventTitle, time, meetup, host, description) {
+function add_event_info(imageData, eventTitle, time, meetup, host, description) {
     // Properly create 'eventBox'
     const row1 = document.createElement("div");
     row1.classList.add("row");
@@ -36,7 +31,7 @@ function add_event_info(imageURL, eventTitle, time, meetup, host, description) {
     // Add image
     const img = document.createElement("img");
     img.classList.add("images");
-    img.src = imageURL;
+    img.src = imageData;
     col1.appendChild(img);
 
     // Start inputting event info
