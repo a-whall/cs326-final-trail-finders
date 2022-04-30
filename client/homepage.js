@@ -11,11 +11,12 @@ const create_profile = document.getElementById("create-profile");
 const login = document.getElementById("login");
 
 
-signIn.addEventListener('click', async() => {
-    let form_data = new FormData();
-    form_data.append('username', username.value);
-    form_data.append('password', password.value);
-
+signIn.addEventListener('click', async(e) => {
+  // let form_data = new FormData();
+  // form_data.append('username', username.value);
+  // form_data.append('password', password.value);
+  // let data = await crud.attemptLogin(form_data);
+  // console.log(data);
 });
 
 profile.addEventListener('click', async() => {
