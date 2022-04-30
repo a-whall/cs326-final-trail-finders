@@ -1,7 +1,5 @@
-//import * as auth from '../authentication.js'
+import * as crud from './crud.js';
 
-const username = document.getElementById("username-input");
-const password = document.getElementById("password-input");
 const signIn = document.getElementById("sign-in");
 const profile = document.getElementById("profile");
 const trails = document.getElementById("trails");
@@ -12,11 +10,8 @@ const login = document.getElementById("login");
 
 
 signIn.addEventListener('click', async(e) => {
-  // let form_data = new FormData();
-  // form_data.append('username', username.value);
-  // form_data.append('password', password.value);
-  // let data = await crud.attemptLogin(form_data);
-  // console.log(data);
+  const data = await crud.createLogin(new FormData(login));
+  console.log(data);
 });
 
 profile.addEventListener('click', async() => {
