@@ -22,19 +22,12 @@ events.addEventListener('click', async() => {
 });
 
 done.addEventListener('click', async() => {
-    if (password.value === passwordVer.value){
-        let read = await crud.readUser(username.value);
-        if(read.status !== 'SUCCESS'){
-            await crud.createUser(username.value, password.value);
-            alert("Success! Go to home page and sign in!");
-        }
-        else{
-            alert("Username already exists. Choose a new username.");
-        }
-    }
-    else{
-        alert("Passwords do not match!");
-    }
+  if (password.value === passwordVer.value) {
+    const register = await crud.createUser(username.value, password.value);
+    alert(register.status);
+  } else{
+    alert("Passwords do not match!");
+  }
 });
 passwordVer.addEventListener("keyup", function (event) {
     if (password.value === passwordVer.value){
