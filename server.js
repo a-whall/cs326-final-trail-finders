@@ -25,11 +25,11 @@ class TrailFinderServer {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.static('client'));
     this.app.use(expressSession({ secret: process.env.SECRET || 'SECRET', resave: false, saveUninitialized: false }));
+    this.app.use(passport.initialize());
+    this.app.use(passport.session());
     passport.use(this.loginStrategy());
     passport.serializeUser((user, done) => done(null, user));
     passport.deserializeUser((uid, done) => done(null, uid));
-    this.app.use(passport.initialize());
-    this.app.use(passport.session());
     return this;
   }
 
@@ -56,9 +56,7 @@ class TrailFinderServer {
     this.app.get('/usercheck', this.db.readUser.bind(this.db));
     this.app.put('/user', this.db.updateUser.bind(this.db));
     this.app.delete('/user', this.db.deleteUser.bind(this.db));
-    this.app.post('/login', passport.authenticate('local'), async (req, res) => {
-      res.status(303).end();
-    });
+    this.app.post('/login', this.authenticate);
   }
 
   async initDb() {
@@ -75,6 +73,9 @@ class TrailFinderServer {
 
   loginStrategy() {
     return new Strategy(async (username, password, done) => {
+      console.log(username)
+      console.log(password)
+      console.log(done.toString())
       const userExists = await this.db.checkUser(username);
       if (!userExists) {
         return done(null, false, { message: 'Invalid username' });
@@ -87,6 +88,24 @@ class TrailFinderServer {
       console.log('login successful');
       return done(null, username);
     });
+  }
+
+  authenticate(request, response, next) {
+    passport.authenticate('local', function (error, user, info) {
+      console.log(error);
+      console.log(user);
+      console.log(info);
+      if (error) return next(error); // auto-generate 500 error
+      if (!user) {
+        response.status(401).json({ status: 'authentication failed' });
+        return next(error);
+      }
+      // call login our strategy
+      request.login(user, function (error) {
+        if (error) return next(error);
+        return response.status(200).json({ status: 'success' });
+      })
+    })(request, response, next); // invoke passport.authenticate
   }
 
   // Custom middleware to check if the user is authenticated
