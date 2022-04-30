@@ -35,7 +35,7 @@ class TrailFinderServer {
     this.app.get('/trail', this.db.readTrail.bind(this.db));
     this.app.get('/trail/browse', this.db.readTrails.bind(this.db));
     this.app.get('/trail/count', this.db.readTrailCount.bind(this.db));
-    this.app.post('/review', this.db.createReview.bind(this.db));
+    this.app.post('/review', this.checkLoggedIn, this.db.createReview.bind(this.db));
     this.app.get('/review', this.db.readReview.bind(this.db));
     this.app.delete('/review', this.db.deleteReview.bind(this.db));
     this.app.put('/review', this.db.updateReview.bind(this.db));
@@ -51,7 +51,7 @@ class TrailFinderServer {
     this.app.post('/login', auth.authenticate('local', {
       // use username/password authentication
       successRedirect: '/private', // when we login, go to /private
-      failureRedirect: '/homepage', // otherwise, back to login
+      failureRedirect: '/', // otherwise, back to login
     }));
   }
 
@@ -69,13 +69,12 @@ class TrailFinderServer {
     });
   }
   // Our own middleware to check if the user is authenticated
-  checkLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-    // If we are authenticated, run the next route.
-      next();
+  checkLoggedIn(request, response, next) {
+    if (request.isAuthenticated()) {
+      next(); // If we are authenticated, run the next route.
     } else {
-      // Otherwise, redirect to the login page.
-      res.redirect('/homepage');
+      console.log('access to route denied')
+      response.status(401).json({ status: 'must be logged in to perform this action' }); // Otherwise, redirect to the login page.
     }
   }
 }
