@@ -57,6 +57,7 @@ class TrailFinderServer {
     this.app.put('/user', this.checkLoggedIn, this.db.updateUser.bind(this.db));
     this.app.delete('/user', this.checkLoggedIn, this.db.deleteUser.bind(this.db));
     this.app.post('/login', this.authenticate);
+    this.app.post('/logout', this.logout);
   }
 
   async initDb() {
@@ -100,7 +101,7 @@ class TrailFinderServer {
         response.status(401).json({ status: 'authentication failed' });
         return next(error);
       }
-      // call login our strategy
+      // call our login strategy
       request.login(user, function (error) {
         if (error) return next(error);
         return response.status(200).json({ status: 'success' });
@@ -116,6 +117,11 @@ class TrailFinderServer {
       console.log('access to route denied')
       response.status(401).json({ status: 'must be logged in to perform this action' });
     }
+  }
+
+  logout(request, response) {
+    request.logout();
+    response.status(200).json({ status: 'success'});
   }
 }
 
