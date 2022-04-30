@@ -123,9 +123,7 @@ export async function readEvent(eid) {
 }
 
 export async function readAllEvents() {
-  const response = await fetch('/event/browse', {
-    method: 'READ',
-  });
+  const response = await fetch('/event/browse');
   return await response.json();
 }
 

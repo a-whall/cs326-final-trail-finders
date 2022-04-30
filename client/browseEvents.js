@@ -2,7 +2,8 @@ import { readAllEvents,deleteEvent } from "./crud.js";
 
 const listEventParent = document.getElementById("listEvents");
 
-// const data = await readAllEvents();
+const data = await readAllEvents();
+console.log(data);
 
 // Dummy data
 const imageURL1 = "https://upload.wikimedia.org/wikipedia/commons/2/2b/IMG_3811-On-the-Norwottuck-bridge.jpg";
@@ -10,8 +11,7 @@ const description1 = "Hello! I am a UMass student who is planning to bike at the
 const imageURL2 = "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/b3/5f/ff/horse-caves.jpg?w=2000&h=-1&s=1";
 const description2 = "I am planning to walk The Notch Trail. Anyone is invited."
 
-add_event_info(imageURL1, "Norwottuck Rail Trail", "04/06/2022, 4pm to 7pm", "Amherst Town", "Amanda Jones", description1);
-add_event_info(imageURL2, "The Notch", "04/07/2022, 4pm to 7pm", "Northhampton", "Joe Cirus", description2);
+
 
 // Upload events to page
 function add_event_info(imageURL, eventTitle, time, meetup, host, description) {
