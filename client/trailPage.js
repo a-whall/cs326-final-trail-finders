@@ -46,12 +46,15 @@ if (review_data.length === 0) {
 //============= Event Listeners =================================================================
 
 submit_review_button.addEventListener('click', async(e) => {
-  const data = await crud.createReview("user", trailName, reviewBody.value, starCount.value);
-  console.log(data);
-  reviews_container.append(review(data));
-  const no_reviews = document.getElementById('no-reviews');
-  if (no_reviews) {
-    reviews_container.removeChild(no_reviews);
+  const data = await crud.createReview(trailName, reviewBody.value, starCount.value);
+  if (data.success) {
+    reviews_container.append(review(data));
+    const no_reviews = document.getElementById('no-reviews');
+    if (no_reviews) {
+      reviews_container.removeChild(no_reviews);
+    }
+  } else {
+    alert(`error: ${data.status}`)
   }
 });
 
