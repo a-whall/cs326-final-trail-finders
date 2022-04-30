@@ -193,6 +193,11 @@ export async function createLogin(formData) {
   return await response.json();
 }
 
+export async function checkLoggedIn() {
+  const response = await fetch('/loggedIn', { method: 'GET' });
+  return await response.json();
+}
+
 export async function logout() {
   const response = await fetch('/logout', {
     method: 'POST'
