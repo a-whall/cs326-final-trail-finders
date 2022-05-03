@@ -45,13 +45,13 @@ class TrailFinderServer {
     this.app.get('/review', this.db.readReview.bind(this.db));
     this.app.delete('/review', this.db.deleteReview.bind(this.db));
     this.app.put('/review', this.db.updateReview.bind(this.db));
-    this.app.post('/event', this.db.createEvent.bind(this.db));
+    this.app.post('/event', this.checkLoggedIn, this.db.createEvent.bind(this.db));
     this.app.post('/event/image', this.db.createEventImage.bind(this.db));
     this.app.get('/event/listTrails', this.db.readTrailNames.bind(this.db));
     this.app.get('/event', this.db.readEvent.bind(this.db));
     this.app.get('/event/browse', this.db.readAllEvents.bind(this.db));
     this.app.put('/event', this.db.updateEvent.bind(this.db));
-    this.app.delete('/event/delete', this.db.deleteEvent.bind(this.db));
+    this.app.delete('/event/delete', this.checkLoggedIn, this.db.deleteEvent.bind(this.db));
     this.app.post('/user', this.db.createUser.bind(this.db));
     this.app.get('/user', this.db.readUser.bind(this.db));
     this.app.get('/usercheck', this.db.readUser.bind(this.db));
@@ -60,7 +60,8 @@ class TrailFinderServer {
     this.app.post('/login', this.authenticate);
     this.app.post('/logout', this.logout);
     this.app.post('/register', this.db.registerUser.bind(this.db));
-    this.app.get('/loggedIn', (req, res) => res.status(200).json({ val:req.isAuthenticated()}));
+    
+    this.app.get('/loggedIn', (req, res) => res.status(200).json({ val:req.user }));
   }
 
   async initDb() {
