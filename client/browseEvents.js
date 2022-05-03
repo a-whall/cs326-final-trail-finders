@@ -1,4 +1,4 @@
-import { readAllEvents, deleteEvent, checkLogin } from "./crud.js";
+import { readAllEvents, deleteEvent, getUserLogin } from "./crud.js";
 
 const listEventParent = document.getElementById("listEvents");
 

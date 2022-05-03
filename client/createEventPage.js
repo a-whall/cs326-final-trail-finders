@@ -1,4 +1,4 @@
-import { createEvent, uploadEventImage, readTrailNames, checkLogin } from "./crud.js";
+import { createEvent, uploadEventImage, readTrailNames, getUserLogin } from "./crud.js";
 
 // Create trails dropdown list
 const trails = await readTrailNames();

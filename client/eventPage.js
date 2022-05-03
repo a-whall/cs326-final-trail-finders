@@ -1,4 +1,4 @@
-import { readEvent, deleteEvent, checkLogin } from "./crud.js";
+import { readEvent, deleteEvent, getUserLogin } from "./crud.js";
 
 const event_title_header = document.getElementById('eventTitle');
 const description_area = document.getElementById('description');
