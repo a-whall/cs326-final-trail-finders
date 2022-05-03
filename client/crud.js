@@ -97,8 +97,8 @@ export async function deleteReview(user, trail) {
 
 //==================== Events ===============================================================================================
 
-export async function checkLogin() {
-  const response = await fetch(`/loggedIn`);
+export async function getUserLogin() {
+  const response = await fetch(`/userLoggedIn`);
   return await response.json();
 }
 

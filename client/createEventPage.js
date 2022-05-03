@@ -29,7 +29,7 @@ image.onchange = event => {
 
 // Record the user and save for events later
 console.log("testing");
-const username = await checkLogin().val;
+const username = await getUserLogin().val;
 console.log(username);
 
 // Save event data

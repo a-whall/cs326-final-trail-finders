@@ -27,7 +27,7 @@ document.getElementById("findTrail").addEventListener('click', () => {
 
 // Enable delete event button if event was made from user
 document.getElementById("deleteEvent").addEventListener('click', async () => {
-  if (!(await checkLogin().val)) {
+  if (!(await getUserLogin().val)) {
     alert("Please make an account first before deleting events!")
   }
   
