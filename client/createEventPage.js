@@ -1,4 +1,4 @@
-import { createEvent, uploadEventImage, readTrailNames } from "./crud.js";
+import { createEvent, uploadEventImage, readTrailNames, getUserLogin } from "./crud.js";
 
 // Create trails dropdown list
 const trails = await readTrailNames();
@@ -26,6 +26,11 @@ image.onchange = event => {
     imagePreview.src = URL.createObjectURL(file);
   }
 };
+
+// Record the user and save for events later
+console.log("testing");
+const username = await getUserLogin().val;
+console.log(username);
 
 // Save event data
 document.getElementById("createEventButton").addEventListener("click", saveEvent);

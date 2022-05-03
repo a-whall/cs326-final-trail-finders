@@ -1,4 +1,4 @@
-import { readAllEvents,deleteEvent } from "./crud.js";
+import { readAllEvents, deleteEvent, getUserLogin } from "./crud.js";
 
 const listEventParent = document.getElementById("listEvents");
 
@@ -6,6 +6,15 @@ const data = await readAllEvents();
 
 data.forEach(element => {
     add_event_info(`data:${element.filetype};base64,${element.image}`, element.eid, element.title, element.time, element.meetup, element.username, element.description);
+});
+
+// Event Listener for adding an event
+document.getElementById("createEventButton").addEventListener("click", async () => {
+    if (await getUserLogin().val) {
+        window.location.href = "./createEventPage.html";
+    } else {
+        alert("Please make an account first before creating your own events!")
+    }
 });
 
 // Upload events to page

@@ -97,6 +97,11 @@ export async function deleteReview(user, trail) {
 
 //==================== Events ===============================================================================================
 
+export async function getUserLogin() {
+  const response = await fetch(`/userLoggedIn`);
+  return await response.json();
+}
+
 export async function createEvent(title, time, meetup, host, description, trail) {
   const response = await fetch('/event', {
     method: 'POST',
@@ -120,7 +125,6 @@ export async function readTrailNames() {
 }
 
 export async function readEvent(eid) {
-  console.log(eid);
   const response = await fetch(`/event?eid=${eid}`);
   return await response.json();
 }

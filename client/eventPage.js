@@ -1,4 +1,4 @@
-import { readEvent, deleteEvent } from "./crud.js";
+import { readEvent, deleteEvent, getUserLogin } from "./crud.js";
 
 const event_title_header = document.getElementById('eventTitle');
 const description_area = document.getElementById('description');
@@ -27,6 +27,10 @@ document.getElementById("findTrail").addEventListener('click', () => {
 
 // Enable delete event button if event was made from user
 document.getElementById("deleteEvent").addEventListener('click', async () => {
+  if (!(await getUserLogin().val)) {
+    alert("Please make an account first before deleting events!")
+  }
+  
   if (await deleteEvent(eid)) {
     alert("Event has been deleted.");
     window.location.href = "./browseEvents.html";
