@@ -24,6 +24,18 @@ Team Members:
 
 User Interface:
 
+- Home page
+  - `Sign Up` button navigates to signup page
+  - `Suggest New` button navigates to create a trail page
+- Signup page
+- Edit User page
+- Trails Browse page
+- Create a Trail page
+- Trail page
+- Create Events page
+- Events page
+  - 
+
 
 ---
 
