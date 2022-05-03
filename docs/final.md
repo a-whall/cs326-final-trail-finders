@@ -65,7 +65,7 @@ reviews table
 | Column | Data Type | Description |
 |--------------|-----------|--------------------------|
 | username | String | Username of the user who created the review |
-| trail | String | Trail associated with the review |
+| trailname | String | Trail associated with the review |
 | body | String | Description of the review |
 | starcount | Integer | Starcount of the review (from 1 star to 5 star) |
 | likecount | Integer | Likecount of the review |
