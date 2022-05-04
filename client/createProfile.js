@@ -1,6 +1,6 @@
 import * as crud from "./crud.js"
 
-const home = document.getElementById("home");
+// const home = document.getElementById("home");
 const trails = document.getElementById("trails");
 const events = document.getElementById("events");
 const username = document.getElementById("username-input");
@@ -9,9 +9,9 @@ const passwordVer = document.getElementById("passwordVer-input");
 const done = document.getElementById("done-button");
 
 
-home.addEventListener('click', async() => {
-    window.location.href="homepage.html";
-});
+// home.addEventListener('click', async() => {
+//     window.location.href="homepage.html";
+// });
 
 trails.addEventListener('click', async() => {
     window.location.href="browseTrails.html";
