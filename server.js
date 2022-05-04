@@ -109,7 +109,7 @@ class TrailFinderServer {
       // call our login strategy
       request.login(user, function (error) {
         if (error) return next(error);
-        return response.status(200).json({ status: 'success' });
+        return response.status(200).json({ status: 'success', username: request.user });
       })
     })(request, response, next); // invoke passport.authenticate
   }
