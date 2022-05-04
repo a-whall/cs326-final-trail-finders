@@ -32,9 +32,14 @@ User Interface:
 - Trails Browse page
 - Create a Trail page
 - Trail page
+- Events Browse page
+  - `Create Event` button navigates to create an event page
 - Create Events page
+  - After filling out the required info in the webpage, users can click `Create Event` to create their own events. 
+  - If users cannot find the corresponding trails to their event, they can click on the URL text `Can't find your trail? Add one here!`to add a new trail
 - Events page
-  - 
+  - `Learn more about the Trail!` button allows users to obtain more details of the trail corresponding to the event.
+  - `Delete Event` button deletes a user's event
 
 
 ---
