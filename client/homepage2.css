@@ -1,14 +1,26 @@
+body {
+  background: #cfc5b4;
+}
+
 #banner {
   width: 100%;
   height: auto;
 }
 
-.dropdown-menu {
+.login-dropdown {
   min-width: 300px;
+}
+
+.logout-dropdown {
+  min-width: 150px;
 }
 
 .link {
   padding: 0px 10px;
+}
+
+#welcome-card {
+  top: -10px;
 }
 
 .logo {
@@ -17,4 +29,5 @@
   margin-left: 10px;
   width: 15%;
   height: auto;
+  border-radius: 5px;
 }
