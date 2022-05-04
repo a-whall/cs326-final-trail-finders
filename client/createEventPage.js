@@ -29,14 +29,16 @@ document.getElementById("createEventButton").addEventListener("click", saveEvent
 
 async function saveEvent() {
   const title = document.getElementById("title").value;
-  const time = document.getElementById("time").value;
+  const date = document.getElementById("date").value;
+  const starttime = document.getElementById("starttime").value;
+  const endtime = document.getElementById("endtime").value;
   const meetup = document.getElementById("meetup").value;
   const description = document.getElementById("description").value;
   const trail = document.getElementById("trailListValues").value;
   
   // Check if user is logged in
   if (username) {
-    const eid = await createEvent(title, time, meetup, username, description, trail);
+    const eid = await createEvent(title, date, starttime, endtime, meetup, username, description, trail);
 
     // Prepare image to be upload into SQL event database
     if (eid) {

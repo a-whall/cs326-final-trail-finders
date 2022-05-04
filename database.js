@@ -160,13 +160,13 @@ export class TrailFinderDatabase {
   }
 
   async createEvent(request, response) {
-    const args = parse(request.body, "title", "time", "meetup", "username", "description", "trail");
+    const args = parse(request.body, "title", "date", "starttime", "endtime", "meetup", "username", "description", "trail");
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
       const queryText =
-      'INSERT INTO events (eid, title, time, meetup, username, description, trail) VALUES (DEFAULT, $1, $2, $3, $4, $5, $6) RETURNING eid';
-      const res = await this.client.query(queryText, [args.title, args.time, args.meetup, args.username, args.description, args.trail]);
+      'INSERT INTO events (eid, title, date, starttime, endtime, meetup, username, description, trail) VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8) RETURNING eid';
+      const res = await this.client.query(queryText, [args.title, args.date, args.starttime, args.endtime, args.meetup, args.username, args.description, args.trail]);
       console.log(res.rows[0].eid);
       return response.status(200).json(res.rows[0].eid);
     }

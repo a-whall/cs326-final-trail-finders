@@ -2,6 +2,7 @@ import { readEvent, deleteEvent, getUsername } from "./crud.js";
 
 const event_title_header = document.getElementById('eventTitle');
 const description_area = document.getElementById('description');
+const dateInfo_div = document.getElementById('dateInfo');
 const timeInfo_div = document.getElementById('timeInfo');
 const meetupInfo_div = document.getElementById('meetupInfo');
 const hostInfo_div = document.getElementById('hostInfo');
@@ -11,14 +12,16 @@ const eid = new URLSearchParams(window.location.search).get('eid');
 const eventData = await readEvent(eid);
 
 const title = eventData.title;
-const time = eventData.time;
+const date = eventData.date;
+const starttime = eventData.starttime;
+const endtime = eventData.endtime;
 const meetup = eventData.meetup;
 const username = (await getUsername()).val;
 const description = eventData.description;
 const trailName = eventData.trail;
 const eventUsername = eventData.username;
 
-add_event_info(`data:${eventData.filetype};base64,${eventData.image}`, title, time, meetup, username, description);
+add_event_info(`data:${eventData.filetype};base64,${eventData.image}`, title, date, starttime, endtime, meetup, username, description);
 
 // Allow users to view trail through this button
 document.getElementById("findTrail").addEventListener('click', () => {
@@ -39,7 +42,7 @@ document.getElementById("deleteEvent").addEventListener('click', async () => {
   }
 });
 
-function add_event_info(imageData, eventName, timeName, meetup, host, description) {
+function add_event_info(imageData, eventName, date, starttime, endtime, meetup, host, description) {
   // Add event title
   event_title_header.innerHTML = eventName;
   
@@ -47,11 +50,43 @@ function add_event_info(imageData, eventName, timeName, meetup, host, descriptio
   const image_img = document.getElementById('eventImage');
   image_img.src = imageData;
 
+  // Add date
+  const dateFormatted = new Date(date);
+  const dateYear = dateFormatted.getFullYear();
+  const dateMonth = dateFormatted.getMonth() + 1;
+  const dateDay = dateFormatted.getDate() + 1;
+  date = " " + dateMonth + "/" + dateDay + "/" + dateYear;
+
+  const date_div = document.createElement('div');
+  date_div.classList.add('row');
+  const date_label = document.createElement('label');
+  date_label.innerHTML = date;
+  date_div.append(date_label);
+  dateInfo_div.append(date_div);
+
   // Add time
+  let [startHour, startMin] = starttime.split(':');
+  let startMeridiem = "AM"
+  if (startHour >= 12) {
+      startMeridiem = "PM"
+  }
+  if (startHour > 12) {
+      startHour = startHour - 12;
+  }
+
+  let [endHour, endMin] = endtime.split(':');
+  let endMeridiem = "AM"
+  if (endHour >= 12) {
+      endMeridiem = "PM"
+  }
+  if (endHour > 12) {
+      endHour = endHour - 12
+  }
+
   const time_div = document.createElement('div');
   time_div.classList.add('row');
   const time_label = document.createElement('label');
-  time_label.innerHTML = timeName;
+  time_label.innerHTML = " " + startHour + ":" + startMin + " " + startMeridiem + " to " + endHour + ":" + endMin + " " + endMeridiem;
   time_div.append(time_label);
   timeInfo_div.append(time_div);
 

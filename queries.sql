@@ -29,7 +29,9 @@ CREATE TABLE IF NOT EXISTS public.events
 (
     eid SERIAL PRIMARY KEY,
     title character varying(64) COLLATE pg_catalog."default",
-    "time" character varying(64) COLLATE pg_catalog."default",
+    date character varying(64) COLLATE pg_catalog."default",
+    starttime character varying(64) COLLATE pg_catalog."default",
+    endtime character varying(64) COLLATE pg_catalog."default",
     meetup character varying(64) COLLATE pg_catalog."default",
     username character varying(64) COLLATE pg_catalog."default",
     description character varying(1920) COLLATE pg_catalog."default",
@@ -39,10 +41,10 @@ CREATE TABLE IF NOT EXISTS public.events
 );
 
 INSERT INTO
-	events(eid, title, time, meetup, username, description, trail)
+    events (eid, title, date, starttime, endtime, meetup, username, description, trail)
 VALUES
-	(DEFAULT, 'Biking at the Norwottuck Rail Trail', '04/06/2022, 4pm to 7pm', 'Amherst Town', 'Amanda', 'Lets bike at the Norwottuck Rail Trail! Please bring your own bike as bikes are not provided.', 'Norwottuck Rail Trail'),
-	(DEFAULT, 'Walking The Notch Trail', '04/07/2022, 4pm to 7pm', 'Northhampton', 'Joe', 'Calm walk up The Notch. Hiking boots are recommended.', "Taylor's Notch");
+	(DEFAULT, 'Biking at the Norwottuck Rail Trail', '04/06/2022' , '04:00 PM', '07:00PM', 'Amherst Town', 'Amanda', 'Lets bike at the Norwottuck Rail Trail! Please bring your own bike as bikes are not provided.', 'Norwottuck Rail Trail'),
+	(DEFAULT, 'Walking The Notch Trail', '04/07/2022', '04:00 PM', '07:00PM', 'Northhampton', 'Calm walk up The Notch. Hiking boots are recommended.', "Taylor's Notch");
 
 SELECT * FROM events WHERE eid = 1;
 
