@@ -61,7 +61,7 @@ class TrailFinderServer {
     this.app.post('/logout', this.logout);
     this.app.post('/register', this.db.registerUser.bind(this.db));
  
-    this.app.get('/userLoggedIn', (req, res) => res.status(200).json({ val:req.user }));
+    this.app.get('/username', (req, res) => res.status(200).json({ val:req.user }));
     this.app.get('/loggedIn', (req, response) => response.status(200).json({ value:req.isAuthenticated()}));
   }
 

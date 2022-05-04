@@ -1,1 +1,0 @@
-SELECT * FROM events WHERE eid = 1;
