@@ -70,7 +70,9 @@ events table
 |--------------|-----------|--------------------------|
 | eid | Integer | A unique id for each event. Primary Key of the table |
 | title | String | A title for the event |
-| time | String | Time of the event |
+| date | String | Date of the event |
+| starttime | String | Start time of the event |
+| endtime | String | End time of the event |
 | meetup | String | Meetup location for the event |
 | username | String | Username of the user who created the event |
 | description | String | Description of the event |
