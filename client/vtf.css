@@ -64,3 +64,7 @@ body {
 #register-card {
   width: 380px;
 }
+
+#user-btn {
+  min-width: 85px;
+}
