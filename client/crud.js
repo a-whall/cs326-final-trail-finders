@@ -97,16 +97,16 @@ export async function deleteReview(user, trail) {
 
 //==================== Events ===============================================================================================
 
-export async function getUserLogin() {
-  const response = await fetch(`/userLoggedIn`);
+export async function getUsername() {
+  const response = await fetch(`/username`);
   return await response.json();
 }
 
-export async function createEvent(title, time, meetup, host, description, trail) {
+export async function createEvent(title, time, meetup, username, description, trail) {
   const response = await fetch('/event', {
     method: 'POST',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ title:title, time:time, meetup:meetup, username:host, description:description, trail:trail })
+    body: JSON.stringify({ title:title, time:time, meetup:meetup, username:username, description:description, trail:trail })
   });
   return await response.json();
 }

@@ -19,3 +19,31 @@ CREATE TABLE public.trail_images
 
 CREATE TABLE public.reviews
 (username varchar(64), trailname varchar(64), body varchar(4096), starcount integer, likecount integer)
+
+/* ----------------- Events SQL ----------------- */
+-- Table: public.events
+
+-- DROP TABLE IF EXISTS public.events;
+
+CREATE TABLE IF NOT EXISTS public.events
+(
+    eid SERIAL PRIMARY KEY,
+    title character varying(64) COLLATE pg_catalog."default",
+    "time" character varying(64) COLLATE pg_catalog."default",
+    meetup character varying(64) COLLATE pg_catalog."default",
+    username character varying(64) COLLATE pg_catalog."default",
+    description character varying(1920) COLLATE pg_catalog."default",
+    trail character varying(64) COLLATE pg_catalog."default",
+    filetype character varying(16),
+    image character varying(10000000)
+);
+
+INSERT INTO
+	events(eid, title, time, meetup, username, description, trail)
+VALUES
+	(DEFAULT, 'Biking at the Norwottuck Rail Trail', '04/06/2022, 4pm to 7pm', 'Amherst Town', 'Amanda', 'Lets bike at the Norwottuck Rail Trail! Please bring your own bike as bikes are not provided.', 'Norwottuck Rail Trail'),
+	(DEFAULT, 'Walking The Notch Trail', '04/07/2022, 4pm to 7pm', 'Northhampton', 'Joe', 'Calm walk up The Notch. Hiking boots are recommended.', "Taylor's Notch");
+
+SELECT * FROM events WHERE eid = 1;
+
+DELETE FROM events WHERE eid = 1;

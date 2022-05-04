@@ -68,3 +68,85 @@ body {
 #user-btn {
   min-width: 85px;
 }
+
+/* browseEvents */
+
+#navigationBox {
+  margin: 10px;
+  border: 2px solid black;
+  background-color: lightgrey;
+  text-align: center;
+}
+
+#sortBox {
+  margin: 10px;
+  border: 2px solid black;
+  background-color: lightgrey;
+  text-align: center;
+}
+
+.container-fluid {
+  padding: 0px;
+}
+
+#UpcomingEventTitle {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.images {
+  width: 100%;
+  height: auto;
+  border: 5px solid #FFFFFF;
+  margin: 10px;
+  float: left;
+}
+
+#eventBox {
+  margin: 10px;
+  border: 2px solid black;
+  background-color: lightgrey;
+}
+
+.eventTitle {
+  font-size: 25px;
+}
+
+.logo-1 {
+  width: 50%;
+  margin: 10px;
+}
+
+/* createEvent */
+
+#createAnEvent {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.createEvent input[type=text], textarea {
+  font-size: 17px;
+  width: 50%;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+#imagePreview {
+  width: 25%;
+  height: auto;
+}
+
+#description {
+  height: 100px;
+}
+
+#imageFile, #trailList, #trailListValues {
+  font-size: 17px;
+  width: 50%;
+  margin-bottom: 25px;
+}
+
+#eventImage {
+  width: 50%;
+  height: auto;
+}

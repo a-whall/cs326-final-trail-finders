@@ -1,4 +1,4 @@
-import { readAllEvents, deleteEvent, getUserLogin } from "./crud.js";
+import { readAllEvents, deleteEvent, getUsername } from "./crud.js";
 
 const listEventParent = document.getElementById("listEvents");
 
@@ -10,7 +10,7 @@ data.forEach(element => {
 
 // Event Listener for adding an event
 document.getElementById("createEventButton").addEventListener("click", async () => {
-    if (await getUserLogin().val) {
+    if ((await getUsername()).val) {
         window.location.href = "./createEventPage.html";
     } else {
         alert("Please make an account first before creating your own events!")
