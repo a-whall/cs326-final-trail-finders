@@ -254,14 +254,18 @@ export class TrailFinderDatabase {
   }
 
   async updateUser(request, response) {
-    const args = parse(request.body, "oldPassword", "newPassword");
-    if ("error" in args) {
+    const args = parse(request.body, 'oldPassword', 'newPassword');
+    if ('error' in args) {
       response.status(400).json({ error: args.error });
     } else {
-      console.log(request.password)
-      const queryText = 'UPDATE user_info SET password = $3 WHERE username = $1 AND password = $2'
-      const res = await this.client.query(queryText, [request.user, args.oldPassword, args.newPassword]);
-      response.status(200).json({ status: 'success' });
+      const queryText = 'UPDATE user_info SET password = $3 WHERE username = $1 AND password = $2';
+      try {
+        await this.client.query(queryText, [request.user, args.oldPassword, args.newPassword]);
+        response.status(200).json({ status: 'Password has been updated.' });
+      } catch (error) {
+        console.log(error);
+        response.status(200).json({ status: 'Password update failed.'});
+      }
     }
   }
 
