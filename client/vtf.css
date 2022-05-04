@@ -124,9 +124,16 @@ body {
   font-weight: bold;
 }
 
-.createEvent input[type=text], textarea {
+.createEvent input, textarea {
   font-size: 17px;
   width: 50%;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+
+#date, #time {
+  font-size: 17px;
   margin-top: 25px;
   margin-bottom: 25px;
 }

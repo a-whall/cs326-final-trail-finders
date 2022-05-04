@@ -37,13 +37,33 @@
         <div class="col-9">
           <p id="createAnEvent">Create an Event</p>
           <div class="createEvent">
-            Upload an Image:
+            <label for="imageFile">Upload an Image:</label>
             <input id="imageFile" class="form-control" type="file">
             <img id="imagePreview" />
             <br>
+            <br>
+            <label for="title">Title:</label>
+            <br>
             <input type="text" id="title" placeholder="Insert Title">
-            <input type="text" id="time" placeholder="Insert Date and Time">
+            <br>
+            <label for="date">Date:</label>
+            <br>
+            <input type="date" id="date">
+            <br>
+            <label for="starttime">Start Time:</label>
+            <br>
+            <input type="time" id="starttime">
+            <br>
+            <label for="endttime">End Time:</label>
+            <br>
+            <input type="time" id="endtime">
+            <br>
+            <label for="endttime">Meet Up Location:</label>
+            <br>
             <input type="text" id="meetup" placeholder="Insert Meet-up">
+            <br>
+            <label for="endttime">Description:</label>
+            <br>
             <textarea type="text" id="description" placeholder="Insert Description"></textarea>
 
             <label for="trails" id="trailList">Which trail is this event referring to?</label>

@@ -5,7 +5,7 @@ const listEventParent = document.getElementById("listEvents");
 const data = await readAllEvents();
 
 data.forEach(element => {
-    add_event_info(`data:${element.filetype};base64,${element.image}`, element.eid, element.title, element.time, element.meetup, element.username, element.description);
+    add_event_info(`data:${element.filetype};base64,${element.image}`, element.eid, element.title, element.date, element.starttime, element.endtime, element.meetup, element.username, element.description);
 });
 
 // Event Listener for adding an event
@@ -18,7 +18,7 @@ document.getElementById("createEventButton").addEventListener("click", async () 
 });
 
 // Upload events to page
-function add_event_info(imageData, eid, eventTitle, time, meetup, host, description) {
+function add_event_info(imageData, eid, eventTitle, date, starttime, endtime, meetup, host, description) {
     // Properly create 'eventBox'
     const row1 = document.createElement("div");
     row1.classList.add("row");
@@ -59,17 +59,52 @@ function add_event_info(imageData, eid, eventTitle, time, meetup, host, descript
     link.href = `./eventPage.html?eid=${eid}`;
     pEventTitle.appendChild(link);
 
+    // Input Date
+    const dateFormatted = new Date(date);
+    const dateYear = dateFormatted.getFullYear();
+    const dateMonth = dateFormatted.getMonth() + 1;
+    const dateDay = dateFormatted.getDate() + 1;
+    const pDate = document.createElement("p");
+    col2.appendChild(pDate);
+
+    const calenderIcon = document.createElement("i");
+    calenderIcon.classList = "fa fa-calendar";
+    pDate.appendChild(calenderIcon);
+
+    const dateSpan = document.createElement("span");
+    dateSpan.id = "date";
+    dateSpan.innerHTML = " " + dateMonth + "/" + dateDay + "/" + dateYear;
+    pDate.appendChild(dateSpan);
+
     // Input time
     const p2 = document.createElement("p");
     col2.appendChild(p2);
 
-    const calenderIcon = document.createElement("i");
-    calenderIcon.classList = "fa fa-calendar";
-    p2.appendChild(calenderIcon);
+    const clockIcon = document.createElement("i");
+    clockIcon.classList = "fa fa-clock";
+    p2.appendChild(clockIcon);
 
+    let [startHour, startMin] = starttime.split(':');
+    let startMeridiem = "AM"
+    if (startHour >= 12) {
+        startMeridiem = "PM"
+    }
+    if (startHour > 12) {
+        startHour = startHour - 12;
+    }
+    
+    let [endHour, endMin] = endtime.split(':');
+    let endMeridiem = "AM"
+    if (endHour >= 12) {
+        endMeridiem = "PM"
+    }
+    if (endHour > 12) {
+        endHour = endHour - 12
+    }
+    
     const timeSpan = document.createElement("span");
     timeSpan.id = "time";
-    timeSpan.innerHTML = " " + time;
+    timeSpan.innerHTML = " " + startHour + ":" + startMin + " " + startMeridiem + " to " + endHour + ":" + endMin + " " + endMeridiem;
     p2.appendChild(timeSpan);
 
     // Input meet-up

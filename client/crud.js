@@ -102,11 +102,11 @@ export async function getUsername() {
   return await response.json();
 }
 
-export async function createEvent(title, time, meetup, username, description, trail) {
+export async function createEvent(title, date, starttime, endtime, meetup, username, description, trail) {
   const response = await fetch('/event', {
     method: 'POST',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ title:title, time:time, meetup:meetup, username:username, description:description, trail:trail })
+    body: JSON.stringify({ title:title, date:date, starttime:starttime, endtime:endtime, meetup:meetup, username:username, description:description, trail:trail })
   });
   return await response.json();
 }
