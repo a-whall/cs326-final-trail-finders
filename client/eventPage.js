@@ -1,4 +1,4 @@
-import { readEvent, deleteEvent, getUserLogin } from "./crud.js";
+import { readEvent, deleteEvent, getUsername } from "./crud.js";
 
 const event_title_header = document.getElementById('eventTitle');
 const description_area = document.getElementById('description');
@@ -10,15 +10,15 @@ const hostInfo_div = document.getElementById('hostInfo');
 const eid = new URLSearchParams(window.location.search).get('eid');
 const eventData = await readEvent(eid);
 
-// Dummy data
 const title = eventData.title;
 const time = eventData.time;
 const meetup = eventData.meetup;
-const host = eventData.username;
+const username = (await getUsername()).val;
 const description = eventData.description;
 const trailName = eventData.trail;
+const eventUsername = eventData.username;
 
-add_event_info(`data:${eventData.filetype};base64,${eventData.image}`, title, time, meetup, host, description);
+add_event_info(`data:${eventData.filetype};base64,${eventData.image}`, title, time, meetup, username, description);
 
 // Allow users to view trail through this button
 document.getElementById("findTrail").addEventListener('click', () => {
@@ -27,11 +27,13 @@ document.getElementById("findTrail").addEventListener('click', () => {
 
 // Enable delete event button if event was made from user
 document.getElementById("deleteEvent").addEventListener('click', async () => {
-  if (!(await getUserLogin().val)) {
-    alert("Please make an account first before deleting events!")
-  }
-  
-  if (await deleteEvent(eid)) {
+  if (!username) {
+    alert("Please make an account first before deleting events!");
+  } else if (!(username === eventUsername)) {
+    alert ("Only the user who created this event can delete it.");
+  } else if (!(await deleteEvent(eid))) {
+    alert("Event not found");
+  } else {
     alert("Event has been deleted.");
     window.location.href = "./browseEvents.html";
   }

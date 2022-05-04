@@ -11,7 +11,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "deploy": "copyfiles client/* server.js database.js .env package*.json deploy",
+    "deploy": "copyfiles client/* client/assets/* server.js database.js .env package*.json deploy",
     "start": "node server.js",
     "debug": "node --inspect-brk index.js"
   },
