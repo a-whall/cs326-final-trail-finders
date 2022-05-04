@@ -4,7 +4,9 @@ const login_form = document.getElementById('login-form');
 const login_btn = document.getElementById('login-button');
 const logout_btn = document.getElementById('logout-button');
 const account_dropdown_loggedIn = document.getElementById('account-logged-in');
+const account_btn = document.getElementById('account-btn');
 const account_dropdown_loggedOut = document.getElementById('account-logged-out');
+const user_btn = document.getElementById('user-btn');
 const welcome_container = document.getElementById('welcome-container');
 
 positionWelcomeMessage();
@@ -20,9 +22,9 @@ if (loggedIn.value) {
 login_btn.addEventListener('click', async(e) => {
   const login = await crud.createLogin(new FormData(login_form));
   if (login.status === 'success') {
-    // TODO: change the loggedIn dropdown to display username instead of "account"
     account_dropdown_loggedIn.classList.remove('d-none');
     account_dropdown_loggedOut.classList.add('d-none');
+    user_btn.textContent = login.username;
   } else {
     // TODO: display why login failed and keep the account dropdown open
   }
