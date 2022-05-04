@@ -1,64 +1,46 @@
 import * as crud from './crud.js';
 
-const signIn = document.getElementById("sign-in");
-const profile = document.getElementById("profile");
-const trails = document.getElementById("trails");
-const events = document.getElementById("events");
-const create_trail = document.getElementById("create-trail");
-const create_profile = document.getElementById("create-profile");
-const login = document.getElementById("login");
-const log_out = document.getElementById("log-out");
+const login_form = document.getElementById('login-form');
+const login_btn = document.getElementById('login-button');
+const logout_btn = document.getElementById('logout-button');
+const account_dropdown_loggedIn = document.getElementById('account-logged-in');
+const account_dropdown_loggedOut = document.getElementById('account-logged-out');
+const welcome_container = document.getElementById('welcome-container');
 
-const checkStatus = await crud.checkLoggedIn();
-if (checkStatus.value){
-    hideLogin();
-    // const log_out = document.getElementById("log-out");
-    // log_out.addEventListener('click', async(e) => {
-    //     const data = await crud.logout();
-    // });
+positionWelcomeMessage();
+
+// choose which dropdown menu to show initially
+const loggedIn = await crud.checkLoggedIn();
+if (loggedIn.value) {
+  account_dropdown_loggedOut.classList.add('d-none');
+} else {
+  account_dropdown_loggedIn.classList.add('d-none');
 }
 
-function hideLogin(){
-    login.style.display = (login.style.display === "none")? "block": "none";
-    const signInStatus = document.createElement('label');
-    signInStatus.innerHTML = 'You Are Signed In!    :';
-    login.parentNode.replaceChild(signInStatus, login);
-    const logout = document.createElement('button');
-    logout.type = "button";
-    logout.id = "log-out";
-    logout.class = "btn";
-    logout.innerHTML = '<i class="fa-solid fa-user"></i> Log Out';
-    signInStatus.appendChild(logout);
-}
-
-log_out.addEventListener('click', async(e) => {
-    const data = await crud.logout();
-});
-
-signIn.addEventListener('click', async(e) => {
-  const data = await crud.createLogin(new FormData(login));
-  console.log(data);
-  if (data.status === 'success'){
-    hideLogin();
+login_btn.addEventListener('click', async(e) => {
+  const login = await crud.createLogin(new FormData(login_form));
+  if (login.status === 'success') {
+    // TODO: change the loggedIn dropdown to display username instead of "account"
+    account_dropdown_loggedIn.classList.remove('d-none');
+    account_dropdown_loggedOut.classList.add('d-none');
+  } else {
+    // TODO: display why login failed and keep the account dropdown open
   }
 });
 
-profile.addEventListener('click', async() => {
-    window.location.href="profile.html";
+logout_btn.addEventListener('click', async(e) => {
+  await crud.logout();
+  account_dropdown_loggedIn.classList.add('d-none');
+  account_dropdown_loggedOut.classList.remove('d-none');
 });
 
-trails.addEventListener('click', async() => {
-    window.location.href="browseTrails.html";
-});
+window.addEventListener('resize', positionWelcomeMessage, false);
 
-events.addEventListener('click', async() => {
-    window.location.href="browseEvents.html";
-});
-
-create_trail.addEventListener('click', async() => {
-    window.location.href="createTrailPage.html";
-});
-
-create_profile.addEventListener('click', async() => {
-    window.location.href="createProfile.html";
-});
+function positionWelcomeMessage() {
+  const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+  if (viewportWidth > 1395) {
+    welcome_container.classList.add('fixed-bottom');
+  } else {
+    welcome_container.classList.remove('fixed-bottom');
+  }
+}
