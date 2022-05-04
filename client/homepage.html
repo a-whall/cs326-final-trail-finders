@@ -29,7 +29,7 @@
         <div class="col-3">
           <!-- Log in dropdown button -->
           <div id="account-logged-out" class="btn-group">
-            <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <button id="account-btn" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
               Account
             </button>
             <div class="dropdown-menu dropdown-menu-end login-dropdown">
@@ -49,15 +49,16 @@
           </div>
           <!-- Log out dropdown button -->
           <div id="account-logged-in" class="btn-group">
-            <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <button id="user-btn" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
               Account
             </button>
-            <div class="dropdown-menu dropdown-menu-end logout-dropdown">
-              <form id="logout-form" class="text-center">
-                <button id="logout-button" type="button" class="btn btn-secondary btn-sm">
-                  Log Out
-                </button>
-              </form>
+            <div class="dropdown-menu dropdown-menu-end logout-dropdown text-center">
+              <div class="pb-2">
+                <a href="profile.html">Manage Account</a>
+              </div>
+              <button id="logout-button" type="button" class="btn btn-secondary btn-sm">
+                Log Out
+              </button>
             </div>
           </div>
         </div>
