@@ -175,12 +175,12 @@ export async function deleteUser(username, password) {
 }
 
 export async function updateUser(oldPassword, newPassword) {
-  const response = await fetch('/user', { method: 'PUT',
+  const response = await fetch('/user', {
+    method: 'PUT',
     headers: { 'Content-Type':'application/json' },
     body: JSON.stringify({ oldPassword: oldPassword, newPassword: newPassword })
   });
-  const data = await response.json()
-  return data;
+  return await response.json();
 }
 
 export async function readUser(username) {
