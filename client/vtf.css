@@ -1,0 +1,66 @@
+body {
+  background: #cfc5b4;
+}
+
+.icon {
+  font-size: 2rem;
+}
+
+.icon-large {
+  font-size:4rem;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.td-none {
+  text-decoration: none;
+}
+
+.bg-delete {
+  background-color: #f85149; /* btn-danger color from github */
+}
+
+#banner {
+  width: 100%;
+  height: auto;
+}
+
+.login-dropdown {
+  min-width: 300px;
+}
+
+.logout-dropdown {
+  min-width: 150px;
+}
+
+.link {
+  padding: 0px 10px;
+}
+
+#welcome-card {
+  top: -10px;
+}
+
+.logo {
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 10px;
+  width: 15%;
+  height: auto;
+  border-radius: 5px;
+  max-width: 175px;
+}
+
+.vtf_signup_bg {
+  background-image: url('./assets/valley2.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+#register-card {
+  width: 380px;
+}

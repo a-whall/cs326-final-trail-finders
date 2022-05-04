@@ -1,79 +1,69 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- (from bootstrap basic template) Required meta tags -->
+    <title>Valley Trail Finder</title>
+    <!-- BS required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap CSS -->
+    <!-- BS CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!-- Allows the use of icons through bootstrap -->
+    <!-- BS Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <!-- Local css -->
-    <link rel="stylesheet" href="simple.css">
-    <link rel="stylesheet" href="createProfile.css" />
-    <script type="module" src="createProfile.js" defer></script>
-    <script src="https://kit.fontawesome.com/8ff2aa144e.js" crossorigin="anonymous"></script>
-    <title>Valley Trail Finder</title>
-  </head>
-  <body>
-    <div>
-      <img class="logo" src="https://raw.githubusercontent.com/a-whall/cs326-final-trail-finders/main/client/images/Valley_Trail_Finder-02-1.jpg" alt="logo">
-          <div class="col-5" id = "navigationBox">
-            <!-- <i class="fa fa-home"></i> -->
-            <button id="home" class="btn"><i class="fa-solid fa-home"></i> Home</button>
-            <br><br>
-            <button id="trails" class="btn"><i class="fa-solid fa-person-hiking"></i> Trails</button>
-            <br><br>
-            <button id="events" class="btn"><i class="fa-solid fa-calendar-day"></i> Events</button>
-            <br><br>
-    </div>
-    <!-- This is the main bootstrap dependency, popper (a dependency of bootstrap) is also included -->
+    <link rel="stylesheet" href="vtf.css">
+    <link rel="icon" type="image/x-icon" href="./assets/hiker.ico">
+    <script type="module" src="createProfile.js"></script>
+    <!-- BS js, Popper (a dependency of BS) is also included -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <!-- a title for the page -->
-    <div class="my-3 container-fluid text-center">
-      <h1>Create a Profile!</h1>
-    </div>
-    <!-- The main content of this page is a grid where each row is as follows:
-      - 1: trail name input field
-      - 2: an upoad file button
-      - 3: features description area (TODO: decide on a form to use for this field)
-      - 4: activities description area
-      - 5: a finish button -->
-    
-    <div id="gridContainer" class="container">
-      <!-- username input -->
-      <form action="/register" method="post"></form>
-      <div id="titleRow" class="row my-3 justify-content-center">
-        <div class="col-xl-5 col-lg-6 col-md-9 col-sm-10">
-          <label><b>Username:</b>
-          <input id="username-input" class="form-control form-control-lg" type="text" placeholder="User Name">
+  </head>
+  <body class="vtf_signup_bg">
+
+    <img class="logo" src="https://raw.githubusercontent.com/a-whall/cs326-final-trail-finders/main/client/images/Valley_Trail_Finder-02-1.jpg" alt="valley trail finder logo jpg">
+
+    <div id="register-card" class="card position-absolute top-50 start-50 translate-middle">
+      <div class="card-body">
+        <h3>Register Account</h3>
+        <p>
+          An account will allow you to post reviews and events. All you need is a username and password to begin interacting with the VTF community!
+        </p>
+        <div class="container">
+          <form id="register-form">
+            <!-- username input -->
+            <div class="row my-3 justify-content-center">
+              <div class="col-auto">
+                <label for="username" class="col-form-label"><b>Username:</b></label>
+              </div>
+              <div class="col-auto">
+                <input id="username" name="username" class="form-control">
+              </div>
+            </div>
+            <!-- password input 1 -->
+            <div class="row my-3 justify-content-center">
+              <div class="col-auto">
+                <label for="password-1" class="col-form-label"><b>Password:</b></label>
+              </div>
+              <div class="col-auto">
+                <input id="password-1" class="form-control" type="password">
+              </div>
+            </div>
+            <!-- verify new password -->
+            <div class="row my-3 justify-content-center">
+              <div class="col-auto">
+                <label for="password-2" class="col-form-label"><b>Password:</b></label>
+              </div>
+              <div class="col-auto">
+                <input id="password-2" class="form-control" type="password">
+              </div>
+            </div>
+            <!-- submit updated password -->
+            <div class="row my-3 justify-content-center">
+              <div class="col-auto">
+                <button id="submit-pass" class="btn btn-secondary">register</button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-      <!-- password input -->
-      <div id="password" class="row my-3 justify-content-center">
-        <div class="col-xl-5 col-lg-6 col-md-9 col-sm-10">
-          <label><b>Password:</b>
-            <input id="password-input" type="password" class="form-control" placeholder="Password"></input>
-          </label>
-        </div>
-      </div>
-      <!-- password verification input -->
-      <div id="password" class="row my-3 justify-content-center">
-        <div class="col-xl-5 col-lg-6 col-md-9 col-sm-10">
-          <label><b>Verify Password:</b>
-            <input id="passwordVer-input" type="password" class="form-control" placeholder="Password"></input>
-          </label>
-        </div>
-      </div>
-      <!-- finish button -->
-      <div id="finishTrailPage" class="row justify-content-center text-center">
-        <div class="col-sm-3 col-xs-3">
-          <button id="done-button" class="btn btn-secondary form-control">
-            Create My Profile!
-          </button>
-        </div>
-      </div>
-      </form>
     </div>
   </body>
 </html>
