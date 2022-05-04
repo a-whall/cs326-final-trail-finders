@@ -51,4 +51,16 @@ body {
   width: 15%;
   height: auto;
   border-radius: 5px;
+  max-width: 175px;
+}
+
+.vtf_signup_bg {
+  background-image: url('./assets/valley2.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+#register-card {
+  width: 380px;
 }
