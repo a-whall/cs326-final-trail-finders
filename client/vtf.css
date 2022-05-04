@@ -1,0 +1,161 @@
+body {
+  background: #cfc5b4;
+}
+
+.icon {
+  font-size: 2rem;
+}
+
+.icon-large {
+  font-size:4rem;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.td-none {
+  text-decoration: none;
+}
+
+.bg-delete {
+  background-color: #f85149; /* btn-danger color from github */
+}
+
+#banner {
+  width: 100%;
+  height: auto;
+}
+
+.login-dropdown {
+  min-width: 300px;
+}
+
+.logout-dropdown {
+  min-width: 150px;
+}
+
+.link {
+  padding: 0px 10px;
+}
+
+#welcome-card {
+  top: -10px;
+}
+
+.logo {
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 10px;
+  width: 15%;
+  height: auto;
+  border-radius: 5px;
+  max-width: 175px;
+}
+
+.vtf_signup_bg {
+  background-image: url('./assets/valley2.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+#register-card {
+  width: 380px;
+}
+
+/* browseEvents */
+
+.searchBar {
+  text-align: center;
+  background-color: green;
+  width: 100%;
+  height: 10%;
+}
+
+.searchBar input[type=text] {
+  font-size: 17px;
+  width: 50%;
+  margin: 30px;
+}
+
+#navigationBox {
+  margin: 10px;
+  border: 2px solid black;
+  background-color: lightgrey;
+  text-align: center;
+}
+
+#sortBox {
+  margin: 10px;
+  border: 2px solid black;
+  background-color: lightgrey;
+  text-align: center;
+}
+
+.container-fluid {
+  padding: 0px;
+}
+
+#UpcomingEventTitle {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.images {
+  width: 100%;
+  height: auto;
+  border: 5px solid #FFFFFF;
+  margin: 10px;
+  float: left;
+}
+
+#eventBox {
+  margin: 10px;
+  border: 2px solid black;
+  background-color: lightgrey;
+}
+
+.eventTitle {
+  font-size: 25px;
+}
+
+.logo-1 {
+  width: 50%;
+  margin: 10px;
+}
+
+/* createEvent */
+
+#createAnEvent {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.createEvent input[type=text], textarea {
+  font-size: 17px;
+  width: 50%;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+#imagePreview {
+  width: 25%;
+  height: auto;
+}
+
+#description {
+  height: 100px;
+}
+
+#imageFile, #trailList, #trailListValues {
+  font-size: 17px;
+  width: 50%;
+  margin-bottom: 25px;
+}
+
+#eventImage {
+  width: 50%;
+  height: auto;
+}

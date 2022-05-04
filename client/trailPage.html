@@ -16,6 +16,7 @@
   <body>
     <!-- This is the main bootstrap dependency, popper (a dependency of bootstrap) is also included -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
     <!-- A search bar for the top of the page -->
     <div class="row my-3 container-fluid">
       <div class="col-xl-4 col-lg-6 col-md-9 col-sm-10">
@@ -26,23 +27,16 @@
     <div class="container-fluid">
       <a href="homepage.html" class="bi bi-house-door-fill">Home</a>
     </div>
-    <!-- This page will be a grid where
-      - the first row will be the trail title
-      - the left column of the second row will be a carousel for images of the trail
-      - the right column of the second row will be a box for trail-features and activities
-      - the bottom row will hold links to share or get directions from google maps -->
+
     <div id="gridContainer" class="container">
       <!-- contains the trail title -->
       <h1 id="trailTitle" class="row pl-3"></h1>
       <!-- contains trail pictures and info -->
       <div id="trailContentRow" class="row">
-        <!-- Note: images for the carousel rely on being the same size to look smooth in my opinion
-                   some formatting should be done to better support varying resolutions -->
         <div id="imageCarousel" class="col-md-9 col-sm-12">
           <div id="carouselControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
-            <div id="imageDepo" class="carousel-inner">
-
-            </div>
+            <!-- Carousel images go here -->
+            <div id="imageDepo" class="carousel-inner"></div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
@@ -75,16 +69,6 @@
           <button id="findEvent" class="btn btn-dark bi bi-calendar-event icon" data-toggle="tooltip" data-placement="bottom" title="Add Event"></button>
           <div class="row"><label>Find Event</label></div>
         </div>
-        <!-- Add
-        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-1">
-          <button class="btn btn-dark bi bi-signpost-split-fill icon" data-toggle="tooltip" data-placement="bottom" title="Get Directions"></button>
-          <div class="row"><label>Directions</label></div>
-        </div>
-         Share 
-        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-1">
-          <button class="btn btn-dark bi bi-share-fill icon" data-toggle="tooltip" data-placement="bottom" title="Share"></button>
-          <div class="row"><label>Share</label></div>
-        </div> -->
       </div>
     </div>
     <!-- upload image button -->
@@ -103,8 +87,12 @@
     </div>
     <!-- Reviews -->
     <div id="reviewContainer" class="container my-5">
-      <div id="reviewContainerHeader" class="row my-3">
-        <div id="reviewContainerTitle" class="col"><h1>Reviews</h1></div>
+      <!-- Review section header -->
+      <div class="row my-3">
+        <!-- Title -->
+        <div class="col">
+          <h1>Reviews</h1>
+        </div>
         <!-- Sort By Button -->
         <div class="col dropdown text-center">
           <button id="sortByMenuButton" class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -131,7 +119,7 @@
           </div>
           <textarea id="review-body" class="form-control" rows="3" placeholder="Share your experience!"></textarea>
         </div>
-      <div>
+      </div>
       <div id="collapseReviewSubmit" class="row my-4 justify-content-center">
         <div class="col-lg-4 col-md-5 col-sm-6 col-xs-7">
           <button id="submitReviewButton" class="btn btn-secondary form-control" data-bs-toggle="collapse" data-bs-target="#collapseReviewTextArea" aria-expanded="false" aria-controls="collapseReviewTextArea">
@@ -139,8 +127,6 @@
           </button>
         </div>
       </div>
-    </div>
-    </div>
     </div>
   </body>
 </html>
