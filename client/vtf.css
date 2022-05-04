@@ -67,19 +67,6 @@ body {
 
 /* browseEvents */
 
-.searchBar {
-  text-align: center;
-  background-color: green;
-  width: 100%;
-  height: 10%;
-}
-
-.searchBar input[type=text] {
-  font-size: 17px;
-  width: 50%;
-  margin: 30px;
-}
-
 #navigationBox {
   margin: 10px;
   border: 2px solid black;
