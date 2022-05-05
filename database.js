@@ -241,15 +241,25 @@ export class TrailFinderDatabase {
       response.status(200).json({ status: "success" });
     }
   }
-  async createUser(request, response) {
-    const args = parse(request.body, "username", "password");
-    console.log(args)
-    if ("error" in args) {
+
+  async insertUser(request, response) {
+    const args = parse(request.body, 'username', 'password');
+    if ('error' in args) {
       response.status(400).json({ error: args.error });
     } else {
-      const queryText = 'INSERT INTO user_info (username, password) VALUES ($1, $2)';
-      const res = await this.client.query(queryText, [args.username, args.password]);
-      response.status(200).json({});
+      const userExists = await this.checkUser(args.username);
+      if (userExists) {
+        response.status(200).json({ status: 'username already exists' });
+      } else {
+        try {
+          const queryText = 'INSERT INTO user_info (username, password) VALUES ($1, $2)';
+          await this.client.query(queryText, [args.username, args.password]);
+          response.status(200).json({ status: `Success! ${args.username} is now a registered account. You may now log in from the home page.` });
+        } catch (error) {
+          console.log(error);
+          response.status(200).json({ status: 'databse error occured' });
+        }
+      }
     }
   }
 
@@ -274,7 +284,7 @@ export class TrailFinderDatabase {
     const res = await this.client.query(queryText, [request.user]);
     response.status(200).json({ status: "success" });
   }
-  
+
   async readUser(request, response) {
     console.log(request.query)
     const args = parse(request.query, "username");
@@ -284,27 +294,6 @@ export class TrailFinderDatabase {
       const queryText = 'SELECT * from user_info where username = $1';
       const res = await this.client.query(queryText, [args.username]);
       response.status(200).json((res.rows.length > 0)? {status: 'SUCCESS'} : {status: 'USERNAME DOES NOT EXIST'});
-    }
-  }
-
-  async registerUser(request, response) {
-    const args = parse(request.body, 'username', 'password');
-    if ('error' in args) {
-      response.status(400).json({ error: args.error });
-    } else {
-      const userExists = await this.checkUser(args.username);
-      if (userExists) {
-        response.status(200).json({ status: 'Username already exists. Choose a new username.' });
-      } else {
-        try {
-          const queryText = 'INSERT INTO user_info (username, password) VALUES ($1, $2)';
-          await this.client.query(queryText, [args.username, args.password]);
-          response.status(200).json({ status: 'Success! You are now a registered user. You may now log in from the home page.' });
-        } catch (error) {
-          console.log(error);
-          response.status(200).json({ status: 'databse error occured' });
-        }
-      }
     }
   }
 
