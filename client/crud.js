@@ -129,18 +129,8 @@ export async function readEvent(eid) {
   return await response.json();
 }
 
-export async function readAllEvents() {
-  const response = await fetch('/event/browse');
-  return await response.json();
-}
-
-export async function sortEventsByTrail() {
-  const response = await fetch('/event/browse/sortTrail');
-  return await response.json();
-}
-
-export async function sortEventsByDate() {
-  const response = await fetch('/event/browse/sortDate');
+export async function sortEvents(sort) {
+  const response = await fetch(`/event/browse?sort=${sort}`);
   return await response.json();
 }
 

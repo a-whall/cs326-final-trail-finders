@@ -224,6 +224,15 @@ export class TrailFinderDatabase {
     }
   }
 
+  async selectEventsSort(request, response) {
+    const args = parse(request.query, "sort");
+    console.log(args.sort);
+    const queryText = 
+      `SELECT * FROM events ORDER BY ${args.sort} ASC`;
+    const res = await this.client.query(queryText);
+    response.status(200).json(res.rows);
+  }
+
   async readAllEvents(request, response) {
     const queryText =
       'SELECT * FROM events';

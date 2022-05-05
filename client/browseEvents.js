@@ -1,14 +1,8 @@
-import { readAllEvents, deleteEvent, getUsername, sortEventsByTrail, sortEventsByDate } from "./crud.js";
+import { deleteEvent, getUsername, sortEvents } from "./crud.js";
 
 const listEventParent = document.getElementById("listEvents");
 
-const data = await readAllEvents();
-
-data.forEach(element => {
-    add_event_info(`data:${element.filetype};base64,${element.image}`, element.eid, element.title, element.date, element.starttime, element.endtime, element.meetup, element.username, element.description);
-});
-
-// Event Listener for adding an event
+// Event Listener for 'Create an Event' authentification
 document.getElementById("createEventButton").addEventListener("click", async () => {
     if ((await getUsername()).val) {
         window.location.href = "./createEventPage.html";
@@ -17,25 +11,46 @@ document.getElementById("createEventButton").addEventListener("click", async () 
     }
 });
 
+// Intially load the events by date
+const data = await sortEvents("date");
+data.forEach(element => {
+    add_event_info(`data:${element.filetype};base64,${element.image}`, element.eid, element.title, element.date, element.starttime, element.endtime, element.meetup, element.username, element.trail, element.description);
+});
+
+// Sort events based on what is checked
 document.getElementById("contact1").addEventListener("click", async() => {
     listEventParent.replaceChildren();
-    const data = await sortEventsByDate();
+
+    // Reput the 'Upcoming events' title 
+    const pTitle = document.createElement('p');
+    pTitle.id = "UpcomingEventTitle";
+    pTitle.innerHTML = "Upcoming Events"; 
+    listEventParent.appendChild(pTitle);
+
+    const data = await sortEvents("date");
     data.forEach(element => {
-        add_event_info(`data:${element.filetype};base64,${element.image}`, element.eid, element.title, element.date, element.starttime, element.endtime, element.meetup, element.username, element.description);
+        add_event_info(`data:${element.filetype};base64,${element.image}`, element.eid, element.title, element.date, element.starttime, element.endtime, element.meetup, element.username, element.trail, element.description);
     });
 });
 
 document.getElementById("contact2").addEventListener("click", async() => {
     listEventParent.replaceChildren();
-    const data = await sortEventsByTrail();
+
+    // Reput the 'Upcoming events' title 
+    const pTitle = document.createElement('p');
+    pTitle.id = "UpcomingEventTitle";
+    pTitle.innerHTML = "Upcoming Events"; 
+    listEventParent.appendChild(pTitle);
+
+    const data = await sortEvents("trail");
     data.forEach(element => {
-        add_event_info(`data:${element.filetype};base64,${element.image}`, element.eid, element.title, element.date, element.starttime, element.endtime, element.meetup, element.username, element.description);
+        add_event_info(`data:${element.filetype};base64,${element.image}`, element.eid, element.title, element.date, element.starttime, element.endtime, element.meetup, element.username, element.trail, element.description);
     });
 });
 
 
 // Upload events to page
-function add_event_info(imageData, eid, eventTitle, date, starttime, endtime, meetup, host, description) {
+function add_event_info(imageData, eid, eventTitle, date, starttime, endtime, meetup, host, trail, description) {
     // Properly create 'eventBox'
     const row1 = document.createElement("div");
     row1.classList.add("row");
@@ -149,6 +164,19 @@ function add_event_info(imageData, eid, eventTitle, date, starttime, endtime, me
     hostSpan.id = "host";
     hostSpan.innerHTML = " Host: " + host;
     p4.appendChild(hostSpan);
+
+    // Input Trail
+    const pTrail = document.createElement("p");
+    col2.appendChild(pTrail);
+
+    const trailIcon = document.createElement("i");
+    trailIcon.classList = "fa fa-hiking";
+    pTrail.appendChild(trailIcon);
+
+    const trailSpan = document.createElement("span");
+    trailSpan.id = "trail";
+    trailSpan.innerHTML = " Trail: " + trail;
+    pTrail.appendChild(trailSpan);
 
     // Input Description
     const p5 = document.createElement("p");
