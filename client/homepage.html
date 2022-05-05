@@ -29,15 +29,15 @@
         <div class="col-3">
           <!-- Log in dropdown button -->
           <div id="account-logged-out" class="btn-group">
-            <button id="account-btn" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <button id="account-btn" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
               Account
             </button>
             <div class="dropdown-menu dropdown-menu-end login-dropdown">
               <form id="login-form" class="text-center mx-2">
                 <input name="username" type="text" class="form-control" id="username-input" placeholder="Username">
                 <input name="password" type="password" class="form-control" id="password-input" placeholder="Password">
-                <p id="login-message"></p>
-                <button id="login-button" type="button" class="btn btn-secondary btn-sm">
+                <p id="login-message" class="my-1 error-text"></p>
+                <button id="login-button" type="button" class="btn btn-secondary btn-sm shadow-none">
                   Log In
                 </button>
               </form>
