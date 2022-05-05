@@ -17,6 +17,15 @@ document.getElementById("createEventButton").addEventListener("click", async () 
     }
 });
 
+document.getElementById("contact1").addEventListener("click", async() => {
+    // routes for date order
+});
+
+document.getElementById("contact2").addEventListener("click", async() => {
+    // routes for name order
+});
+
+
 // Upload events to page
 function add_event_info(imageData, eid, eventTitle, date, starttime, endtime, meetup, host, description) {
     // Properly create 'eventBox'

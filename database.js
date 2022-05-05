@@ -130,6 +130,20 @@ export class TrailFinderDatabase {
     }
   }
 
+  async selectEventsByNameOrder(request, response) {
+    const queryText = 
+      'SELECT * FROM events ORDER BY trail ASC';
+    const res = await this.client.query(queryText);
+    response.status(200).json(res.rows);
+  }
+
+  async selectEventsByDateOrder(request, response) {
+    const queryText = 
+      'SELECT * FROM events ORDER BY date ASC';
+    const res = await this.client.query(queryText);
+    response.status(200).json(res.rows);
+  }
+
   async updateReview(request, response) {
     const args = parse(request.body, "rid", "uid", "tid", "revbody", "like");
     const rid = args.rid;
