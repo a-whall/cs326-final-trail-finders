@@ -82,12 +82,12 @@ class TrailFinderServer {
       console.log(done.toString())
       const userExists = await this.db.checkUser(username);
       if (!userExists) {
-        return done(null, false, { message: 'Invalid username' });
+        return done(null, false, { message: 'Incorrect username or password' });
       }
       const validUserProfile = await this.db.attemptLogin(username, password);
       if (!validUserProfile) {
-        await new Promise((r) => setTimeout(r, 2000)); // two second delay
-        return done(null, false, { message: 'Wrong password' });
+        await new Promise((r) => setTimeout(r, 1000)); // one second delay
+        return done(null, false, { message: 'Incorrect username or password' });
       }
       console.log('login successful');
       return done(null, username);
@@ -101,7 +101,7 @@ class TrailFinderServer {
       console.log(info);
       if (error) return next(error); // auto-generate 500 error
       if (!user) {
-        response.status(401).json({ status: 'authentication failed' });
+        response.status(200).json({ status: info.message });
         return next(error);
       }
       // call our login strategy
