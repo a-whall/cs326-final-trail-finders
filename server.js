@@ -52,15 +52,13 @@ class TrailFinderServer {
     this.app.get('/event/browse', this.db.readAllEvents.bind(this.db));
     this.app.put('/event', this.db.updateEvent.bind(this.db));
     this.app.delete('/event/delete', this.checkLoggedIn, this.db.deleteEvent.bind(this.db));
-    this.app.post('/user', this.db.createUser.bind(this.db));
     this.app.get('/user', this.db.readUser.bind(this.db));
     this.app.get('/usercheck', this.db.readUser.bind(this.db));
     this.app.put('/user', this.checkLoggedIn, this.db.updateUser.bind(this.db));
     this.app.delete('/user', this.checkLoggedIn, this.db.deleteUser.bind(this.db));
     this.app.post('/login', this.authenticate);
     this.app.post('/logout', this.logout);
-    this.app.post('/register', this.db.registerUser.bind(this.db));
- 
+    this.app.post('/register', this.db.insertUser.bind(this.db));
     this.app.get('/username', (req, res) => res.status(200).json({ val:req.user }));
     this.app.get('/loggedIn', (req, response) => response.status(200).json({ value:req.isAuthenticated()}));
   }
