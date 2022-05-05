@@ -80,6 +80,13 @@ export class TrailFinderDatabase {
     }
   }
 
+  async readTrailNames(request, response) {
+    const queryText =
+      'SELECT name FROM trails';
+    const res = await this.client.query(queryText);
+    response.status(200).json(res.rows);
+  }
+
   async readTrails(request, response) {
     const args = parse(request.query, "town", "offset");
     if ("error" in args) {
@@ -96,6 +103,7 @@ export class TrailFinderDatabase {
     response.status(200).json(parseInt(res.rows[0].num_trails));
   }
 
+  // Review Functions
   async createReview(request, response) {
     const args = parse(request.body, "trail", "body", "starcount");
     if ("error" in args) {
@@ -109,6 +117,32 @@ export class TrailFinderDatabase {
         console.log(err);
         response.status(500).json({ status: "a database error occurred" });
       }
+    }
+  }
+
+  async createReviewLike(request, response) {
+    const args = parse(request.body, "poster", "trailname", "userwholiked");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      const queryText =
+      `INSERT INTO review_likes (poster, trailname, userwholiked) VALUES ($1, $2, $3)`;
+      // UPDATE reviews SET likecount = likecount + 1 WHERE (username = $1 AND trailname = $2);
+      const res = await this.client.query(queryText, [args.poster, args.trailname, args.userwholiked]);
+      response.status(200).json({ status: "success" });
+    }
+  }
+
+  async deleteReviewLike(request, response) {
+    const args = parse(request.body, "poster", "trailname", "userwholiked");
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      const queryText =
+      `DELETE FROM review_likes WHERE poster = $1 AND trailname = $2 AND userwholiked = $3`;
+      // UPDATE reviews SET likecount = likecount - 1 WHERE (username = $1 AND trailname = $2);`;
+      const res = await this.client.query(queryText, [args.poster, args.trailname, args.userwholiked]);
+      response.status(200).json({ status: "success" });
     }
   }
 
@@ -128,20 +162,6 @@ export class TrailFinderDatabase {
         response.status(500).json({ status: "a database error occurred" });
       }
     }
-  }
-
-  async selectEventsByTrailOrder(request, response) {
-    const queryText = 
-      'SELECT * FROM events ORDER BY trail ASC';
-    const res = await this.client.query(queryText);
-    response.status(200).json(res.rows);
-  }
-
-  async selectEventsByDateOrder(request, response) {
-    const queryText = 
-      'SELECT * FROM events ORDER BY date ASC';
-    const res = await this.client.query(queryText);
-    response.status(200).json(res.rows);
   }
 
   async updateReview(request, response) {
@@ -173,6 +193,7 @@ export class TrailFinderDatabase {
     }
   }
 
+  // Event Functions
   async createEvent(request, response) {
     const args = parse(request.body, "title", "date", "starttime", "endtime", "meetup", "username", "description", "trail");
     if ("error" in args) {
@@ -204,13 +225,6 @@ export class TrailFinderDatabase {
     }
   }
 
-  async readTrailNames(request, response) {
-    const queryText =
-      'SELECT name FROM trails';
-    const res = await this.client.query(queryText);
-    response.status(200).json(res.rows);
-  }
-
   async readEvent(request, response) {
     const args = parse(request.query, "eid");
     console.log(args);
@@ -229,13 +243,6 @@ export class TrailFinderDatabase {
     console.log(args.sort);
     const queryText = 
       `SELECT * FROM events ORDER BY ${args.sort} ASC`;
-    const res = await this.client.query(queryText);
-    response.status(200).json(res.rows);
-  }
-
-  async readAllEvents(request, response) {
-    const queryText =
-      'SELECT * FROM events';
     const res = await this.client.query(queryText);
     response.status(200).json(res.rows);
   }

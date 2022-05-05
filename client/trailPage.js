@@ -35,6 +35,7 @@ for (const image of images) {
 
 // read reviews
 const review_data = await crud.readReviewByTrail(trailName);
+console.log(review_data);
 for (const review_content of review_data) {
   reviews_container.append( review(review_content) );
 }
@@ -185,16 +186,27 @@ function review(content) {
 
 // returns an event listener to make like animate when clicked
 function eventListener(div, reviewObj) {
-  return function (event) {
+  return async function (event) {
+    const user = reviewObj.username;
+    const trailname = reviewObj.trailname;
+    const userwholiked = (await crud.getUsername()).val;
     if (div.classList.contains('bi-hand-thumbs-up')) {
-      reviewObj.likecount += 1;
-      div.classList.remove('bi-hand-thumbs-up');
-      div.classList.add('bi-hand-thumbs-up-fill');
+      if (await crud.createReviewLike(user, trailname, userwholiked)) {
+        reviewObj.likecount += 1;
+        div.classList.remove('bi-hand-thumbs-up');
+        div.classList.add('bi-hand-thumbs-up-fill');
+      } else {
+        alert("Please login before liking a review");
+      }
     } else {
-      reviewObj.likecount -= 1;
-      div.classList.remove('bi-hand-thumbs-up-fill');
-      div.classList.add('bi-hand-thumbs-up');
+      if (await crud.deleteReviewLike(user, trailname, userwholiked)) {
+        reviewObj.likecount -= 1;
+        div.classList.remove('bi-hand-thumbs-up-fill');
+        div.classList.add('bi-hand-thumbs-up');
+      } else {
+        alert("Please login before unlinking a review");
+      }
     }
-    div.textContent = ' ' + reviewObj.likeCount;
+    div.textContent = ' ' + reviewObj.likecount;
   }
 }

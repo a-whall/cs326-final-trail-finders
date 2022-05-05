@@ -49,3 +49,15 @@ VALUES
 SELECT * FROM events WHERE eid = 1;
 
 DELETE FROM events WHERE eid = 1;
+
+/* ----------------- Review_Likes SQL ----------------- */
+CREATE TABLE IF NOT EXISTS public.review_likes
+(
+    poster character varying(64) COLLATE pg_catalog."default",
+    trailname character varying(64) COLLATE pg_catalog."default",
+    userwholiked character varying(64) COLLATE pg_catalog."default"
+);
+
+INSERT INTO review_likes (poster, trailname, userwholiked) VALUES ('user', 'Norwottuck Rail Trail', 'userliker')
+
+UPDATE reviews SET likecount = likecount + 1 WHERE (username = 'user' AND trailname = 'Norwottuck Rail Trail');
