@@ -1,4 +1,4 @@
-import { readAllEvents, deleteEvent, getUsername } from "./crud.js";
+import { readAllEvents, deleteEvent, getUsername, sortEventsByTrail, sortEventsByDate } from "./crud.js";
 
 const listEventParent = document.getElementById("listEvents");
 
@@ -18,11 +18,19 @@ document.getElementById("createEventButton").addEventListener("click", async () 
 });
 
 document.getElementById("contact1").addEventListener("click", async() => {
-    // routes for date order
+    listEventParent.replaceChildren();
+    const data = await sortEventsByDate();
+    data.forEach(element => {
+        add_event_info(`data:${element.filetype};base64,${element.image}`, element.eid, element.title, element.date, element.starttime, element.endtime, element.meetup, element.username, element.description);
+    });
 });
 
 document.getElementById("contact2").addEventListener("click", async() => {
-    // routes for name order
+    listEventParent.replaceChildren();
+    const data = await sortEventsByTrail();
+    data.forEach(element => {
+        add_event_info(`data:${element.filetype};base64,${element.image}`, element.eid, element.title, element.date, element.starttime, element.endtime, element.meetup, element.username, element.description);
+    });
 });
 
 

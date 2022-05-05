@@ -130,7 +130,7 @@ export class TrailFinderDatabase {
     }
   }
 
-  async selectEventsByNameOrder(request, response) {
+  async selectEventsByTrailOrder(request, response) {
     const queryText = 
       'SELECT * FROM events ORDER BY trail ASC';
     const res = await this.client.query(queryText);
