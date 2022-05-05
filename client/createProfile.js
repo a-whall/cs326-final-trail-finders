@@ -1,41 +1,23 @@
 import * as crud from "./crud.js"
 
-// const home = document.getElementById("home");
-const trails = document.getElementById("trails");
-const events = document.getElementById("events");
-const username = document.getElementById("username-input");
-const password = document.getElementById("password-input");
-const passwordVer = document.getElementById("passwordVer-input");
-const done = document.getElementById("done-button");
+const register_form = document.getElementById('register-form');
+const password1_input = document.getElementById('password-1');
+const password2_input = document.getElementById('password-2');
+const register_button = document.getElementById('register-button');
+const register_message = document.getElementById('register-message');
 
-
-// home.addEventListener('click', async() => {
-//     window.location.href="homepage.html";
-// });
-
-trails.addEventListener('click', async() => {
-    window.location.href="browseTrails.html";
-});
-
-events.addEventListener('click', async() => {
-    window.location.href="browseEvents.html";
-});
-
-done.addEventListener('click', async() => {
-  if (password.value === passwordVer.value) {
-    const register = await crud.createUser(username.value, password.value);
-    alert(register.status);
-  } else{
-    alert("Passwords do not match!");
+register_button.addEventListener('click', async (e) => {
+  register_message.innerText = '';
+  if (password1_input.value !== password2_input.value) {
+    register_message.innerText = 'passwords must match';
+  } else {
+    const register = await crud.createUser(new FormData(register_form));
+    if (register.status.includes('Success')) {
+      register_message.classList.remove('error-text');
+      register_message.innerText = register.status;
+      register_button.disabled = true;
+    } else {
+      register_message.innerText = register.status;
+    }
   }
-});
-passwordVer.addEventListener("keyup", function (event) {
-    if (password.value === passwordVer.value){
-        passwordVer.style.backgroundColor = "green";
-        passwordVer.style.color = "black";
-    }
-    else{
-        passwordVer.style.backgroundColor = "red";
-        passwordVer.style.color = "black";
-    }
 });

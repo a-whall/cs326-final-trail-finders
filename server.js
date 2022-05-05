@@ -52,15 +52,13 @@ class TrailFinderServer {
     this.app.get('/event/browse', this.db.readAllEvents.bind(this.db));
     this.app.put('/event', this.db.updateEvent.bind(this.db));
     this.app.delete('/event/delete', this.checkLoggedIn, this.db.deleteEvent.bind(this.db));
-    this.app.post('/user', this.db.createUser.bind(this.db));
     this.app.get('/user', this.db.readUser.bind(this.db));
     this.app.get('/usercheck', this.db.readUser.bind(this.db));
     this.app.put('/user', this.checkLoggedIn, this.db.updateUser.bind(this.db));
     this.app.delete('/user', this.checkLoggedIn, this.db.deleteUser.bind(this.db));
     this.app.post('/login', this.authenticate);
     this.app.post('/logout', this.logout);
-    this.app.post('/register', this.db.registerUser.bind(this.db));
- 
+    this.app.post('/register', this.db.insertUser.bind(this.db));
     this.app.get('/username', (req, res) => res.status(200).json({ val:req.user }));
     this.app.get('/loggedIn', (req, response) => response.status(200).json({ value:req.isAuthenticated()}));
   }
@@ -79,31 +77,24 @@ class TrailFinderServer {
 
   loginStrategy() {
     return new Strategy(async (username, password, done) => {
-      console.log(username)
-      console.log(password)
-      console.log(done.toString())
       const userExists = await this.db.checkUser(username);
       if (!userExists) {
-        return done(null, false, { message: 'Invalid username' });
+        return done(null, false, { message: 'Incorrect username or password' });
       }
       const validUserProfile = await this.db.attemptLogin(username, password);
       if (!validUserProfile) {
-        await new Promise((r) => setTimeout(r, 2000)); // two second delay
-        return done(null, false, { message: 'Wrong password' });
+        await new Promise((r) => setTimeout(r, 1000)); // one second delay
+        return done(null, false, { message: 'Incorrect username or password' });
       }
-      console.log('login successful');
       return done(null, username);
     });
   }
 
   authenticate(request, response, next) {
     passport.authenticate('local', function (error, user, info) {
-      console.log(error);
-      console.log(user);
-      console.log(info);
       if (error) return next(error); // auto-generate 500 error
       if (!user) {
-        response.status(401).json({ status: 'authentication failed' });
+        response.status(200).json({ status: info.message });
         return next(error);
       }
       // call our login strategy

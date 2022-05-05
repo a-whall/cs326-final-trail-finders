@@ -71,11 +71,11 @@ export class TrailFinderDatabase {
       response.status(400).json({ error: args.error });
     } else {
       const queryText = 'SELECT * FROM trails WHERE name = $1';
-      const res = await this.client.query(queryText, [args.name]);
-      if (res.rows.length > 0) {
-        response.status(200).json(res.rows[0] /*imageURLs: ["https://photos.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvMjc1NTQ1MTIvMmEyODczMmU3OGMzMmQ1MjA4ODVjMWJlZDEyMGNmODYuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGVnIiwicmVzaXplIjp7IndpZHRoIjo1MDAsImhlaWdodCI6NTAwLCJmaXQiOiJpbnNpZGUifSwicm90YXRlIjpudWxsLCJqcGVnIjp7InRyZWxsaXNRdWFudGlzYXRpb24iOnRydWUsIm92ZXJzaG9vdERlcmluZ2luZyI6dHJ1ZSwib3B0aW1pc2VTY2FucyI6dHJ1ZSwicXVhbnRpc2F0aW9uVGFibGUiOjN9fX0=","https://photos.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvNDE4NzIxMjUvYzgzYWI2ZjVlMWQxNmI5OWQ5MDcyMzk5MjQyZGQwY2IuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGVnIiwicmVzaXplIjp7IndpZHRoIjoyMDQ4LCJoZWlnaHQiOjIwNDgsImZpdCI6Imluc2lkZSJ9LCJyb3RhdGUiOm51bGwsImpwZWciOnsidHJlbGxpc1F1YW50aXNhdGlvbiI6dHJ1ZSwib3ZlcnNob290RGVyaW5naW5nIjp0cnVlLCJvcHRpbWlzZVNjYW5zIjp0cnVlLCJxdWFudGlzYXRpb25UYWJsZSI6M319fQ==","https://photos.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvMjEwMjY5NzMvNDJkZWE3NjM1NWE2OThlMWJlODYyZDUzYmUzNmQ5ZWEuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJqcGVnIiwicmVzaXplIjp7IndpZHRoIjo1MDAsImhlaWdodCI6NTAwLCJmaXQiOiJpbnNpZGUifSwicm90YXRlIjpudWxsLCJqcGVnIjp7InRyZWxsaXNRdWFudGlzYXRpb24iOnRydWUsIm92ZXJzaG9vdERlcmluZ2luZyI6dHJ1ZSwib3B0aW1pc2VTY2FucyI6dHJ1ZSwicXVhbnRpc2F0aW9uVGFibGUiOjN9fX0="]*/)
+      const result = await this.client.query(queryText, [args.name]);
+      if (result.rows.length > 0) {
+        response.status(200).json(result.rows[0]);
       } else {
-        response.status(404).json({ status: "trail does not exist" });
+        response.status(200).json({ status: "trail does not exist" });
       }
     }
   }
@@ -255,15 +255,25 @@ export class TrailFinderDatabase {
       response.status(200).json({ status: "success" });
     }
   }
-  async createUser(request, response) {
-    const args = parse(request.body, "username", "password");
-    console.log(args)
-    if ("error" in args) {
+
+  async insertUser(request, response) {
+    const args = parse(request.body, 'username', 'password');
+    if ('error' in args) {
       response.status(400).json({ error: args.error });
     } else {
-      const queryText = 'INSERT INTO user_info (username, password) VALUES ($1, $2)';
-      const res = await this.client.query(queryText, [args.username, args.password]);
-      response.status(200).json({});
+      const userExists = await this.checkUser(args.username);
+      if (userExists) {
+        response.status(200).json({ status: 'username already exists' });
+      } else {
+        try {
+          const queryText = 'INSERT INTO user_info (username, password) VALUES ($1, $2)';
+          await this.client.query(queryText, [args.username, args.password]);
+          response.status(200).json({ status: `Success! ${args.username} is now a registered account. You may now log in from the home page.` });
+        } catch (error) {
+          console.log(error);
+          response.status(200).json({ status: 'databse error occured' });
+        }
+      }
     }
   }
 
@@ -288,7 +298,7 @@ export class TrailFinderDatabase {
     const res = await this.client.query(queryText, [request.user]);
     response.status(200).json({ status: "success" });
   }
-  
+
   async readUser(request, response) {
     console.log(request.query)
     const args = parse(request.query, "username");
@@ -298,27 +308,6 @@ export class TrailFinderDatabase {
       const queryText = 'SELECT * from user_info where username = $1';
       const res = await this.client.query(queryText, [args.username]);
       response.status(200).json((res.rows.length > 0)? {status: 'SUCCESS'} : {status: 'USERNAME DOES NOT EXIST'});
-    }
-  }
-
-  async registerUser(request, response) {
-    const args = parse(request.body, 'username', 'password');
-    if ('error' in args) {
-      response.status(400).json({ error: args.error });
-    } else {
-      const userExists = await this.checkUser(args.username);
-      if (userExists) {
-        response.status(200).json({ status: 'Username already exists. Choose a new username.' });
-      } else {
-        try {
-          const queryText = 'INSERT INTO user_info (username, password) VALUES ($1, $2)';
-          await this.client.query(queryText, [args.username, args.password]);
-          response.status(200).json({ status: 'Success! You are now a registered user. You may now log in from the home page.' });
-        } catch (error) {
-          console.log(error);
-          response.status(200).json({ status: 'databse error occured' });
-        }
-      }
     }
   }
 
