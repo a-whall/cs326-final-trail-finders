@@ -8,6 +8,7 @@ const account_btn = document.getElementById('account-btn');
 const account_dropdown_loggedOut = document.getElementById('account-logged-out');
 const user_btn = document.getElementById('user-btn');
 const welcome_container = document.getElementById('welcome-container');
+const login_message = document.getElementById('login-message');
 
 positionWelcomeMessage();
 
@@ -20,13 +21,15 @@ if (loggedIn.value) {
 }
 
 login_btn.addEventListener('click', async(e) => {
+  login_message.innerText = "";
   const login = await crud.createLogin(new FormData(login_form));
   if (login.status === 'success') {
     account_dropdown_loggedIn.classList.remove('d-none');
     account_dropdown_loggedOut.classList.add('d-none');
     user_btn.textContent = login.username;
+    login_form.reset();
   } else {
-    // TODO: display why login failed and keep the account dropdown open
+    login_message.innerText = login.status;
   }
 });
 
