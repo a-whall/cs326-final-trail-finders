@@ -134,6 +134,16 @@ export async function readAllEvents() {
   return await response.json();
 }
 
+export async function sortEventsByTrail() {
+  const response = await fetch('/event/browse/sortTrail');
+  return await response.json();
+}
+
+export async function sortEventsByDate() {
+  const response = await fetch('/event/browse/sortDate');
+  return await response.json();
+}
+
 export async function updateEvent(name, time, meetup, description) {
   console.log(name);
   console.log(time);
