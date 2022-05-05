@@ -23,7 +23,7 @@ class TrailFinderServer {
     this.app.use(upload());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(express.static('client'));
+    this.app.use(express.static('./client'));
     this.app.use(expressSession({ secret: process.env.SECRET || 'SECRET', resave: false, saveUninitialized: false }));
     this.app.use(passport.initialize());
     this.app.use(passport.session());

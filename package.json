@@ -12,7 +12,7 @@
   },
   "scripts": {
     "deploy": "copyfiles client/* client/assets/* server.js database.js .env package*.json deploy",
-    "start": "node server.js",
+    "start": "node server/index.js",
     "debug": "node --inspect-brk index.js"
   },
   "author": "Trail-Finders-Team",
