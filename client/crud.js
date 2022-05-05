@@ -94,7 +94,6 @@ export async function deleteReview(user, trail) {
   return await response.json();
 }
 
-
 //==================== Events ===============================================================================================
 
 export async function getUsername() {
