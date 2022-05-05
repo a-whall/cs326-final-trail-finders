@@ -77,9 +77,6 @@ class TrailFinderServer {
 
   loginStrategy() {
     return new Strategy(async (username, password, done) => {
-      console.log(username)
-      console.log(password)
-      console.log(done.toString())
       const userExists = await this.db.checkUser(username);
       if (!userExists) {
         return done(null, false, { message: 'Incorrect username or password' });
@@ -89,16 +86,12 @@ class TrailFinderServer {
         await new Promise((r) => setTimeout(r, 1000)); // one second delay
         return done(null, false, { message: 'Incorrect username or password' });
       }
-      console.log('login successful');
       return done(null, username);
     });
   }
 
   authenticate(request, response, next) {
     passport.authenticate('local', function (error, user, info) {
-      console.log(error);
-      console.log(user);
-      console.log(info);
       if (error) return next(error); // auto-generate 500 error
       if (!user) {
         response.status(200).json({ status: info.message });
