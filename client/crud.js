@@ -68,6 +68,32 @@ export async function createReview(trail, reviewBody, starCount) {
   return await response.json();
 }
 
+export async function createReviewLike(poster, trailname, userwholiked) {
+  console.log(poster);
+  console.log(trailname);
+  console.log(userwholiked);
+  const response = await fetch('/review/like', {
+    method: 'POST',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify({ poster:poster , trailname:trailname, userwholiked:userwholiked })
+  });
+  return (await response.json()).status === "success";
+}
+
+export async function readReviewLike(poster, trailname, userwholiked) {
+  const response = await fetch(`/review/like?poster=${poster}&trailname=${trailname}&userwholiked=${userwholiked}`);
+  return await response.json();
+}
+
+export async function deleteReviewLike(poster, trailname, userwholiked) {
+  const response = await fetch('/review/like', {
+    method: 'DELETE',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify({ poster:poster , trailname:trailname, userwholiked:userwholiked })
+  });
+  return (await response.json()).status === "success";
+}
+
 export async function readReviewByTrail(trail) {
   const response = await fetch(`/review?trail=${trail}`);
   return await response.json();
@@ -84,6 +110,15 @@ export async function updateReview(user, trail ) {
     body: { user: user, trail: trail }
   });
   return await response.json();
+}
+
+export async function updateReviewLikeCount(change, user, trail) {
+  const response = await fetch('/review/likecount', {
+    method: 'PUT',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify({ change:change, user:user, trail:trail })
+  });
+  return (await response.json()).status === "success";
 }
 
 export async function deleteReview(user, trail) {
@@ -129,18 +164,8 @@ export async function readEvent(eid) {
   return await response.json();
 }
 
-export async function readAllEvents() {
-  const response = await fetch('/event/browse');
-  return await response.json();
-}
-
-export async function sortEventsByTrail() {
-  const response = await fetch('/event/browse/sortTrail');
-  return await response.json();
-}
-
-export async function sortEventsByDate() {
-  const response = await fetch('/event/browse/sortDate');
+export async function sortEvents(sort) {
+  const response = await fetch(`/event/browse?sort=${sort}`);
   return await response.json();
 }
 
