@@ -10,8 +10,7 @@ Overview:
 Our group's app is one which is targeted for outdoorsy, adventure-seekers who like to hike, walk, or bike trails in the western Massachusetts area.
 A user can browse listed trails, read reviews of those trails, and see events/meetups which are happening at any of those trails. Users can sign up for 
 an account which will allow them to participate in adding their own reviews, liking other reviews, post their own events/meetups, add themselves as an 
-attendee of a listed event, or even to add a new trail listing in which they can upload photos of the trail. Users may change their password for login 
-or delete their account any time they wish.
+attendee of a listed event, or even to add a new trail listing in which they can upload photos of the trail. Users may change their password for login or delete their account any time they wish.
 
 ---
 Team Members:
@@ -25,22 +24,65 @@ Team Members:
 User Interface:
 
 - Home page
-  - `Sign Up` button navigates to signup page
-  - `Suggest New` button navigates to create a trail page
-- Signup page
-- Edit User page
+  - `Account` dropdown box shows login inputs for username and password, as well as the `Log In` button. A link to the create profile page is also visible, for new users. This box will have a `Manage Account` link to the manage account page and a `Log Out` button when a user is logged in.
+  - `Trails` link to browse trails page
+  - `Events` link to browse events page
+  - <img width="1440" alt="Screen Shot 2022-05-06 at 3 56 56 PM" src="https://user-images.githubusercontent.com/98613897/167209182-f5d3abc9-5cec-440b-ae39-3cff94cc5b94.png">
+- Register page
+  - input boxes for username, password, and password verification (passwords must match)
+  - `register` button to submit the new account to be created
+  - link to go back to home page
+  - <img width="1440" alt="Screen Shot 2022-05-06 at 4 00 14 PM" src="https://user-images.githubusercontent.com/98613897/167209642-a90ed6cd-700f-44d1-af87-5041650aa461.png">
+- Manage Account page (may only access if authenticated)
+  - input boxes for updating password
+  - `Change Password` button to submit change
+  - `Delete Account` button to remove a user
+  - `Home` link to home page
+  - `Trails` link to trail browse page
+  - `Events` link to browse events page
+  - <img width="1440" alt="Screen Shot 2022-05-06 at 3 57 32 PM" src="https://user-images.githubusercontent.com/98613897/167209716-7f795e2c-5095-46fd-8b57-b0a33093b56b.png">
 - Trails Browse page
+  - `Home` link to home page
+  - `Events` link to browse events page
+  - links to each of the individual trail pages
+  - numbered links at bottom, to see more trail listings
+  - <img width="1440" alt="Screen Shot 2022-05-06 at 3 57 48 PM" src="https://user-images.githubusercontent.com/98613897/167209761-bfae4371-4164-47d5-9eb5-4ec669686c28.png">
 - Create a Trail page
+  - input/upload boxes to add trail info
+  - `Done!` button to submit new trail info for creation
+  - <img width="1440" alt="Screen Shot 2022-05-06 at 4 10 01 PM" src="https://user-images.githubusercontent.com/98613897/167209915-a723c753-4977-4a96-a96f-94b5f54a031f.png">
 - Trail page
+  - trail info
+  - reviews on trail
+  - ability to like a review (if authenticated)
+  - `Add a Review!` dropdown to enter review information (must be authenticated)
+  - `Find Event` button to find event listings tied to that particular trail
+  - `Add Event` button to create a new event listing for a trail (must be authenticated)
+  - `upload image` button to upload new pictures of that trail
+  - <img width="1440" alt="Screen Shot 2022-05-06 at 3 58 50 PM" src="https://user-images.githubusercontent.com/98613897/167209996-b0b4d50b-a364-49b6-b9d8-db86cc476639.png">
 - Events Browse page
-  - `Create Event` button navigates to create an event page
+  - all event listings
+  - `Home` link to home page
+  - `Trails` link to trail browse page
+  - `Create Event` button navigates to create event page (must be authenticated)
+  - links to each individual event page
+  - selection to sort events by date or name of associated trail
+  - <img width="1440" alt="Screen Shot 2022-05-06 at 4 00 01 PM" src="https://user-images.githubusercontent.com/98613897/167210047-ce1d0b3f-d6f2-40d4-a854-3fceb862d228.png">
 - Create Events page
   - After filling out the required info in the webpage, users can click `Create Event` to create their own events. 
-  - If users cannot find the corresponding trails to their event, they can click on the URL text `Can't find your trail? Add one here!`to add a new trail
+  - If users cannot find the corresponding trails to their event, they can click on the URL text `Can't find your trail? Add one here!` link to create a trail page
+  - `Home` link to home page
+  - `Trails` link to trail browse page
+  - `Events` link to browse events page
+  - <img width="1440" alt="Screen Shot 2022-05-06 at 3 59 03 PM" src="https://user-images.githubusercontent.com/98613897/167210138-586ad762-3b4a-40e4-acfb-901362a3a184.png">
 - Events page
-  - `Learn more about the Trail!` button allows users to obtain more details of the trail corresponding to the event.
+  - `Learn more about the Trail!` button navigates user to that trail's page.
   - `Delete Event` button deletes a user's event
-
+  - `Home` link to home page
+  - `Trails` link to trail browse page
+  - `Events` link to browse events page
+  - `Delete Event` button removes the event listing (only if authenticated user matches event host)
+  - <img width="1440" alt="Screen Shot 2022-05-06 at 4 00 49 PM" src="https://user-images.githubusercontent.com/98613897/167210219-5c1e6288-1883-457c-953f-c946f99a38b3.png">
 
 ---
 
@@ -115,7 +157,6 @@ to having to perform this check. The functionality which is restricted to authen
 - Adding a trail review
 - Liking a review
 - Creating an event listing
-- Clicking to 'Attend Event'
 - Updating an account password
 - Deleting an account
 
