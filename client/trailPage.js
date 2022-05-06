@@ -33,11 +33,12 @@ for (const image of images) {
   active = false;
 }
 
-// read reviews
+// read reviews and check if current user already liked review
 const review_data = await crud.readReviewByTrail(trailName);
-console.log(review_data);
+const userwholiked = (await crud.getUsername()).val;
 for (const review_content of review_data) {
-  reviews_container.append( review(review_content) );
+  const reviewLiked = (await crud.readReviewLike(review_content.username, review_content.trailname, userwholiked)).length === 0 ? false : true;
+  reviews_container.append( review(review_content, reviewLiked) );
 }
 if (review_data.length === 0) {
   reviews_container.append(no_reviews_banner());
@@ -134,7 +135,7 @@ function no_reviews_banner() {
  * @param {Object} content a review object that contains all the data of a review.
  * @returns a dom element to be appended to the reviewContainer.
  */
-function review(content) {
+function review(content, reviewLiked) {
   // Helper function to create star icons
   function icon(...iconClassList) {
     const iconLabel = document.createElement('label');
@@ -172,7 +173,11 @@ function review(content) {
   rowFooter.classList.add('row');
 
   const likesDiv = document.createElement('div');
-  likesDiv.classList.add('col','text-end','bi','bi-hand-thumbs-up');
+  if(userwholiked && reviewLiked) {  // Fill in 'thumbs up' if user already liked a review
+    likesDiv.classList.add('col','text-end','bi','bi-hand-thumbs-up-fill');
+  } else {
+    likesDiv.classList.add('col','text-end','bi','bi-hand-thumbs-up');
+  }
   likesDiv.textContent = ' ' + content.likecount;
   likesDiv.addEventListener('click', eventListener(likesDiv, content));
 
@@ -191,8 +196,8 @@ function eventListener(div, reviewObj) {
     const trailname = reviewObj.trailname;
     const userwholiked = (await crud.getUsername()).val;
     if (div.classList.contains('bi-hand-thumbs-up')) {
-      if (await crud.createReviewLike(user, trailname, userwholiked)) {
-        await crud.updateReviewLikeCount("1", user, trailname);
+      if (await crud.createReviewLike(user, trailname, userwholiked)) { // Save info on review_likes table
+        await crud.updateReviewLikeCount("1", user, trailname); // Increment reviews table's likecount column
         reviewObj.likecount += 1;
         div.classList.remove('bi-hand-thumbs-up');
         div.classList.add('bi-hand-thumbs-up-fill');
@@ -200,8 +205,8 @@ function eventListener(div, reviewObj) {
         alert("Please login before liking a review");
       }
     } else {
-      if (await crud.deleteReviewLike(user, trailname, userwholiked)) {
-        await crud.updateReviewLikeCount("-1", user, trailname);
+      if (await crud.deleteReviewLike(user, trailname, userwholiked)) { // Delete info on review_likes table
+        await crud.updateReviewLikeCount("-1", user, trailname);  // Decrement reviews table's likecount column
         reviewObj.likecount -= 1;
         div.classList.remove('bi-hand-thumbs-up-fill');
         div.classList.add('bi-hand-thumbs-up');

@@ -80,6 +80,11 @@ export async function createReviewLike(poster, trailname, userwholiked) {
   return (await response.json()).status === "success";
 }
 
+export async function readReviewLike(poster, trailname, userwholiked) {
+  const response = await fetch(`/review/like?poster=${poster}&trailname=${trailname}&userwholiked=${userwholiked}`);
+  return await response.json();
+}
+
 export async function deleteReviewLike(poster, trailname, userwholiked) {
   const response = await fetch('/review/like', {
     method: 'DELETE',

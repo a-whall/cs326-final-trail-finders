@@ -133,6 +133,23 @@ export class TrailFinderDatabase {
     }
   }
 
+  async readReviewLike(request, response) {
+    const args = parse(request.query, "poster", "trailname", "userwholiked");
+    console.log(args);
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      const queryText = 'SELECT * FROM review_likes WHERE poster = $1 AND trailname = $2 AND userwholiked = $3';
+      try {
+        const result = await this.client.query(queryText, [args.poster, args.trailname, args.userwholiked]);
+        response.status(200).json(result.rows);
+      } catch(err) {
+        console.log(err);
+        response.status(500).json({ status: "a database error occurred" });
+      }
+    }
+  }
+
   async deleteReviewLike(request, response) {
     const args = parse(request.body, "poster", "trailname", "userwholiked");
     if ("error" in args) {
@@ -190,6 +207,7 @@ export class TrailFinderDatabase {
         response.status(200).json({ status: "success" })
       } catch(err) {
         console.log(err);
+        response.status(500).json({ status: "a database error occurred" });
       }
     }
   }

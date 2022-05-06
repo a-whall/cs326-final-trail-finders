@@ -43,6 +43,7 @@ class TrailFinderServer {
     this.app.get('/trail/count', this.db.readTrailCount.bind(this.db));
     this.app.post('/review', this.checkLoggedIn, this.db.createReview.bind(this.db));
     this.app.post('/review/like', this.checkLoggedIn, this.db.createReviewLike.bind(this.db));
+    this.app.get('/review/like', this.db.readReviewLike.bind(this.db));
     this.app.delete('/review/like', this.checkLoggedIn, this.db.deleteReviewLike.bind(this.db));
     this.app.get('/review', this.db.readReview.bind(this.db));
     this.app.delete('/review', this.db.deleteReview.bind(this.db));
