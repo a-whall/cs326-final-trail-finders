@@ -177,6 +177,23 @@ export class TrailFinderDatabase {
     }
   }
 
+  async updateReviewLikeCount(request, response) {
+    const args = parse(request.body, "change", "user", "trail");
+    console.log(args);
+    if ('error' in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      try {
+        const queryText = 
+        `UPDATE reviews SET likecount = likecount + $1 WHERE (username = $2 AND trailname = $3);`;
+        const res = await this.client.query(queryText, [args.change, args.user, args.trail]);
+        response.status(200).json({ status: "success" })
+      } catch(err) {
+        console.log(err);
+      }
+    }
+  }
+
   async deleteReview(request, response) {
     const args = parse(request.body, "rid", "uid");
     const rid = args.rid;

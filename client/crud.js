@@ -107,6 +107,15 @@ export async function updateReview(user, trail ) {
   return await response.json();
 }
 
+export async function updateReviewLikeCount(change, user, trail) {
+  const response = await fetch('/review/likecount', {
+    method: 'PUT',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify({ change:change, user:user, trail:trail })
+  });
+  return (await response.json()).status === "success";
+}
+
 export async function deleteReview(user, trail) {
   const response = await fetch('/review', {
     method: 'DELETE',

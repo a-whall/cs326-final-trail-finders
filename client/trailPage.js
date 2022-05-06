@@ -192,6 +192,7 @@ function eventListener(div, reviewObj) {
     const userwholiked = (await crud.getUsername()).val;
     if (div.classList.contains('bi-hand-thumbs-up')) {
       if (await crud.createReviewLike(user, trailname, userwholiked)) {
+        await crud.updateReviewLikeCount("1", user, trailname);
         reviewObj.likecount += 1;
         div.classList.remove('bi-hand-thumbs-up');
         div.classList.add('bi-hand-thumbs-up-fill');
@@ -200,6 +201,7 @@ function eventListener(div, reviewObj) {
       }
     } else {
       if (await crud.deleteReviewLike(user, trailname, userwholiked)) {
+        await crud.updateReviewLikeCount("-1", user, trailname);
         reviewObj.likecount -= 1;
         div.classList.remove('bi-hand-thumbs-up-fill');
         div.classList.add('bi-hand-thumbs-up');
