@@ -2,9 +2,9 @@ import * as crud from "./crud.js"
 
 // This module will run whenever someone views a trail page to send a read request for a specific trail.
 
-const trailName_h1 = document.getElementById('trailTitle');
+const trailName_h1 = document.getElementById('trail-title');
 const townName_div = document.getElementById('townName');
-const description_div = document.getElementById('description');
+const description_div = document.getElementById('trail-description');
 const image_carousel = document.getElementById('imageDepo');
 const reviews_container = document.getElementById('reviewContainer');
 const submit_review_button = document.getElementById("submitReviewButton");
@@ -14,6 +14,9 @@ const add_event_button = document.getElementById('addEvent');
 const find_event_button = document.getElementById('findEvent');
 const upload_button = document.getElementById('upload');
 const files_input = document.getElementById('image-file');
+const sortByRecent_button = document.getElementById('sort-recent');
+const sortByLikes_button = document.getElementById('sort-likes');
+const sortByStars_button = document.getElementById('sort-stars');
 
 // get trail name from the page url
 const trailName = new URLSearchParams(window.location.search).get('trail');
@@ -32,9 +35,13 @@ for (const image of images) {
   image_carousel.append( carousel_item(`data:${image.filetype};base64,${image.image}`, active) );
   active = false;
 }
+if (images.length === 0) {
+  image_carousel.append( carousel_item('./assets/image-unavailable.jpg', active) )
+}
 
 // read reviews
 const review_data = await crud.readReviewByTrail(trailName);
+review_data.reverse(); // sort by most recent (opposite order of database)
 for (const review_content of review_data) {
   reviews_container.append( review(review_content) );
 }
@@ -84,6 +91,23 @@ upload_button.addEventListener('click', async(e) => {
   }
 });
 
+sortByRecent_button.addEventListener('click', (e) => updateReviewContainer(review_data));
+sortByLikes_button.addEventListener('click', (e) => updateReviewContainer(sortedBy('likecount')));
+sortByStars_button.addEventListener('click', (e) => updateReviewContainer(sortedBy('starcount')));
+
+//========== Review Sort Functions ===================================================
+
+function updateReviewContainer(reviewObj_array) {
+  for (const r of [...document.getElementsByClassName('review')])
+    reviews_container.removeChild(r); // remove current reviews
+  for (const review_content of reviewObj_array)
+    reviews_container.append( review(review_content) ); // insert new review dom elements
+}
+
+function sortedBy(attribute) {
+  return [...review_data].sort((r1,r2) => r2[attribute] - r1[attribute]);
+}
+
 //========== Dom element constructors ================================================
 
 /**
@@ -95,7 +119,7 @@ function info(content) {
   const div = document.createElement('div');
   div.classList.add('row');
   const label = document.createElement('label');
-  label.innerHTML = content;
+  label.textContent = content;
   div.append(label);
   return div;
 }
@@ -110,11 +134,11 @@ function carousel_item(source, is_active) {
   const div = document.createElement('div');
   div.classList.add('carousel-item');
   const flexdiv = document.createElement('div');
-  flexdiv.classList.add('d-flex','justify-content-center');
+  flexdiv.classList.add('d-flex');
   if (is_active) div.classList.add('active');
   const img = document.createElement('img');
   img.src = source;
-  img.classList.add('align-middle');
+  img.classList.add('align-middle','d-block','w-100')
   flexdiv.append(img);
   div.append(flexdiv);
   return div;
@@ -143,7 +167,7 @@ function review(content) {
 
   // A row within reviewContainer. This div encapsulates a single review.
   const row = document.createElement('div');
-  row.classList.add('row','mb-5');
+  row.classList.add('review','row','my-5');
 
   // The header holds the star rating of the review and the name on the review.
   const rowHeader = document.createElement('div');
