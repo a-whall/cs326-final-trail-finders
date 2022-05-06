@@ -1,39 +1,42 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- (from bootstrap basic template) Required meta tags -->
+    <title>Valley Trail Finder</title>
+    <!-- BS required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap CSS -->
+    <!-- BS CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!-- Allows the use of icons through bootstrap -->
+    <!-- BS Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <!-- Local css -->
+    <!-- Local CSS -->
     <link rel="stylesheet" href="vtf.css">
     <script type="module" src="trailPage.js"></script>
-    <title>Valley Trail Finder</title>
+    <!-- BS js, Popper (a dependency of BS) is also included -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   </head>
   <body>
-    <!-- This is the main bootstrap dependency, popper (a dependency of bootstrap) is also included -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
-    <!-- A search bar for the top of the page -->
-    <div class="row my-3 container-fluid">
-      <div class="col-xl-4 col-lg-6 col-md-9 col-sm-10">
-        <input id="trailPageSearchBar" type="search" class="form-control" placeholder="Search for trails">
+    <img class="logo" src="https://raw.githubusercontent.com/a-whall/cs326-final-trail-finders/main/client/assets/Valley_Trail_Finder_Logo.jpg" alt="valley trail finder logo jpg">
+    <!-- nav bar -->
+    <div class="container text-center p-4">
+      <div class="row justify-content-center">
+        <!-- links -->
+        <div class="col-6 text-nowrap">
+          <a href="homePage.html" class="link"><b>Home</b></a>
+          <a href="browseTrails.html" class="link"><b>Trails</b></a>
+          <a href="browseEvents.html" class="link"><b>Events</b></a>
+        </div>
       </div>
     </div>
-    <!-- link to the Valley Trail Finder home page using a home icon -->
-    <div class="container-fluid">
-      <a href="homepage.html" class="bi bi-house-door-fill">Home</a>
-    </div>
-
-    <div id="gridContainer" class="container">
+    <!-- main content -->
+    <div class="container">
       <!-- contains the trail title -->
-      <h1 id="trailTitle" class="row pl-3"></h1>
+      <div class="row my-4 text-center">
+        <h1 id="trail-title"></h1>
+      </div>
       <!-- contains trail pictures and info -->
       <div id="trailContentRow" class="row">
-        <div id="imageCarousel" class="col-md-9 col-sm-12">
+        <div id="imageCarousel" class="col-md-9 col-sm-12 d-flex align-items-center justify-content-center">
           <div id="carouselControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
             <!-- Carousel images go here -->
             <div id="imageDepo" class="carousel-inner"></div>
@@ -52,13 +55,13 @@
           <div id="townName" class="row my-3">
             <b>Town:</b>
           </div>
-          <div id="description" class="row my-3">
+          <div id="trail-description" class="row my-3">
             <b>Description:</b>
           </div>
         </div>
       </div>
       <!-- Icon links -->
-      <div class="row text-center my-3 text-nowrap">
+      <div class="row justify-content-center my-3 text-nowrap">
         <!-- Add Event -->
         <div class="col-lg-2 col-md-2 col-sm-3 col-xs-1"> <!-- Note: bootstrap tooltip styling requires jquery to work. But data-toggle and stuff still provides a basic tooltip -->
           <button id="addEvent" class="btn btn-dark bi bi-calendar-plus icon" data-toggle="tooltip" data-placement="bottom" title="Add Event"></button>
@@ -98,11 +101,11 @@
           <button id="sortByMenuButton" class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Sort By
           </button>
-          <div class="dropdown-menu" aria-labelledby="sortByMenuButton">
-            <a class="dropdown-item" href="#">likes</a>
-            <a class="dropdown-item" href="#">stars</a>
-            <a class="dropdown-item" href="#">recent</a>
-          </div>
+          <ul class="dropdown-menu" aria-labelledby="sortByMenuButton">
+            <li><button class="dropdown-item" type="button" id="sort-recent">recent</button></li>
+            <li><button class="dropdown-item" type="button" id="sort-likes">likes</button></li>
+            <li><button class="dropdown-item" type="button" id="sort-stars">stars</button></li>
+          </ul>
         </div>
         <!-- Add a Review! Button -->
         <div class="col text-end align-center">
@@ -111,21 +114,25 @@
           </button>
         </div>
       </div>
-      <div id="collapseReviewTextArea" class="row my-3 collapse">
-        <div class="form-group">
-          <div class="d-inline-block">
-            <label for="star-count-input" class="d-inline-block"><b>Stars:</b></label>
-            <input id="star-count-input" type="number" class="form-control d-inline-block" placeholder="5" min="0" max="5">
+      <div id="collapseReviewTextArea" class="row my-3 collapse justify-content-center text-center">
+        <form id="review-form">
+          <div class="row mt-2 justify-content-center">
+            <div class="col-auto">
+              <label for="star-count-input" class="col-form-label"><b>Stars:</b></label>
+            </div>
+            <div class="col-auto">
+              <input id="star-count-input" type="number" class="form-control" placeholder="5" min="0" max="5">
+            </div>
           </div>
-          <textarea id="review-body" class="form-control" rows="3" placeholder="Share your experience!"></textarea>
-        </div>
-      </div>
-      <div id="collapseReviewSubmit" class="row my-4 justify-content-center">
-        <div class="col-lg-4 col-md-5 col-sm-6 col-xs-7">
-          <button id="submitReviewButton" class="btn btn-secondary form-control" data-bs-toggle="collapse" data-bs-target="#collapseReviewTextArea" aria-expanded="false" aria-controls="collapseReviewTextArea">
+          <div class="row justify-content-center">
+            <div class="col">
+              <textarea id="review-body" class="form-control" rows="3" placeholder="Share your experience!"></textarea>
+            </div>
+          </div>
+          <button id="submitReviewButton" type="button" class="btn btn-secondary form-control text-center" data-bs-toggle="collapse" data-bs-target="#collapseReviewTextArea" aria-expanded="false" aria-controls="collapseReviewTextArea">
             <b>Submit!</b>
           </button>
-        </div>
+        </form>
       </div>
     </div>
   </body>
