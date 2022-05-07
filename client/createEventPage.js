@@ -35,23 +35,29 @@ async function saveEvent() {
   const meetup = document.getElementById("meetup").value;
   const description = document.getElementById("description").value;
   const trail = document.getElementById("trailListValues").value;
-  
-  // Check if user is logged in
-  if (username) {
-    const eid = await createEvent(title, date, starttime, endtime, meetup, username, description, trail);
 
-    // Prepare image to be upload into SQL event database
-    if (eid) {
-        const form_data = new FormData();
-        for (const file of image.files) {
-          form_data.append(file.name, file);
-        }
-        if (await uploadEventImage(eid, form_data)) {
-          alert("Event has been made.");
-          window.location.href = "./browseEvents.html";
-        }
-    }
+  if (image.files.length === 0 || title === '' || date === '' || starttime === '' || endtime === '' || meetup === '' || description === '' || trail === '') {
+    alert('Please fill in every box before creating an event.')
   } else {
-      alert("Please make an account first before creating your own events!")
+    // Check if user is logged in
+    if (username) {
+      const eid = await createEvent(title, date, starttime, endtime, meetup, username, description, trail);
+
+      // Prepare image to be upload into SQL event database
+      if (eid) {
+          const form_data = new FormData();
+          for (const file of image.files) {
+            form_data.append(file.name, file);
+          }
+          if (await uploadEventImage(eid, form_data)) {
+            alert("Event has been made.");
+            window.location.href = "./browseEvents.html";
+          }
+      }
+    } else {
+        alert("Please make an account first before creating your own events!")
+    }
   }
+  
+  
 }
