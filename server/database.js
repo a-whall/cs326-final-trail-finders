@@ -23,10 +23,8 @@ export class TrailFinderDatabase {
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      // create ID or use trail name as ID?
-      // const queryText = 'INSERT INTO trails (name, town, description) VALUES ($1, $2, $3) RETURNING *';
-      // const res = await this.client.query(queryText, [args.name, args.town, args.description]);
-      // return res.rows;
+      const queryText = 'INSERT INTO trails (name, town, description) VALUES ($1, $2, $3) RETURNING *';
+      const res = await this.client.query(queryText, [args.name, args.town, args.description]);
       response.status(200).json({ status:"success" });
     }
   }
