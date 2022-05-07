@@ -146,6 +146,10 @@ function carousel_item(source, is_active) {
   return div;
 }
 
+/**
+ * Construct and return an element to show when no reviews are available
+ * @returns a dom element to be appended to the review container
+ */
 function no_reviews_banner() {
   const h3 = document.createElement('h3');
   h3.id = 'no-reviews';
