@@ -46,6 +46,12 @@ VALUES
 	(DEFAULT, 'Biking at the Norwottuck Rail Trail', '04/06/2022' , '04:00 PM', '07:00PM', 'Amherst Town', 'Amanda', 'Lets bike at the Norwottuck Rail Trail! Please bring your own bike as bikes are not provided.', 'Norwottuck Rail Trail'),
 	(DEFAULT, 'Walking The Notch Trail', '04/07/2022', '04:00 PM', '07:00PM', 'Northhampton', 'Calm walk up The Notch. Hiking boots are recommended.', "Taylor's Notch");
 
+INSERT INTO
+    events (eid, title, date, starttime, endtime, meetup, username, description, trail)
+VALUES
+	(DEFAULT, 'Bare Mountain Biking!', '05/08/2022' , '04:00 PM', '07:00PM', 'Amherst Town', 'Amanda', 'Biking at Bare Mountain.', 'Bare Mountain');
+
+
 SELECT * FROM events WHERE eid = 1;
 
 DELETE FROM events WHERE eid = 1;

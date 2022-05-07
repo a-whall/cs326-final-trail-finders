@@ -67,7 +67,7 @@ User Interface:
   - `Create Event` button navigates to create event page (must be authenticated)
   - links to each individual event page
   - selection to sort events by date or name of associated trail
-  - <img width="1440" alt="Screen Shot 2022-05-06 at 4 00 01 PM" src="https://user-images.githubusercontent.com/98613897/167210047-ce1d0b3f-d6f2-40d4-a854-3fceb862d228.png">
+  - <img width="1440" alt="Screen Shot 2022-05-06 at 4 00 01 PM" src="https://user-images.githubusercontent.com/73536712/167266732-67fece02-68af-4995-9f73-d7cc4206939f.png">
 - Create Events page
   - After filling out the required info in the webpage, users can click `Create Event` to create their own events. 
   - If users cannot find the corresponding trails to their event, they can click on the URL text `Can't find your trail? Add one here!` link to create a trail page
@@ -130,6 +130,13 @@ reviews table
 | body | String | Description of the review |
 | starcount | Integer | Starcount of the review (from 1 star to 5 star) |
 | likecount | Integer | Likecount of the review |
+
+review_likes table
+| Column | Data Type | Description |
+|--------------|-----------|--------------------------|
+| poster | String | Username of the user who created the review |
+| trailname | String | Trail associated with the review |
+| userwholiked| String | Current user who liked the review |
 
 user_info table
 | Column | Data Type | Description |
