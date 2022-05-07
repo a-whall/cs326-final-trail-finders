@@ -1,6 +1,5 @@
 import 'dotenv/config';
 import pg from 'pg';
-import readFileSync from 'fs/promises';
 
 const { Pool } = pg; // Get the Pool class from the pg module.
 
@@ -24,8 +23,13 @@ export class TrailFinderDatabase {
       response.status(400).json({ error: args.error });
     } else {
       const queryText = 'INSERT INTO trails (name, town, description) VALUES ($1, $2, $3) RETURNING *';
-      const res = await this.client.query(queryText, [args.name, args.town, args.description]);
-      response.status(200).json({ status:"success" });
+      try {
+        await this.client.query(queryText, [args.name, args.town, args.description]);
+        response.status(200).json({ status:"success" });
+      } catch(error) {
+        console.log(error);
+        response.status(200).json({ status: 'database error occured' });
+      }
     }
   }
 
@@ -37,14 +41,15 @@ export class TrailFinderDatabase {
       response.status(400).json({ error: "must send files to upload" });
     } else {
       const queryText = 'INSERT INTO trail_images (name, filetype, image) VALUES ($1, $2, $3)';
-      for (const [name,file] of Object.entries(request.files)) {
-        try {
+      try {
+        for (const [name,file] of Object.entries(request.files)) {
           await this.client.query(queryText, [args.name, file.mimetype, file.data.toString('base64')]);
-        } catch(err) {
-          console.log(err);
         }
+        response.status(200).json({ status: "success" });
+      } catch(error) {
+        console.log(error);
+        response.status(200).json({ status: 'database error occurred'});
       }
-      response.status(200).json({ status: "success" });
     }
   }
 
@@ -54,11 +59,12 @@ export class TrailFinderDatabase {
       response.status(400).json({ error: args.error });
     } else {
       const queryText = 'SELECT * FROM trail_images WHERE name = $1';
-      const res = await this.client.query(queryText, [args.name]);
-      if (res.rows.length > 0) {
-        response.status(200).json(res.rows);
-      } else {
-        response.status(200).json([]);
+      try {
+        const res = await this.client.query(queryText, [args.name]);
+        response.status(200).json(res.rows.length > 0 ? res.rows : []);
+      } catch (error) {
+        console.log(error);
+        response.status(500).json({ status: 'database error occurred' });
       }
     }
   }
@@ -69,20 +75,25 @@ export class TrailFinderDatabase {
       response.status(400).json({ error: args.error });
     } else {
       const queryText = 'SELECT * FROM trails WHERE name = $1';
-      const result = await this.client.query(queryText, [args.name]);
-      if (result.rows.length > 0) {
-        response.status(200).json(result.rows[0]);
-      } else {
-        response.status(200).json({ status: "trail does not exist" });
+      try {
+        const result = await this.client.query(queryText, [args.name]);
+        response.status(200).json(result.rows.length > 0 ? result.rows[0] : { status: "trail does not exist" });
+      } catch (error) {
+        console.log(error);
+        response.status(500).json({ status: 'database error occurred' });
       }
     }
   }
 
   async readTrailNames(request, response) {
-    const queryText =
-      'SELECT name FROM trails';
-    const res = await this.client.query(queryText);
-    response.status(200).json(res.rows);
+    const queryText = 'SELECT name FROM trails';
+    try {
+      const res = await this.client.query(queryText);
+      response.status(200).json(res.rows);
+    } catch (error) {
+      console.log(error);
+      response.status(500).json({ status: 'database error occurred' });
+    }
   }
 
   async readTrails(request, response) {
@@ -91,8 +102,13 @@ export class TrailFinderDatabase {
       response.status(400).json({ error: args.error });
     } else {
       const queryText = `SELECT * FROM trails LIMIT 10 OFFSET $1`;
-      const res = await this.client.query(queryText, [args.offset * 10]);
-      response.status(200).json(res.rows);
+      try {
+        const res = await this.client.query(queryText, [args.offset * 10]);
+        response.status(200).json(res.rows);
+      } catch (error) {
+        console.log(error);
+        response.status(500).json({ status: 'database error occurred' });
+      }
     }
   }
 
@@ -123,11 +139,14 @@ export class TrailFinderDatabase {
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      const queryText =
-      `INSERT INTO review_likes (poster, trailname, userwholiked) VALUES ($1, $2, $3)`;
-      // UPDATE reviews SET likecount = likecount + 1 WHERE (username = $1 AND trailname = $2);
-      const res = await this.client.query(queryText, [args.poster, args.trailname, args.userwholiked]);
-      response.status(200).json({ status: "success" });
+      const queryText = 'INSERT INTO review_likes (poster, trailname, userwholiked) VALUES ($1, $2, $3)';
+      try {
+        await this.client.query(queryText, [args.poster, args.trailname, args.userwholiked]);
+        response.status(200).json({ status: "success" });
+      } catch (error) {
+        console.log(error);
+        response.status(500).json({ status: 'database error occurred' });
+      }
     }
   }
 
@@ -155,9 +174,13 @@ export class TrailFinderDatabase {
     } else {
       const queryText =
       `DELETE FROM review_likes WHERE poster = $1 AND trailname = $2 AND userwholiked = $3`;
-      // UPDATE reviews SET likecount = likecount - 1 WHERE (username = $1 AND trailname = $2);`;
-      const res = await this.client.query(queryText, [args.poster, args.trailname, args.userwholiked]);
-      response.status(200).json({ status: "success" });
+      try {
+        await this.client.query(queryText, [args.poster, args.trailname, args.userwholiked]);
+        response.status(200).json({ status: "success" });
+      } catch (error) {
+        console.log(error);
+        response.status(500).json({ status: 'database error occurred' });
+      }
     }
   }
 
@@ -166,29 +189,14 @@ export class TrailFinderDatabase {
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      //const loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-      //const dummyReviewObjects = [{starCount: 4, reviewBody: loremIpsum, user: "Some User", likeCount: 7 },{starCount: 5,reviewBody: loremIpsum,user: "Another User",likeCount: 2},{starCount: 3,reviewBody: loremIpsum,user: "One Last User",likeCount: 0}];
       const queryText = 'SELECT * FROM reviews WHERE trailname = $1';
       try {
         const result = await this.client.query(queryText, [args.trail]);
         response.status(200).json(result.rows);
       } catch(err) {
         console.log(err);
-        response.status(500).json({ status: "a database error occurred" });
+        response.status(500).json({ status: 'database error occurred' });
       }
-    }
-  }
-
-  async updateReview(request, response) {
-    const args = parse(request.body, "rid", "uid", "tid", "revbody", "like");
-    const rid = args.rid;
-    const idx = rid.indexOf('xx');
-    const resId = rid.substring(0,idx);
-    if ("error" in args) {
-      response.status(400).json({ error: args.error });
-    } 
-    else {
-      response.status.json({ status: "success" });
     }
   }
 
@@ -210,33 +218,20 @@ export class TrailFinderDatabase {
     }
   }
 
-  async deleteReview(request, response) {
-    const args = parse(request.body, "rid", "uid");
-    const rid = args.rid;
-    const idx = rid.indexOf('xx');
-    const resId = rid.substring(0,idx);
-    if ("error" in args) {
-      response.status(400).json({ error: args.error });
-    } 
-    else if (resId !== args.uid) {
-      response.status(400).json({ error: "cannot delete other users' reviews" });
-    }
-    else {
-      response.status.json({ status: "success" });
-    }
-  }
-
   // Event Functions
   async createEvent(request, response) {
     const args = parse(request.body, "title", "date", "starttime", "endtime", "meetup", "username", "description", "trail");
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      const queryText =
-      'INSERT INTO events (eid, title, date, starttime, endtime, meetup, username, description, trail) VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8) RETURNING eid';
-      const res = await this.client.query(queryText, [args.title, args.date, args.starttime, args.endtime, args.meetup, args.username, args.description, args.trail]);
-      console.log(res.rows[0].eid);
-      return response.status(200).json(res.rows[0].eid);
+      const queryText = 'INSERT INTO events (eid, title, date, starttime, endtime, meetup, username, description, trail) VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8) RETURNING eid';
+      try {
+        const res = await this.client.query(queryText, [args.title, args.date, args.starttime, args.endtime, args.meetup, args.username, args.description, args.trail]);
+        return response.status(200).json(res.rows[0].eid);
+      } catch (error) {
+        console.log(error);
+        response.status(500).json({ status: 'database error occurred' });
+      }
     }
   }
   async createEventImage(request, response) {
@@ -247,14 +242,15 @@ export class TrailFinderDatabase {
       response.status(400).json({ error: "must send files to upload" });
     } else {
       const queryText = 'UPDATE events SET filetype = $1, image = $2 WHERE eid = $3';
-      for (const [name, file] of Object.entries(request.files)) {
-        try {
+      try {
+        for (const [name, file] of Object.entries(request.files)) {
           await this.client.query(queryText, [file.mimetype, file.data.toString('base64'), args.eid]);
-        } catch(err) {
-          console.log(err);
         }
+        response.status(200).json({ status: "success" });
+      } catch (error) {
+        console.log(error);
+        response.status(500).json({ status: 'database error occurred' });
       }
-      response.status(200).json({ status: "success" });
     }
   }
 
@@ -264,34 +260,24 @@ export class TrailFinderDatabase {
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
-      const queryText =
-        'SELECT * FROM events WHERE eid = $1';
-      const res = await this.client.query(queryText, [args.eid]);
-      response.status(200).json(res.rows[0]);
+      const queryText = 'SELECT * FROM events WHERE eid = $1';
+      try {
+        const res = await this.client.query(queryText, [args.eid]);
+        response.status(200).json(res.rows[0]);
+      } catch (error) {
+        console.log(error);
+        response.status(500).json({ status: 'database error occurred' });
+      }
     }
   }
 
   async selectEventsSort(request, response) {
     const args = parse(request.query, "sort");
     console.log(args.sort);
-    const queryText = 
-      `SELECT * FROM events ORDER BY ${args.sort} ASC`;
+    // TODO: not supposed to use string templates for queries, use the $1 array params
+    const queryText = `SELECT * FROM events ORDER BY ${args.sort} ASC`;
     const res = await this.client.query(queryText);
     response.status(200).json(res.rows);
-  }
-
-  async updateEvent(request, response) {  // uid might not be needed up updateevent, as event should correspond to same host/uid
-    const args = parse(request.body, "eid", "name", "time", "meetup", "uid", "description");
-    if ("error" in args) {
-      response.status(400).json({ error: args.error });
-    } else {
-      // const queryText =
-        // `UPDATE events
-        // SET name = $2, time = $3, meetup = $4, uid = $5, description = $6
-        // WHERE eid = $1`;
-      // const res = await this.client.query(queryText, [args.eid, args.name, args.time, args.meetup, args.uid, args.description]);
-      response.status(200).json({ eid: args.eid, name: args.name, time: args.time, meetup: args.meetup, uid: args.uid, description: args.description });
-    }
   }
 
   async deleteEvent(request, response) {
@@ -300,8 +286,13 @@ export class TrailFinderDatabase {
       response.status(400).json({ error: args.error });
     } else {
       const queryText = 'DELETE FROM events WHERE eid = $1 RETURNING *';
-      const res = await this.client.query(queryText, [args.eid]);
-      response.status(200).json({ status: "success" });
+      try {
+        await this.client.query(queryText, [args.eid]);
+        response.status(200).json({ status: "success" });
+      } catch (error) {
+        console.log(error);
+        response.status(500).json({ status: 'database error occurred' });
+      }
     }
   }
 
@@ -380,10 +371,4 @@ function parse(request, ...properties) {
    if ( !(property in request) )
     return { error: `missing argument: ${property}` };
   return request;
-}
-
-
-function base64_encode(file) {
-  const img_str = readFileSync(file, { encoding: 'base64' });
-  console.log(img_str.length)
 }
