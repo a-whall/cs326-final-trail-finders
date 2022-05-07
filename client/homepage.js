@@ -16,7 +16,7 @@ positionWelcomeMessage();
 const loggedIn = await crud.checkLoggedIn();
 if (loggedIn.value) {
   account_dropdown_loggedOut.classList.add('d-none');
-  // TODO: display the username on the loggedIn dropdown button
+  user_btn.innerText = loggedIn.username;
 } else {
   account_dropdown_loggedIn.classList.add('d-none');
 }
