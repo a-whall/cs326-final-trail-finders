@@ -67,7 +67,7 @@ User Interface:
   - `Create Event` button navigates to create event page (must be authenticated)
   - links to each individual event page
   - selection to sort events by date or name of associated trail
-  - <img width="1440" alt="Screen Shot 2022-05-06 at 4 00 01 PM" src="https://user-images.githubusercontent.com/73536712/167266006-645ec182-a3fd-4c9c-9ba2-debdd926c7a6.png">
+  - <img width="1440" alt="Screen Shot 2022-05-06 at 4 00 01 PM" src="https://user-images.githubusercontent.com/73536712/167266063-84d469f6-54df-49f4-ac64-a37b812ce566.png">
 - Create Events page
   - After filling out the required info in the webpage, users can click `Create Event` to create their own events. 
   - If users cannot find the corresponding trails to their event, they can click on the URL text `Can't find your trail? Add one here!` link to create a trail page
