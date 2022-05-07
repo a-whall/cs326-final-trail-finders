@@ -47,14 +47,14 @@ User Interface:
   - `Suggest New` dropdown box contains a link to create trail page
   - links to each of the individual trail pages
   - numbered links at bottom, to see more trail listings
-  - <img width="1440" alt="Screen Shot 2022-05-06 at 3 57 48 PM" src="https://user-images.githubusercontent.com/98613897/167209761-bfae4371-4164-47d5-9eb5-4ec669686c28.png">
+  - <img width="1440" alt="Screen Shot 2022-05-07 at 4 21 59 PM" src="https://user-images.githubusercontent.com/98613897/167270627-e381147d-23cd-4c08-9268-f572eadb3d18.png">
 - Create a Trail page
   - `Home` link to home page
   - `Trails` link to trail browse page
   - `Events` link to browse events page
   - input/upload boxes to add trail info
   - `Done!` button to submit new trail info for creation
-  - <img width="1440" alt="Screen Shot 2022-05-06 at 4 10 01 PM" src="https://user-images.githubusercontent.com/98613897/167209915-a723c753-4977-4a96-a96f-94b5f54a031f.png">
+  - <img width="1440" alt="Screen Shot 2022-05-07 at 4 22 17 PM" src="https://user-images.githubusercontent.com/98613897/167270612-59c4f761-b2dd-42fc-a2e8-12f000fd37d1.png">
 - Trail page
   - trail info
   - reviews on trail
