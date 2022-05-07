@@ -80,11 +80,10 @@ User Interface:
   - `Events` link to browse events page
   - <img width="1440" alt="Screen Shot 2022-05-06 at 3 59 03 PM" src="https://user-images.githubusercontent.com/98613897/167210138-586ad762-3b4a-40e4-acfb-901362a3a184.png">
 - Events page
-  - `Learn more about the Trail!` button navigates user to that trail's page.
-  - `Delete Event` button deletes a user's event
   - `Home` link to home page
   - `Trails` link to trail browse page
-  - `Events` link to browse events page
+  - `Events` link to browse events page  
+  - `Learn more about the Trail!` button navigates user to that trail's page.
   - `Delete Event` button removes the event listing (only if authenticated user matches event host)
   - <img width="1440" alt="Screen Shot 2022-05-06 at 4 00 49 PM" src="https://user-images.githubusercontent.com/98613897/167210219-5c1e6288-1883-457c-953f-c946f99a38b3.png">
 
