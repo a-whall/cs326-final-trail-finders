@@ -38,6 +38,13 @@ reviews table
 | starcount | Integer | Starcount of the review (from 1 star to 5 star) |
 | likecount | Integer | Likecount of the review |
 
+review_likes table
+| Column | Data Type | Description |
+|--------------|-----------|--------------------------|
+| poster | String | Username of the user who created the review |
+| trailname | String | Trail associated with the review |
+| userwholiked| String | Current user who liked the review |
+
 user_info table
 | Column | Data Type | Description |
 |--------------|-----------|--------------------------|
