@@ -23,5 +23,6 @@ submit_btn.addEventListener('click', async() =>{
 
 deleteProfile_btn.addEventListener('click', async() => {
   const data = await crud.deleteUser();
+  await crud.logout();
   (data.status === 'success')? alert('Your profile has been deleted.'): alert(`error: ${data.status}`);
 })
