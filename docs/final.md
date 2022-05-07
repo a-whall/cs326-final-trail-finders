@@ -169,6 +169,7 @@ to having to perform this check. The functionality which is restricted to authen
 - Adding a trail review
 - Liking a review
 - Creating an event listing
+- Deleting an event listing
 - Updating an account password
 - Deleting an account
 
