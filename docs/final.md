@@ -166,6 +166,14 @@ to having to perform this check. The functionality which is restricted to authen
 
 Division of Labor:
 
+ For this milestone, each of the three of us (Andrew, David, Sonny) contributed to each of the aspects of this project. We each contributed to:
+  - HTML/CSS changes
+  - utilizing JS functionality to dynamically create HTML elements for display on pages
+  - writing CRUD functions which are called from individual pages
+  - creating server routes called by our CRUD functions
+  - implementing database functionality which creates and queries our tables using SQL
+  - helping to implement authentication functionality in various aspects of the project
+  - the writing up of all of our project documentation
 
 ---
 
