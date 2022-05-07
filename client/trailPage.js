@@ -36,7 +36,7 @@ for (const image of images) {
   active = false;
 }
 if (images.length === 0) {
-  image_carousel.append( carousel_item('./assets/image-unavailable.jpg', active) )
+  image_carousel.append( carousel_item('https://github.com/a-whall/cs326-final-trail-finders/blob/main/client/assets/image-unavailable.jpg?raw=true', active) )
 }
 
 // read reviews and check if current user already liked review
