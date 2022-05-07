@@ -14,7 +14,7 @@ export async function createTrail(name, town, description) {
     headers: { 'Content-Type':'application/json' },
     body: JSON.stringify({ name:name, town:town, description:description })
   });
-  return (await response.json()).status === "success";
+  return await response.json();
 }
 
 export async function uploadTrailImage(trail, form_data) {
@@ -166,19 +166,6 @@ export async function readEvent(eid) {
 export async function sortEvents(sort) {
   const response = await fetch(`/event/browse?sort=${sort}`);
   return await response.json();
-}
-
-export async function updateEvent(name, time, meetup, description) {
-  console.log(name);
-  console.log(time);
-  console.log(meetup);
-  console.log(description);
-  const response = await fetch('/event', {
-    method: 'PUT',
-    headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ eid:0, name:name, time:time, meetup:meetup, uid:0, description:description })
-  });
-  return await response.json().status === "success";
 }
 
 export async function deleteEvent(eid) {

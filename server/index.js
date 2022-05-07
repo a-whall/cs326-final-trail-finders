@@ -5,15 +5,9 @@ import expressSession from 'express-session';
 import passport from 'passport';
 import passportLocal from 'passport-local';
 import 'dotenv/config';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import { TrailFinderDatabase } from "./database.js";
 
 const { Strategy } = passportLocal;
-
-// We will use __dirname later on to send files back to the client.
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(dirname(__filename));
 
 class TrailFinderServer {
   constructor(dburl) {
@@ -35,7 +29,7 @@ class TrailFinderServer {
 
   async initRoutes() {
     this.app.get('/', function(req,res) { res.redirect('/homepage.html'); });
-    this.app.post('/trail', this.db.createTrail.bind(this.db));
+    this.app.post('/trail', this.checkLoggedIn, this.db.createTrail.bind(this.db));
     this.app.post('/trail/image', this.db.createTrailImage.bind(this.db));
     this.app.get('/trail/image', this.db.readTrailImages.bind(this.db));
     this.app.get('/trail', this.db.readTrail.bind(this.db));
@@ -46,15 +40,12 @@ class TrailFinderServer {
     this.app.get('/review/like', this.db.readReviewLike.bind(this.db));
     this.app.delete('/review/like', this.checkLoggedIn, this.db.deleteReviewLike.bind(this.db));
     this.app.get('/review', this.db.readReview.bind(this.db));
-    this.app.delete('/review', this.db.deleteReview.bind(this.db));
-    this.app.put('/review', this.db.updateReview.bind(this.db));
     this.app.put('/review/likecount', this.db.updateReviewLikeCount.bind(this.db));
     this.app.post('/event', this.checkLoggedIn, this.db.createEvent.bind(this.db));
     this.app.post('/event/image', this.db.createEventImage.bind(this.db));
     this.app.get('/event/listTrails', this.db.readTrailNames.bind(this.db));
     this.app.get('/event', this.db.readEvent.bind(this.db));
     this.app.get('/event/browse', this.db.selectEventsSort.bind(this.db));
-    this.app.put('/event', this.db.updateEvent.bind(this.db));
     this.app.delete('/event/delete', this.checkLoggedIn, this.db.deleteEvent.bind(this.db));
     this.app.get('/user', this.db.readUser.bind(this.db));
     this.app.get('/usercheck', this.db.readUser.bind(this.db));
@@ -63,8 +54,8 @@ class TrailFinderServer {
     this.app.post('/login', this.authenticate);
     this.app.post('/logout', this.logout);
     this.app.post('/register', this.db.insertUser.bind(this.db));
-    this.app.get('/username', (req, res) => res.status(200).json({ val:req.user }));
-    this.app.get('/loggedIn', (req, response) => response.status(200).json({ value:req.isAuthenticated()}));
+    this.app.get('/username', (req, res) => res.status(200).json({ val: req.user }));
+    this.app.get('/loggedIn', (req, response) => response.status(200).json({ value: req.isAuthenticated(), username: req.user }));
   }
 
   async initDb() {
@@ -114,8 +105,8 @@ class TrailFinderServer {
     if (request.isAuthenticated()) {
       next(); // If authenticated, run the next route.
     } else {
-      console.log('access to route denied')
-      response.status(401).json({ status: 'must be logged in to perform this action' });
+      console.log('     access to route denied');
+      response.status(200).json({ status: 'must be logged in to perform this action' });
     }
   }
 

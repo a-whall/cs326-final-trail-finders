@@ -85,6 +85,13 @@ body {
   width: 150px;
 }
 
+#suggest-new {
+  position: absolute;
+  width: 150px;
+  top: 10px;
+  right: 10px;
+}
+
 /* browseEvents */
 
 #navigationBox {
