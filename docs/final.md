@@ -44,10 +44,14 @@ User Interface:
 - Trails Browse page
   - `Home` link to home page
   - `Events` link to browse events page
+  - `Suggest New` dropdown box contains a link to create trail page
   - links to each of the individual trail pages
   - numbered links at bottom, to see more trail listings
   - <img width="1440" alt="Screen Shot 2022-05-06 at 3 57 48 PM" src="https://user-images.githubusercontent.com/98613897/167209761-bfae4371-4164-47d5-9eb5-4ec669686c28.png">
 - Create a Trail page
+  - `Home` link to home page
+  - `Trails` link to trail browse page
+  - `Events` link to browse events page
   - input/upload boxes to add trail info
   - `Done!` button to submit new trail info for creation
   - <img width="1440" alt="Screen Shot 2022-05-06 at 4 10 01 PM" src="https://user-images.githubusercontent.com/98613897/167209915-a723c753-4977-4a96-a96f-94b5f54a031f.png">
@@ -67,7 +71,7 @@ User Interface:
   - `Create Event` button navigates to create event page (must be authenticated)
   - links to each individual event page
   - selection to sort events by date or name of associated trail
-  - <img width="1440" alt="Screen Shot 2022-05-06 at 4 00 01 PM" src="https://user-images.githubusercontent.com/73536712/167266063-84d469f6-54df-49f4-ac64-a37b812ce566.png">
+  - <img width="1440" alt="Screen Shot 2022-05-06 at 4 00 01 PM" src="https://user-images.githubusercontent.com/98613897/167210047-ce1d0b3f-d6f2-40d4-a854-3fceb862d228.png">
 - Create Events page
   - After filling out the required info in the webpage, users can click `Create Event` to create their own events. 
   - If users cannot find the corresponding trails to their event, they can click on the URL text `Can't find your trail? Add one here!` link to create a trail page
@@ -174,6 +178,12 @@ Division of Labor:
   - implementing database functionality which creates and queries our tables using SQL
   - helping to implement authentication functionality in various aspects of the project
   - the writing up of all of our project documentation
+
+---
+
+Rubric:
+
+[Copy of 326 rubric.pdf](https://github.com/a-whall/cs326-final-trail-finders/files/8645713/Copy.of.326.rubric.pdf)
 
 ---
 
