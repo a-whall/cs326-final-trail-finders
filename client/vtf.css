@@ -55,7 +55,7 @@ body {
 }
 
 .vtf_signup_bg {
-  background-image: url('./assets/valley2.png');
+  background-image: url('https://github.com/a-whall/cs326-final-trail-finders/blob/main/client/assets/valley2.png?raw=true');
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
