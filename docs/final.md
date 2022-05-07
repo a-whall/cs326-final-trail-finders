@@ -61,7 +61,7 @@ User Interface:
   - ability to like a review (if authenticated)
   - `Add a Review!` dropdown to enter review information (must be authenticated)
   - `Find Event` button to find event listings tied to that particular trail
-  - `Add Event` button to create a new event listing for a trail (must be authenticated)
+  - `Add Event` button (intended, but still being worked on) to create a new event listing for a trail (must be authenticated)
   - `upload image` button to upload new pictures of that trail
   - <img width="1440" alt="Screen Shot 2022-05-06 at 3 58 50 PM" src="https://user-images.githubusercontent.com/98613897/167209996-b0b4d50b-a364-49b6-b9d8-db86cc476639.png">
 - Events Browse page
