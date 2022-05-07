@@ -152,8 +152,7 @@ user_info table
 
 URL Routes/Mappings:
 
-<img width="775" alt="Screen Shot 2022-05-07 at 12 51 15 PM" src="https://user-images.githubusercontent.com/98613897/167264099-10e7bc41-3947-46d5-90e6-031634899066.png">
-
+<img width="776" alt="Screen Shot 2022-05-07 at 4 19 38 PM" src="https://user-images.githubusercontent.com/98613897/167270521-b8b5b2fd-eeb4-4f49-af70-4e6cae0e1965.png">
 
 ---
 
