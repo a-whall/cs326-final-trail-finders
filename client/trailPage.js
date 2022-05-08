@@ -57,7 +57,8 @@ if (review_data.length === 0) {
 submit_review_button.addEventListener('click', async(e) => {
   const data = await crud.createReview(trailName, reviewBody.value, starCount.value);
   if (data.success) {
-    reviews_container.append(review(data));
+    reviews_container.append(review(data, false));
+    review_data.splice(0, 0, data);
     const no_reviews = document.getElementById('no-reviews');
     if (no_reviews) {
       reviews_container.removeChild(no_reviews);
@@ -99,11 +100,13 @@ sortByStars_button.addEventListener('click', (e) => updateReviewContainer(sorted
 
 //========== Review Sort Functions ===================================================
 
-function updateReviewContainer(reviewObj_array) {
+async function updateReviewContainer(reviewObj_array) {
   for (const r of [...document.getElementsByClassName('review')])
     reviews_container.removeChild(r); // remove current reviews
-  for (const review_content of reviewObj_array)
-    reviews_container.append( review(review_content) ); // insert new review dom elements
+  for (const review_content of reviewObj_array) {
+    const reviewLiked = (await crud.readReviewLike(review_content.username, review_content.trailname, userwholiked)).length === 0 ? false : true;
+    reviews_container.append( review(review_content, reviewLiked) ); // insert new review dom elements
+  }
 }
 
 function sortedBy(attribute) {
@@ -161,6 +164,7 @@ function no_reviews_banner() {
 /**
  * Construct and return a review DOM element.
  * @param {Object} content a review object that contains all the data of a review.
+ * 
  * @returns a dom element to be appended to the reviewContainer.
  */
 function review(content, reviewLiked) {
@@ -224,22 +228,24 @@ function eventListener(div, reviewObj) {
     const trailname = reviewObj.trailname;
     const userwholiked = (await crud.getUsername()).val;
     if (div.classList.contains('bi-hand-thumbs-up')) {
-      if (await crud.createReviewLike(user, trailname, userwholiked)) { // Save info on review_likes table
+      const likeCreated = await crud.createReviewLike(user, trailname, userwholiked);
+      if (likeCreated.status === 'success') { // Save info on review_likes table
         await crud.updateReviewLikeCount("1", user, trailname); // Increment reviews table's likecount column
         reviewObj.likecount += 1;
         div.classList.remove('bi-hand-thumbs-up');
         div.classList.add('bi-hand-thumbs-up-fill');
       } else {
-        alert("Please login before liking a review");
+        alert(likeCreated.status);
       }
     } else {
-      if (await crud.deleteReviewLike(user, trailname, userwholiked)) { // Delete info on review_likes table
+      const likeDeleted = await crud.deleteReviewLike(user, trailname, userwholiked);
+      if (likeDeleted.status === 'success') { // Delete info on review_likes table
         await crud.updateReviewLikeCount("-1", user, trailname);  // Decrement reviews table's likecount column
         reviewObj.likecount -= 1;
         div.classList.remove('bi-hand-thumbs-up-fill');
         div.classList.add('bi-hand-thumbs-up');
       } else {
-        alert("Please login before unlinking a review");
+        alert(likeDeleted.status);
       }
     }
     div.textContent = ' ' + reviewObj.likecount;
