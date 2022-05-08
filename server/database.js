@@ -126,7 +126,7 @@ export class TrailFinderDatabase {
       const queryText = 'INSERT INTO reviews (username, trailname, body, starcount, likecount) VALUES ($1, $2, $3, $4, $5)';
       try {
         await this.client.query(queryText, [request.user, args.trail, args.body, args.starcount, 0]);
-        response.status(200).json({ success: true, username: request.user, body: args.body, starcount: args.starcount, likecount: 0 });
+        response.status(200).json({ success: true, username: request.user, trailname: args.trail, body: args.body, starcount: args.starcount, likecount: 0 });
       } catch (err) {
         console.log(err);
         response.status(500).json({ status: "a database error occurred" });
@@ -142,7 +142,7 @@ export class TrailFinderDatabase {
       const queryText = 'INSERT INTO review_likes (poster, trailname, userwholiked) VALUES ($1, $2, $3)';
       try {
         await this.client.query(queryText, [args.poster, args.trailname, args.userwholiked]);
-        response.status(200).json({ status: "success" });
+        response.status(200).json({ status: 'success' });
       } catch (error) {
         console.log(error);
         response.status(500).json({ status: 'database error occurred' });
@@ -152,7 +152,6 @@ export class TrailFinderDatabase {
 
   async readReviewLike(request, response) {
     const args = parse(request.query, "poster", "trailname", "userwholiked");
-    console.log(args);
     if ("error" in args) {
       response.status(400).json({ error: args.error });
     } else {
