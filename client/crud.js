@@ -69,15 +69,12 @@ export async function createReview(trail, reviewBody, starCount) {
 }
 
 export async function createReviewLike(poster, trailname, userwholiked) {
-  console.log(poster);
-  console.log(trailname);
-  console.log(userwholiked);
   const response = await fetch('/review/like', {
     method: 'POST',
     headers: { 'Content-Type':'application/json' },
     body: JSON.stringify({ poster:poster , trailname:trailname, userwholiked:userwholiked })
   });
-  return (await response.json()).status === "success";
+  return await response.json();
 }
 
 export async function readReviewLike(poster, trailname, userwholiked) {
@@ -91,7 +88,7 @@ export async function deleteReviewLike(poster, trailname, userwholiked) {
     headers: { 'Content-Type':'application/json' },
     body: JSON.stringify({ poster:poster , trailname:trailname, userwholiked:userwholiked })
   });
-  return (await response.json()).status === "success";
+  return await response.json();
 }
 
 export async function readReviewByTrail(trail) {
