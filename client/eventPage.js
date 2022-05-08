@@ -16,12 +16,12 @@ const date = eventData.date;
 const starttime = eventData.starttime;
 const endtime = eventData.endtime;
 const meetup = eventData.meetup;
-const username = (await getUsername()).val;
+const currentUsername = (await getUsername()).val;
 const description = eventData.description;
 const trailName = eventData.trail;
 const eventUsername = eventData.username;
 
-add_event_info(`data:${eventData.filetype};base64,${eventData.image}`, title, date, starttime, endtime, meetup, username, description);
+add_event_info(`data:${eventData.filetype};base64,${eventData.image}`, title, date, starttime, endtime, meetup, eventUsername, description);
 
 // Allow users to view trail through this button
 document.getElementById("findTrail").addEventListener('click', () => {
@@ -30,9 +30,9 @@ document.getElementById("findTrail").addEventListener('click', () => {
 
 // Enable delete event button if event was made from user
 document.getElementById("deleteEvent").addEventListener('click', async () => {
-  if (!username) {
+  if (!currentUsername) {
     alert("Please make an account first before deleting events!");
-  } else if (!(username === eventUsername)) {
+  } else if (!(currentUsername === eventUsername)) {
     alert ("Only the user who created this event can delete it.");
   } else if (!(await deleteEvent(eid))) {
     alert("Event not found");
