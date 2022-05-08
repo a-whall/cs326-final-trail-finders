@@ -273,11 +273,18 @@ export class TrailFinderDatabase {
 
   async selectEventsSort(request, response) {
     const args = parse(request.query, "sort");
-    console.log(args.sort);
-    // TODO: not supposed to use string templates for queries, use the $1 array params
-    const queryText = `SELECT * FROM events ORDER BY ${args.sort} ASC`;
-    const res = await this.client.query(queryText);
-    response.status(200).json(res.rows);
+    if ("error" in args) {
+      response.status(400).json({ error: args.error });
+    } else {
+      const queryText = `SELECT * FROM events ORDER BY ${args.sort} ASC`;
+      try {
+        const res = await this.client.query(queryText);
+        response.status(200).json(res.rows);
+      } catch (error) {
+        console.log(error);
+        response.status(500).json({ status: 'database error occurred' });
+      }
+    }
   }
 
   async deleteEvent(request, response) {
