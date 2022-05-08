@@ -178,7 +178,6 @@ export async function createUser(formData) {
 export async function deleteUser(username, password) {
   const response = await fetch('/user', { method: 'DELETE'});
   const data = await response.json();
-  console.log(data)
   return data;
 }
 

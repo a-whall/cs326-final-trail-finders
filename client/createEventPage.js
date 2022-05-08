@@ -5,7 +5,6 @@ const image = document.getElementById("imageFile");
 
 // Save username for corresponding event
 const username = (await getUsername()).val;
-console.log(username);
 
 // Make trails dropdown box
 const trails = await readTrailNames();
