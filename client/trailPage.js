@@ -69,7 +69,7 @@ submit_review_button.addEventListener('click', async(e) => {
 
 // Add links to event pages
 add_event_button.addEventListener('click', e => window.location.href = "./createEventPage.html");
-find_event_button.addEventListener('click', e => window.location.href = "./eventPage.html");
+find_event_button.addEventListener('click', e => window.location.href = "./browseEvents.html");
 
 // Upload image logic
 upload_button.addEventListener('click', async(e) => {
@@ -89,7 +89,7 @@ upload_button.addEventListener('click', async(e) => {
   if (!upload_success) {
     alert('Upload failed.');
   } else {
-    alert('Upload succeeded! Refresh the page to find your new image.')
+    alert('Upload succeeded! Refresh the page to find your new image.');
   }
 });
 
