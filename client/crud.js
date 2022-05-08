@@ -99,11 +99,6 @@ export async function readReviewByTrail(trail) {
   return await response.json();
 }
 
-export async function readReviewByUser(user) {
-  const response = await fetch(`/review?user=${user}`);
-  return await response.json();
-}
-
 export async function updateReview(user, trail ) {
   const response = await fetch('/review', {
     method: 'PUT',
